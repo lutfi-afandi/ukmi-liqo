@@ -4,10 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Laporan;
-use App\Models\User;
 use Illuminate\Http\Request;
 
-class LaporanController extends Controller
+class ProgjaController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -16,15 +15,7 @@ class LaporanController extends Controller
      */
     public function index()
     {
-        $title = "Laporan";
-        $user = User::where('level', 'divisi')->get();
-        $laporans = Laporan::all();
-        // dd($laporans);
-        return view('admin.laporan.index', compact(
-            'title',
-            'user',
-            'laporans'
-        ));
+        //
     }
 
     /**
@@ -56,7 +47,14 @@ class LaporanController extends Controller
      */
     public function show($id)
     {
-        //
+        $progja = Laporan::findOrFail($id);
+        $title = "Program Kerja " . $progja->user->name;
+        // dd($progja->user->name);
+
+        return view('admin.laporan.progja.index', compact(
+            'title',
+            'progja',
+        ));
     }
 
     /**

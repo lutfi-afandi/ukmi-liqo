@@ -9,4 +9,9 @@ class Periode extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
+
+    public function laporan()
+    {
+        return $this->hasMany(Laporan::class, 'periode_id');
+    }
 }

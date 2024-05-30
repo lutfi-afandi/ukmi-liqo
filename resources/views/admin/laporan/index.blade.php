@@ -1,12 +1,18 @@
 @extends('layout_lte/main')
-@section('subjudul')
-    {{ $title }}
-@endsection
+@php
+    $helper = new \App\Helpers\Helper();
+@endphp
 @section('content')
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-
+                <div class="card-header bg-gradient-primary">
+                    <h3 class="card-title">{{ $title }}</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
+                        </button>
+                    </div>
+                </div>
 
                 <div class="card-body">
                     <div id="alert">
@@ -22,7 +28,7 @@
                         <table class="table table-bordered" id="tableperiode" width="100%">
                             <thead class="bg-navy">
                                 <tr>
-                                    <th>Nama Bagian</th>
+                                    <th class="text-nowrap">Nama Bagian</th>
                                     <th class="text-center">Progja</th>
                                     <th width="15%" class="text-center">Sarmut</th>
                                     <th width="15%" class="text-center">Triwulan 1</th>
@@ -34,20 +40,51 @@
                             <tbody>
                                 @foreach ($user as $u)
                                     <tr>
-                                        <td>{{ $u->name }}</td>
+                                        <td class="text-nowrap">{{ $u->name }}</td>
                                         @php
-                                            $pro_div = $laporans->where('user_id', $u->id)->first()->progja ?? '';
+                                            $id_laporan = $laporans->where('user_id', $u->id)->first()->id ?? '';
+                                            $progja = $laporans->where('user_id', $u->id)->first()->progja ?? '';
+                                            $konf_progja =
+                                                $laporans->where('user_id', $u->id)->first()->konf_progja ?? '';
+
+                                            $sarmut = $laporans->where('user_id', $u->id)->first()->sarmut ?? '';
+                                            $tw1 = $laporans->where('user_id', $u->id)->first()->tw1 ?? '';
+                                            $tw2 = $laporans->where('user_id', $u->id)->first()->tw2 ?? '';
+                                            $tw3 = $laporans->where('user_id', $u->id)->first()->tw3 ?? '';
+                                            $tw4 = $laporans->where('user_id', $u->id)->first()->tw4 ?? '';
+
+                                            $tw1 = $laporans->where('user_id', $u->id)->first()->tw1 ?? '';
+                                            $tw2 = $laporans->where('user_id', $u->id)->first()->tw2 ?? '';
+                                            $tw3 = $laporans->where('user_id', $u->id)->first()->tw3 ?? '';
+                                            $tw4 = $laporans->where('user_id', $u->id)->first()->tw4 ?? '';
+
+                                            $konf_sarmut =
+                                                $laporans->where('user_id', $u->id)->first()->konf_sarmut ?? '';
+                                            $konf_tw1 = $laporans->where('user_id', $u->id)->first()->konf_tw1 ?? '';
+                                            $konf_tw2 = $laporans->where('user_id', $u->id)->first()->konf_tw2 ?? '';
+                                            $konf_tw3 = $laporans->where('user_id', $u->id)->first()->konf_tw3 ?? '';
+                                            $konf_tw4 = $laporans->where('user_id', $u->id)->first()->konf_tw4 ?? '';
                                         @endphp
-                                        <td class="{{ $pro_div == '' ? 'bg-danger' : 'bg-success' }}">
-                                            {{ $pro_div }}
+                                        <td class="bg-{{ $helper->bg($konf_progja) }}">
+                                            <a href="/progja/{{ $id_laporan }}">{{ $progja }} -
+                                                {{ $id_laporan }}</a>
                                         </td>
-                                        <td>
-                                            {{ $laporans->where('user_id', $u->id)->first()->sarmut ?? '' }}
+                                        <td class="bg-{{ $helper->bg($konf_sarmut) }}">
+                                            {{ $sarmut }}
                                         </td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
-                                        <td></td>
+                                        <td class="bg-{{ $helper->bg($konf_tw1) }}">
+                                            {{ $tw1 }}
+                                        </td>
+                                        <td class="bg-{{ $helper->bg($konf_tw2) }}">
+                                            {{ $tw2 }}
+                                        </td>
+                                        <td class="bg-{{ $helper->bg($konf_tw3) }}">
+                                            {{ $tw3 }}
+                                        </td>
+                                        <td class="bg-{{ $helper->bg($konf_tw4) }}">
+                                            {{ $tw4 }}
+                                        </td>
+
                                     </tr>
                                 @endforeach
 

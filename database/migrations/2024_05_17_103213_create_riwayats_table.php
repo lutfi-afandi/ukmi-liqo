@@ -17,8 +17,8 @@ class CreateRiwayatsTable extends Migration
             $table->bigIncrements('id'); // Primary key as bigInt
             $table->foreignId('laporan_id')->constrained('laporans'); // Assuming laporans table exists
 
-            $table->string('progja');
-            $table->string('sarmut');
+            $table->string('progja')->nullable();
+            $table->string('sarmut')->nullable();
 
             $table->string('tw1')->nullable();
             $table->string('tw2')->nullable();

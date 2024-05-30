@@ -36,10 +36,10 @@
         <div class="col-md-12">
 
             <div class="card">
-                <div class="card-header bg-primary">
+                <div class="card-header bg-gradient-primary">
                     <h3>
-                        <center>LEMBAGA PENJAMIN MUTU
-                            <br> Universitas Teknokrat Indonesia
+                        <center><b>LEMBAGA PENJAMIN MUTU</b>
+                            <br> <span class="text-warning">Universitas Teknokrat Indonesia</span>
                         </center>
                     </h3>
                 </div>
@@ -48,18 +48,18 @@
                         <div class="col-md-6 m-0 pr-1">
                             <a class="d-block align-items-center text-center pt-5 pb-4 "
                                 style="border: 1px !important; color: rgb(88, 88, 88; background: url('https://cdn.pixabay.com/photo/2016/12/02/02/10/idea-1876659_1280.jpg'))"
-                                href="{{ route('divisi.laporan.index') }}">
-                                <i class="fas fa-city fa-8x"></i>
+                                href="{{ route('divisi.progja.index') }}">
+                                <i class="fa fa-city fa-8x"></i>
                                 <h4 class="mb-1 mt-1 ">Program Kerja</h4>
-                                <span class="badge bg-primary">{!! $helper->icon($laporan->konf_progja) !!}</span>
+                                <span class="badge  bg-{!! $helper->bg($laporan->konf_progja) !!}">{!! $helper->icon($laporan->konf_progja) !!}</span>
                             </a>
                         </div>
                         <div class="col-md-6 m-0 pl-0">
                             <a class="d-block align-items-center text-center pt-5 pb-4 " style="border: 1px !important;"
                                 href="/dashboard">
-                                <i class="fas fa-book-open fa-8x"></i>
-                                <span>{!! $helper->icon($laporan->konf_sarmut) !!}</span>
-                                <p>Sarmut</p>
+                                <i class="fa fa-book-open fa-8x"></i>
+                                <h4 class="mb-1 mt-1 ">Sarmut</h4>
+                                <span class="badge  bg-{!! $helper->bg($laporan->konf_sarmut) !!}">{!! $helper->icon($laporan->konf_sarmut) !!}</span>
                             </a>
                         </div>
 
@@ -68,28 +68,29 @@
                         <div class="col-md-3">
                             <a class="d-block align-items-center text-center pt-5 pb-4 " style="border: 1px !important;"
                                 href="/dashboard">
-                                <i class="fa fa-file fa-8x"></i>
+                                <i class="fas fa-calendar-day fa-8x"></i>
+                                <h5 class="mb-1 mt-1 ">Triwulan 1</h5>
+                                <span class="badge  bg-{!! $helper->bg($laporan->konf_tw1) !!}">{!! $helper->icon($laporan->konf_tw1) !!}</span>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a class="d-block align-items-center text-center pt-5 pb-4 " style="border: 1px !important;"
+                                href="/dashboard">
+                                <i class="fas fa-calendar-week fa-8x"></i>
+                                <p>Kwartal 2</p>
+                            </a>
+                        </div>
+                        <div class="col-md-3">
+                            <a class="d-block align-items-center text-center pt-5 pb-4 " style="border: 1px !important;"
+                                href="/dashboard">
+                                <i class="fas fa-calendar-alt fa-8x"></i>
                                 <p>Program Kerja</p>
                             </a>
                         </div>
                         <div class="col-md-3">
                             <a class="d-block align-items-center text-center pt-5 pb-4 " style="border: 1px !important;"
                                 href="/dashboard">
-                                <i class="fa fa-file fa-8x"></i>
-                                <p>Program Kerja</p>
-                            </a>
-                        </div>
-                        <div class="col-md-3">
-                            <a class="d-block align-items-center text-center pt-5 pb-4 " style="border: 1px !important;"
-                                href="/dashboard">
-                                <i class="fa fa-file fa-8x"></i>
-                                <p>Program Kerja</p>
-                            </a>
-                        </div>
-                        <div class="col-md-3">
-                            <a class="d-block align-items-center text-center pt-5 pb-4 " style="border: 1px !important;"
-                                href="/dashboard">
-                                <i class="fa fa-file fa-8x"></i>
+                                <i class="fas fa-calendar-check fa-8x"></i>
                                 <p>Program Kerja</p>
                             </a>
                         </div>

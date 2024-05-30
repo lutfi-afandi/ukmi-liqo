@@ -18,8 +18,8 @@ class CreateLaporansTable extends Migration
             $table->foreignId('periode_id')->constrained('periodes'); // Assuming periodes table exists
             $table->foreignId('user_id')->constrained('users'); // Assuming users table exists
 
-            $table->string('progja');
-            $table->string('sarmut');
+            $table->string('progja')->nullable();
+            $table->string('sarmut')->nullable();
 
             $table->string('tw1')->nullable();
             $table->string('tw2')->nullable();
@@ -34,13 +34,13 @@ class CreateLaporansTable extends Migration
             $table->text('ket_tw3')->nullable();
             $table->text('ket_tw4')->nullable();
 
-            $table->enum('konf_progja', ['belum', 'sedang', 'diterima', 'ditolak'])->default('belum');
-            $table->enum('konf_sarmut', ['belum', 'sedang', 'diterima', 'ditolak'])->default('belum');
+            $table->enum('konf_progja', ['belum', 'sedang', 'diterima', 'ditolak'])->nullable();
+            $table->enum('konf_sarmut', ['belum', 'sedang', 'diterima', 'ditolak'])->nullable();
 
-            $table->enum('konf_tw1', ['belum', 'sedang', 'diterima', 'ditolak'])->default('belum');
-            $table->enum('konf_tw2', ['belum', 'sedang', 'diterima', 'ditolak'])->default('belum');
-            $table->enum('konf_tw3', ['belum', 'sedang', 'diterima', 'ditolak'])->default('belum');
-            $table->enum('konf_tw4', ['belum', 'sedang', 'diterima', 'ditolak'])->default('belum');
+            $table->enum('konf_tw1', ['belum', 'sedang', 'diterima', 'ditolak'])->nullable();
+            $table->enum('konf_tw2', ['belum', 'sedang', 'diterima', 'ditolak'])->nullable();
+            $table->enum('konf_tw3', ['belum', 'sedang', 'diterima', 'ditolak'])->nullable();
+            $table->enum('konf_tw4', ['belum', 'sedang', 'diterima', 'ditolak'])->nullable();
 
             $table->timestamps();
         });

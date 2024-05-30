@@ -21,20 +21,20 @@ class Helper
         $icon = '';
         switch ($konfirmasi) {
             case 'belum':
-                $icon = '<i class="fas fa-exclamation-triangle"></i>';
+                $icon = '<i class="fas fa-exclamation-triangle"></i> Belum Diperiksa';
                 break;
             case 'diterima':
-                $icon = '<i class="fas fa-check-circle"></i>';
+                $icon = '<i class="fas fa-check-circle"></i> Diterima';
                 break;
             case 'ditolak':
-                $icon = '<i class="fas fa-times-circle"></i>';
+                $icon = '<i class="fas fa-times-circle"></i> Ditolak';
                 break;
             case 'sedang':
-                $icon = '<i class="fas fa-circle-notch fa-spin"></i>';
+                $icon = '<i class="fas fa-circle-notch fa-spin"></i> Sedang Diperiksa';
                 break;
 
             default:
-                # code...
+                $icon = '<i class="fas fa-exclamation-triangle fa-fade"></i> belum diisi';
                 break;
         }
 
@@ -58,7 +58,7 @@ class Helper
                 break;
 
             default:
-                # code...
+                $bg = 'danger';
                 break;
         }
 

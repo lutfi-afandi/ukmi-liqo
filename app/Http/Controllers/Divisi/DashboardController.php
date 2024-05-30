@@ -21,9 +21,18 @@ class DashboardController extends Controller
         $title = "Dashboard " . Auth::user()->name;
         $user = User::find(Auth::user()->id);
         $periode = Periode::where('status', 1)->first();
+        $periode_id = $periode->id;
         $periode_aktif = $periode->tahun;
 
-        $laporan = Laporan::where('user_id', $user->id)->where('periode_id', $periode->id)->first();
+        // $laporan = Laporan::where('user_id', $user->id)->where('periode_id', $periode->id)->first();
+        $laporan = User::leftJoin('laporans', function ($join) use ($periode_id) {
+            $join->on('users.id', '=', 'laporans.user_id')
+                ->where('laporans.periode_id', '=', $periode_id);
+        })
+            ->select('users.*', 'laporans.*')
+            ->where('users.id', $user->id)
+            ->first();
+        // dd($laporan->konf_progja);
         return view('divisi.home.index', compact(
             'title',
             'user',

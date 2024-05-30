@@ -20,13 +20,15 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $user = User::find(Auth::user()->id);
-        if (Auth::user()->level == 'admin' || Auth::user()->level == 'lpm') {
+        if (Auth::user()->level == 'admin') {
             $title = "Dashboard Admin";
             $halaman = 'admin.home.index';
             return view($halaman, compact(
                 'title',
                 'user'
             ));
+        } else if (Auth::user()->level == 'lpm') {
+            return redirect()->route('admin.laporan.index');
         } else {
             return redirect()->route('divisi.dashboard.index');
         }
