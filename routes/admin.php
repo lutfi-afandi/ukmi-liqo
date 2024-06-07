@@ -6,11 +6,18 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\PenetapanController;
 use App\Http\Controllers\Admin\PeriodeController;
 use App\Http\Controllers\Admin\ProgjaController as AdminProgjaController;
+use App\Http\Controllers\Admin\SarmutController as AdminSarmutController;
+use App\Http\Controllers\Admin\Triwulan1Controller as AdminTriwulan1Controller;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Divisi\DashboardController;
 use App\Http\Controllers\Divisi\LaporanController as DivisiLaporanController;
 use App\Http\Controllers\Divisi\PenetapanController as DivisiPenetapanController;
 use App\Http\Controllers\Divisi\ProgjaController;
+use App\Http\Controllers\Divisi\SarmutController;
+use App\Http\Controllers\Divisi\Triwulan1Controller;
+use App\Http\Controllers\Divisi\Triwulan2Controller;
+use App\Http\Controllers\Divisi\Triwulan3Controller;
+use App\Http\Controllers\Divisi\Triwulan4Controller;
 
 Route::middleware(['is_admin'])->group(function () {
     Route::resource('/admin/user', UserController::class)->names('admin.user');
@@ -28,13 +35,40 @@ Route::middleware(['is_auditor'])->group(function () {
 
 
     Route::resource('/laporan', LaporanController::class)->names('admin.laporan');
+    Route::post('/laporan/tampil', [LaporanController::class, 'tampil'])->name('admin.laporan.tampil');
     Route::resource('/progja', AdminProgjaController::class)->names('admin.progja');
+    Route::resource('/sarmut', AdminSarmutController::class)->names('admin.sarmut');
+    Route::resource('/triwulan1', AdminTriwulan1Controller::class)->names('admin.triwulan1');
 });
 
-// Auditee
+// divisi
 Route::middleware(['is_auditee'])->group(function () {
     Route::resource('/divisi/penetapan', DivisiPenetapanController::class)->names('divisi.penetapan');
     Route::resource('/divisi/dashboards', DashboardController::class)->names('divisi.dashboard');
     Route::resource('/divisi/laporan', DivisiLaporanController::class)->names('divisi.laporan');
+
     Route::resource('/divisi/progja', ProgjaController::class)->names('divisi.progja');
+    Route::get('/divisi/progja/riwayat/{id}', [ProgjaController::class, 'riwayat'])->name('divisi.progja.riwayat');
+    Route::put('/divisi/progja/reupload/{progja}', [ProgjaController::class, 'reupload'])->name('divisi.progja.reupload');
+
+    Route::resource('/divisi/sarmut', SarmutController::class)->names('divisi.sarmut');
+    Route::get('/divisi/sarmut/riwayat/{id}', [SarmutController::class, 'riwayat'])->name('divisi.sarmut.riwayat');
+    Route::put('/divisi/sarmut/reupload/{sarmut}', [SarmutController::class, 'reupload'])->name('divisi.sarmut.reupload');
+    Route::put('/divisi/sarmut/update_sarmut/{sarmut}', [SarmutController::class, 'update_sarmut'])->name('divisi.sarmut.update_sarmut');
+
+    Route::resource('/divisi/triwulan1', Triwulan1Controller::class)->names('divisi.triwulan1');
+    Route::get('/divisi/triwulan1/riwayat/{id}', [Triwulan1Controller::class, 'riwayat'])->name('divisi.triwulan1.riwayat');
+    Route::put('/divisi/triwulan1/reupload/{triwulan1}', [Triwulan1Controller::class, 'reupload'])->name('divisi.triwulan1.reupload');
+
+    Route::resource('/divisi/triwulan2', Triwulan2Controller::class)->names('divisi.triwulan2');
+    Route::get('/divisi/triwulan2/riwayat/{id}', [Triwulan2Controller::class, 'riwayat'])->name('divisi.triwulan2.riwayat');
+    Route::put('/divisi/triwulan2/reupload/{triwulan2}', [Triwulan2Controller::class, 'reupload'])->name('divisi.triwulan2.reupload');
+
+    Route::resource('/divisi/triwulan3', Triwulan3Controller::class)->names('divisi.triwulan3');
+    Route::get('/divisi/triwulan3/riwayat/{id}', [Triwulan3Controller::class, 'riwayat'])->name('divisi.triwulan3.riwayat');
+    Route::put('/divisi/triwulan3/reupload/{triwulan3}', [Triwulan3Controller::class, 'reupload'])->name('divisi.triwulan3.reupload');
+
+    Route::resource('/divisi/triwulan4', Triwulan4Controller::class)->names('divisi.triwulan4');
+    Route::get('/divisi/triwulan4/riwayat/{id}', [Triwulan4Controller::class, 'riwayat'])->name('divisi.triwulan4.riwayat');
+    Route::put('/divisi/triwulan4/reupload/{triwulan4}', [Triwulan4Controller::class, 'reupload'])->name('divisi.triwulan4.reupload');
 });

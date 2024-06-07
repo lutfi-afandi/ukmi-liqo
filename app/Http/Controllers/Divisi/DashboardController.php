@@ -24,15 +24,15 @@ class DashboardController extends Controller
         $periode_id = $periode->id;
         $periode_aktif = $periode->tahun;
 
-        // $laporan = Laporan::where('user_id', $user->id)->where('periode_id', $periode->id)->first();
-        $laporan = User::leftJoin('laporans', function ($join) use ($periode_id) {
-            $join->on('users.id', '=', 'laporans.user_id')
-                ->where('laporans.periode_id', '=', $periode_id);
-        })
-            ->select('users.*', 'laporans.*')
-            ->where('users.id', $user->id)
-            ->first();
-        // dd($laporan->konf_progja);
+        $laporan = Laporan::getAll($user->id, $periode_id);
+        // $laporan = User::leftJoin('laporans', function ($join) use ($periode_id) {
+        //     $join->on('users.id', '=', 'laporans.user_id')
+        //         ->where('laporans.periode_id', '=', $periode_id);
+        // })
+        //     ->select('users.*', 'laporans.*')
+        //     ->where('users.id', $user->id)
+        //     ->first();
+        // dd($laporan);
         return view('divisi.home.index', compact(
             'title',
             'user',

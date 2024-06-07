@@ -24,5 +24,9 @@
     $('.select2bs4').select2({
         theme: 'bootstrap4'
     })
+
+    setTimeout(function() {
+        document.getElementById('alert').innerHTML = '';
+    }, 2500);
 </script>
 @yield('js')

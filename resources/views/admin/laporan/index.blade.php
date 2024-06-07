@@ -6,15 +6,28 @@
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
-                <div class="card-header bg-gradient-primary">
-                    <h3 class="card-title">{{ $title }}</h3>
-                    <div class="card-tools">
-                        <button type="button" class="btn btn-tool" data-card-widget="collapse"><i class="fas fa-minus"></i>
-                        </button>
-                    </div>
+                <div class="card-header bg-gradient-primary d-flex justify-content-center">
+                    <center>
+                        <h3 class="card-title text-uppercase font-weight-bold">{{ $title }} Periode : <span
+                                class="judul"></span></h3>
+                    </center>
+
+
                 </div>
 
                 <div class="card-body">
+                    <div class="select-tahun">
+                        <div class="form-group row">
+                            <label class="col-md-1 col-form-label">Periode:</label>
+                            <select class="form-control col-md-2" id="periode_id">
+                                <option value="">-Pilih Tahun-</option>
+                                @foreach ($periode as $p)
+                                    <option value="{{ $p->id }}">{{ $p->tahun }}</option>
+                                @endforeach
+                            </select>
+
+                        </div>
+                    </div>
                     <div id="alert">
                         @if (session()->has('msg'))
                             <div class="alert {{ session('class') }}">
@@ -24,74 +37,7 @@
                         @endif
                     </div>
 
-                    <div class="table-responsive" id="data">
-                        <table class="table table-bordered" id="tableperiode" width="100%">
-                            <thead class="bg-navy">
-                                <tr>
-                                    <th class="text-nowrap">Nama Bagian</th>
-                                    <th class="text-center">Progja</th>
-                                    <th width="15%" class="text-center">Sarmut</th>
-                                    <th width="15%" class="text-center">Triwulan 1</th>
-                                    <th width="15%" class="text-center">Triwulan 2</th>
-                                    <th width="15%" class="text-center">Triwulan 3</th>
-                                    <th width="15%" class="text-center">Triwulan 4</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($user as $u)
-                                    <tr>
-                                        <td class="text-nowrap">{{ $u->name }}</td>
-                                        @php
-                                            $id_laporan = $laporans->where('user_id', $u->id)->first()->id ?? '';
-                                            $progja = $laporans->where('user_id', $u->id)->first()->progja ?? '';
-                                            $konf_progja =
-                                                $laporans->where('user_id', $u->id)->first()->konf_progja ?? '';
-
-                                            $sarmut = $laporans->where('user_id', $u->id)->first()->sarmut ?? '';
-                                            $tw1 = $laporans->where('user_id', $u->id)->first()->tw1 ?? '';
-                                            $tw2 = $laporans->where('user_id', $u->id)->first()->tw2 ?? '';
-                                            $tw3 = $laporans->where('user_id', $u->id)->first()->tw3 ?? '';
-                                            $tw4 = $laporans->where('user_id', $u->id)->first()->tw4 ?? '';
-
-                                            $tw1 = $laporans->where('user_id', $u->id)->first()->tw1 ?? '';
-                                            $tw2 = $laporans->where('user_id', $u->id)->first()->tw2 ?? '';
-                                            $tw3 = $laporans->where('user_id', $u->id)->first()->tw3 ?? '';
-                                            $tw4 = $laporans->where('user_id', $u->id)->first()->tw4 ?? '';
-
-                                            $konf_sarmut =
-                                                $laporans->where('user_id', $u->id)->first()->konf_sarmut ?? '';
-                                            $konf_tw1 = $laporans->where('user_id', $u->id)->first()->konf_tw1 ?? '';
-                                            $konf_tw2 = $laporans->where('user_id', $u->id)->first()->konf_tw2 ?? '';
-                                            $konf_tw3 = $laporans->where('user_id', $u->id)->first()->konf_tw3 ?? '';
-                                            $konf_tw4 = $laporans->where('user_id', $u->id)->first()->konf_tw4 ?? '';
-                                        @endphp
-                                        <td class="bg-{{ $helper->bg($konf_progja) }}">
-                                            <a href="/progja/{{ $id_laporan }}">{{ $progja }} -
-                                                {{ $id_laporan }}</a>
-                                        </td>
-                                        <td class="bg-{{ $helper->bg($konf_sarmut) }}">
-                                            {{ $sarmut }}
-                                        </td>
-                                        <td class="bg-{{ $helper->bg($konf_tw1) }}">
-                                            {{ $tw1 }}
-                                        </td>
-                                        <td class="bg-{{ $helper->bg($konf_tw2) }}">
-                                            {{ $tw2 }}
-                                        </td>
-                                        <td class="bg-{{ $helper->bg($konf_tw3) }}">
-                                            {{ $tw3 }}
-                                        </td>
-                                        <td class="bg-{{ $helper->bg($konf_tw4) }}">
-                                            {{ $tw4 }}
-                                        </td>
-
-                                    </tr>
-                                @endforeach
-
-                            </tbody>
-                        </table>
-
-                    </div>
+                    <div id="tabel-laporan"></div>
                 </div>
             </div>
         </div>
@@ -118,8 +64,30 @@
             });
 
         });
+    </script>
+    <script>
+        $('.select-tahun').change(function(e) {
+            var periode_id = $('#periode_id').val();
+            var url = "{{ route('admin.laporan.tampil') }}";
+            $.ajax({
+                type: "post",
+                url: url,
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    periode_id: periode_id
+                },
+                dataType: "json",
+                beforeSend: function() {
+                    $('#tabel-laporan').html(
+                        '<center><i class="fa fa-spinner fa-spin"></i> Memuat...</center>');
+                },
+                success: function(response) {
+                    // console.log('ok');
+                    $('.judul').html(response.periode);
+                    $('#tabel-laporan').html(response.html);
+                }
+            });
 
-
-        }
+        });
     </script>
 @endsection

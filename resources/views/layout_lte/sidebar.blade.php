@@ -10,33 +10,14 @@
     </li>
     @if (auth()->user()->level == 'lpm')
         <li class="nav-item">
-            <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-file-medical-alt"></i>
-                <p>
-                    Laporan
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview" style="display: block;">
-                <li class="nav-item">
-                    <a href="{{ route('admin.penetapan.index') }}"
-                        class="nav-link {{ request()->is('penetapan/*') ? 'active' : '' }}">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Penetapan</p>
-                    </a>
-                </li>
-
-            </ul>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link d-none">
                 <i class="nav-icon fas fa-recycle"></i>
                 <p>
                     Siklus SPMI
                     <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
-            <ul class="nav nav-treeview" style="display: block;">
+            <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="{{ route('admin.penetapan.index') }}"
                         class="nav-link {{ request()->is('penetapan/*') ? 'active' : '' }}">
@@ -89,48 +70,6 @@
         </li>
     @endif
     @if (auth()->user()->level == 'divisi')
-        <li class="nav-item menu-is-opening menu-opens">
-            <a href="#" class="nav-link">
-                <i class="nav-icon far fa-folder "></i>
-                <p>
-                    SPMI
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview" style="display: block;">
-                <li class="nav-item">
-                    <a href="{{ route('divisi.penetapan.index') }}"
-                        class="nav-link {{ request()->is('penetapan/*') ? 'active' : '' }}">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Penetapan</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="../../index2.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Pelaksanaan</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="../../index3.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Evaluasi</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="../../index3.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Pengendalian</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="../../index3.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Pengendalian</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
     @endif
 
     @if (auth()->user()->level == 'admin')
@@ -158,7 +97,7 @@
 
 
     <li class="nav-item">
-        <a href="#" class="nav-link">
+        <a href="/perbarui-password" class="nav-link">
             <i class="nav-icon fas fa-users-cog"></i>
             <p>
                 Profile

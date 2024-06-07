@@ -3,100 +3,150 @@
     $helper = new \App\Helpers\Helper();
 @endphp
 @section('content')
-    {{-- <div class="row">
-        <div class="col-sm-12">
-            <div class="callout callout-info">
-                <div class="d-flex justify-content-between align-items-center">
-                    <h3>Selamat Datang <span class="text-primary text-bold">{{ auth()->user()->name }}!</span></h3>
-                </div>
-                <p>Lorem ipsum dolor sit amet consectetur </p>
-                <div class="btn-group btn-group-toggle mb-2 ml-auto" data-toggle="buttons">
-                    <label class="btn bg-lime active">
-                        <input type="radio" name="options" id="option_b1"><i class="far fa-calendar-alt"></i> Periode
-                        Sekarang :
-                    </label>
-                    <label class="btn bg-lime">
-                        <input type="radio" name="options" id="option_b2" checked=""> {{ $periode_aktif }}
-                    </label>
-                    <button type="button" class="btn btn-lime btn-flat dropdown-toggle dropdown-icon"
-                        data-toggle="dropdown" aria-expanded="false">
-                        <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu" role="menu" style="">
-                        <a class="dropdown-item" href="#">Action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Separated link</a>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div> --}}
     <div class="row">
         <div class="col-md-12">
+            <div class="info-box p-4">
+                <div class="info-box-icon">
+                    <i class="fas fa-2x fa-th-large text-info"></i>
 
-            <div class="card">
-                <div class="card-header bg-gradient-primary">
-                    <h3>
-                        <center><b>LEMBAGA PENJAMIN MUTU</b>
-                            <br> <span class="text-warning">Universitas Teknokrat Indonesia</span>
-                        </center>
-                    </h3>
                 </div>
-                <div class="card-body  p-1">
-                    <div class="row p-0">
-                        <div class="col-md-6 m-0 pr-1">
-                            <a class="d-block align-items-center text-center pt-5 pb-4 "
-                                style="border: 1px !important; color: rgb(88, 88, 88; background: url('https://cdn.pixabay.com/photo/2016/12/02/02/10/idea-1876659_1280.jpg'))"
-                                href="{{ route('divisi.progja.index') }}">
-                                <i class="fa fa-city fa-8x"></i>
-                                <h4 class="mb-1 mt-1 ">Program Kerja</h4>
-                                <span class="badge  bg-{!! $helper->bg($laporan->konf_progja) !!}">{!! $helper->icon($laporan->konf_progja) !!}</span>
-                            </a>
-                        </div>
-                        <div class="col-md-6 m-0 pl-0">
-                            <a class="d-block align-items-center text-center pt-5 pb-4 " style="border: 1px !important;"
-                                href="/dashboard">
-                                <i class="fa fa-book-open fa-8x"></i>
-                                <h4 class="mb-1 mt-1 ">Sarmut</h4>
-                                <span class="badge  bg-{!! $helper->bg($laporan->konf_sarmut) !!}">{!! $helper->icon($laporan->konf_sarmut) !!}</span>
-                            </a>
-                        </div>
-
-                    </div>
-                    <div class="row p-1">
-                        <div class="col-md-3">
-                            <a class="d-block align-items-center text-center pt-5 pb-4 " style="border: 1px !important;"
-                                href="/dashboard">
-                                <i class="fas fa-calendar-day fa-8x"></i>
-                                <h5 class="mb-1 mt-1 ">Triwulan 1</h5>
-                                <span class="badge  bg-{!! $helper->bg($laporan->konf_tw1) !!}">{!! $helper->icon($laporan->konf_tw1) !!}</span>
-                            </a>
-                        </div>
-                        <div class="col-md-3">
-                            <a class="d-block align-items-center text-center pt-5 pb-4 " style="border: 1px !important;"
-                                href="/dashboard">
-                                <i class="fas fa-calendar-week fa-8x"></i>
-                                <p>Kwartal 2</p>
-                            </a>
-                        </div>
-                        <div class="col-md-3">
-                            <a class="d-block align-items-center text-center pt-5 pb-4 " style="border: 1px !important;"
-                                href="/dashboard">
-                                <i class="fas fa-calendar-alt fa-8x"></i>
-                                <p>Program Kerja</p>
-                            </a>
-                        </div>
-                        <div class="col-md-3">
-                            <a class="d-block align-items-center text-center pt-5 pb-4 " style="border: 1px !important;"
-                                href="/dashboard">
-                                <i class="fas fa-calendar-check fa-8x"></i>
-                                <p>Program Kerja</p>
-                            </a>
-                        </div>
-                    </div>
+                <div class="info-box-content">
+                    <h4 class="info-box-number mb-0">Dashboard E-SPMI</h4>
+                    <h5 class="info-box-text font-weight-light">{{ $user->name }}</h5>
                 </div>
 
             </div>
         </div>
-    @endsection
+    </div>
+    <div class="row">
+        <div class="col-md-6">
+            <div class="small-box ">
+                <a href="{{ route('divisi.progja.index') }}" class="small-box bg-{!! $helper->bg($laporan->konf_progja ?? '') !!}">
+                    <div class="inner">
+                        <h3>Program Kerja</h3>
+                        <p class="badge bg-warning ">{!! $helper->icon($laporan->konf_progja ?? '') !!}</p>
+                    </div>
+                    <div class="icon">
+                        <i class="fas fa-clipboard-list"></i>
+                    </div>
+                    <span class="small-box-footer">lihat
+                        <i class="fas fa-arrow-circle-right"></i>
+                    </span>
+                </a>
+            </div>
+        </div>
+        <div class="col-md-6">
+            @if ($laporan == null)
+                <div class="small-box ">
+                    <a href="#" class="small-box bg-secondary">
+                        <div class="inner">
+                            <h3>Sasaran Mutu</h3>
+                            <p class="badge bg-warning">
+                                <i class="fa fa-exclamination-circle"></i> Isi Progja terlebih dahulu
+                            </p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-crosshairs"></i>
+                        </div>
+                        <span class="small-box-footer">lihat
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </span>
+                    </a>
+                </div>
+            @else
+                <div class="small-box ">
+                    <a href="{{ route('divisi.sarmut.index') }}" class="small-box bg-{!! $helper->bg($laporan->konf_sarmut ?? '') !!}">
+                        <div class="inner">
+                            <h3>Sasaran Mutu</h3>
+                            <p class="badge bg-warning">{!! $helper->icon($laporan->konf_sarmut ?? '') !!}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-crosshairs"></i>
+                        </div>
+                        <span class="small-box-footer">lihat
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </span>
+                    </a>
+                </div>
+            @endif
+
+        </div>
+    </div>
+    @if ($laporan == null)
+        <div class="card">
+            <div class="card-body">
+                <center>
+                    <i class="fa fa-spinner fa-spin"></i> SILAHKAN UPLOAD BERKAS LAPORAN
+                </center>
+            </div>
+        </div>
+    @else
+        <div class="row">
+            <div class="col-md-3">
+                <div class="small-box bg-white">
+                    <a href="{{ route('divisi.triwulan1.index') }}" class="small-box bg-{!! $helper->bg($laporan->triwulan1->first()->konf ?? '') !!}">
+                        <div class="inner">
+                            <h3>Triwulan 1</h3>
+                            <p class="badge bg-white ">{!! $helper->icon($laporan->triwulan1->first()->konf ?? '') !!}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-dice-one"></i>
+                        </div>
+                        <span class="small-box-footer">lihat
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="small-box bg-white">
+                    <a href="{{ route('divisi.triwulan2.index') }}" class="small-box bg-{!! $helper->bg($laporan->triwulan2->first()->konf ?? '') !!}">
+                        <div class="inner">
+                            <h3>Triwulan 2</h3>
+                            <p class="badge bg-white ">{!! $helper->icon($laporan->triwulan2->first()->konf ?? '') !!}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-dice-two"></i>
+                        </div>
+                        <span class="small-box-footer">lihat
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="small-box bg-white">
+                    <a href="{{ route('divisi.triwulan3.index') }}" class="small-box bg-{!! $helper->bg($laporan->triwulan3->first()->konf ?? '') !!}">
+                        <div class="inner">
+                            <h3>Triwulan 3</h3>
+                            <p class="badge bg-white ">{!! $helper->icon($laporan->triwulan3->first()->konf ?? '') !!}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-dice-three"></i>
+                        </div>
+                        <span class="small-box-footer">lihat
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="small-box bg-white">
+                    <a href="{{ route('divisi.triwulan4.index') }}" class="small-box bg-{!! $helper->bg($laporan->triwulan4->first()->konf ?? '') !!}">
+                        <div class="inner">
+                            <h3>Triwulan 4</h3>
+                            <p class="badge bg-white ">{!! $helper->icon($laporan->triwulan4->first()->konf ?? '') !!}</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-dice-four"></i>
+                        </div>
+                        <span class="small-box-footer">lihat
+                            <i class="fas fa-arrow-circle-right"></i>
+                        </span>
+                    </a>
+                </div>
+            </div>
+
+        </div>
+    @endif
+@endsection

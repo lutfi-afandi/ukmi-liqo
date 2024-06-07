@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Laporan;
+use App\Models\Periode;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -18,13 +19,41 @@ class LaporanController extends Controller
     {
         $title = "Laporan";
         $user = User::where('level', 'divisi')->get();
+        $periode = Periode::all();
+        // $periode_aktif = $periode->id;
         $laporans = Laporan::all();
-        // dd($laporans);
+        // dd($periode);
         return view('admin.laporan.index', compact(
             'title',
             'user',
-            'laporans'
+            'laporans',
+            'periode',
+            // 'periode_aktif'
         ));
+    }
+
+    public function tampil(Request $request)
+    {
+        $title = "Laporan";
+        $periode_aktif = $request->periode_id;
+        $user = User::where('level', 'divisi')->get();
+        $periode = Periode::where('id', $periode_aktif)->first();
+
+        $laporans = Laporan::all();
+
+        $view =  view('admin.laporan.table', compact(
+            'title',
+            'user',
+            'periode',
+            'periode_aktif',
+            'laporans'
+        ))->render();
+
+        return response()->json([
+            'success' => true,
+            'periode'   => $periode->tahun,
+            'html' => $view
+        ]);
     }
 
     /**

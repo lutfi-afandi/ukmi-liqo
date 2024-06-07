@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Laporan;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProgjaController extends Controller
 {
@@ -57,27 +58,33 @@ class ProgjaController extends Controller
         ));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        //
+        $rules = [
+            'konf_progja'   => 'required'
+        ];
+
+        $data = new Laporan();
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return back()->withInput()->with(['msgs' => 'Gagal mengubah status Progja', 'class' => 'alert-danger']);
+        }
+
+        $data = Laporan::findOrFail($id);
+        if ($request->ket_progja) {
+            $data->ket_progja = $request->ket_progja;
+        }
+        $data->konf_progja = $request->konf_progja;
+        $data->tgl_konf_progja = date('Y-m-d H:i:s');
+        $data->save();
+
+        return back()->with(['msgs' => 'Berhasil mengubah status Progja', 'class' => 'alert-success']);
     }
 
     /**

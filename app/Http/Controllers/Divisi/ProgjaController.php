@@ -5,9 +5,11 @@ namespace App\Http\Controllers\Divisi;
 use App\Http\Controllers\Controller;
 use App\Models\Laporan;
 use App\Models\Periode;
+use App\Models\RiwayatProgja;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ProgjaController extends Controller
@@ -25,21 +27,32 @@ class ProgjaController extends Controller
         $periode_id = $periode->id;
         $periode_aktif = $periode->tahun;
 
-        $laporan = Laporan::getLaporan($user->id, $periode_id);
-        // dd($laporan->name);
+        // $laporan = Laporan::getLaporan($user->id, $periode_id);
+        $laporan = Laporan::getAll($user->id, $periode_id);
+        // dd($laporan);
+
         return view('divisi.laporan.progja.index', compact(
             'title',
             'laporan',
             'user',
-            'periode'
+            'periode',
         ));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function riwayat($id)
+    {
+        $riwayats = RiwayatProgja::where('laporan_id', $id)->orderBy('tgl_upload', 'desc')->get();
+
+        $view =  view('divisi.laporan.progja.riwayat', compact(
+            'riwayats'
+        ))->render();
+
+        return response()->json([
+            'success' => true,
+            'html' => $view
+        ]);
+    }
+
     public function create()
     {
         //
@@ -69,54 +82,103 @@ class ProgjaController extends Controller
         $data->user_id = $request->user_id;
         $data->periode_id = $request->periode_id;
         $data->konf_progja = 'belum';
+        $data->tgl_upload_progja = date('Y-m-d H:i:s');
         $data->progja = "Progja_usr_" . $data->user_id . "_prd_" . $data->periode_id . "-" . date('His') . "." . $progja->getClientOriginalExtension();
         $request->file('progja')->storeAs('public/uploads/progja', $data->progja);
 
 
         $data->save();
-        return back()->with(['msgs' => 'Berhasil Mengunnggah Progja', 'class' => 'alert-success']);
+        return back()->with(['msgs' => 'Berhasil Mengunggah Progja', 'class' => 'alert-success']);
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         //
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
-        //
+        $progja = $request->file('progja');
+
+        $rules = [
+            'progja'   => 'required'
+        ];
+
+        $data = Laporan::findOrFail($id);
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return back()->withInput()->with(['msgs' => 'Gagal mengubah Progja', 'class' => 'alert-danger']);
+        }
+
+        // Path file lama
+        $oldFilePath = 'public/uploads/progja/' . $data->progja;
+
+        // Hapus file lama jika ada
+        if (Storage::exists($oldFilePath)) {
+            Storage::delete($oldFilePath);
+        }
+
+        // Simpan file baru
+        $newFileName = "Progja_usr_" . $data->user_id . "_prd_" . $data->periode_id . "-" . date('His') . "." . $progja->getClientOriginalExtension();
+        $newFilePath = $progja->storeAs('public/uploads/progja', $newFileName);
+
+        // Update data
+        $data->konf_progja = 'belum';
+        $data->tgl_upload_progja = now(); // Menggunakan helper now() untuk mendapatkan tanggal dan waktu saat ini
+        $data->progja = $newFileName;
+
+        $data->save();
+        return back()->with(['msgs' => 'Berhasil Mengubah Progja', 'class' => 'alert-success']);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    public function reupload(Request $request, $id)
+    {
+        // dd();
+
+        $progja = $request->file('progja');
+
+        $rules = [
+            'progja'   => 'required'
+        ];
+
+        $dataProgja = Laporan::findOrFail($id);
+        $dataRiwayat = new RiwayatProgja();
+
+        $validator = Validator::make($request->all(), $rules);
+        if ($validator->fails()) {
+            return back()->withInput()->with(['msgs' => 'Gagal mengubah Progja', 'class' => 'alert-danger']);
+        }
+
+        $dataRiwayat->laporan_id = $id;
+        $dataRiwayat->progja = $dataProgja->progja;
+        $dataRiwayat->ket = $dataProgja->ket_progja;
+        $dataRiwayat->tgl_upload = $dataProgja->tgl_upload_progja;
+        $dataRiwayat->save();
+
+        // Simpan file baru
+        $newFileName = "Progja_usr_" . $dataProgja->user_id . "_prd_" . $dataProgja->periode_id . "-" . date('His') . "." . $progja->getClientOriginalExtension();
+        $newFilePath = $progja->storeAs('public/uploads/progja', $newFileName);
+
+        $dataProgja->progja = $newFileName;
+        $dataProgja->konf_progja = 'belum';
+        $dataProgja->ket_progja = null;
+        $dataProgja->tgl_upload_progja = now();
+        $dataProgja->tgl_konf_progja = null;
+
+        $dataProgja->save();
+
+        return back()->with(['msgs' => 'Berhasil Mengubah Progja', 'class' => 'alert-success']);
+    }
+
+
     public function destroy($id)
     {
         //

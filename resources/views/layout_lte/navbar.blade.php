@@ -2,7 +2,7 @@
     $helper = new \App\Helpers\Helper();
 @endphp
 <ul class="navbar-nav ml-auto">
-    <div class="btn-group btn-sm btn-group-toggle mb-2" data-toggle="buttons">
+    {{-- <div class="btn-group btn-sm btn-group-toggle mb-2" data-toggle="buttons">
         <label class="btn bg-maroon active">
             <input type="radio" name="options" id="option_b1"><i class="far fa-calendar-alt"></i> Periode Sekarang
             :
@@ -10,7 +10,7 @@
         <label class="btn bg-maroon">
             <input type="radio" name="options" id="option_b2"checked=""> {{ $helper->periode_aktif() }}
         </label>
-    </div>
+    </div> --}}
     <li class="nav-item">
         <a href="#" class="nav-link">Hai, {{ auth()->user()->name }}</a>
     </li>

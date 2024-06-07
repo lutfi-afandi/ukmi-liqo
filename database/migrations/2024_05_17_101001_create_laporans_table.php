@@ -21,26 +21,17 @@ class CreateLaporansTable extends Migration
             $table->string('progja')->nullable();
             $table->string('sarmut')->nullable();
 
-            $table->string('tw1')->nullable();
-            $table->string('tw2')->nullable();
-            $table->string('tw3')->nullable();
-            $table->string('tw4')->nullable();
-
             $table->text('ket_progja')->nullable();
             $table->text('ket_sarmut')->nullable();
-
-            $table->text('ket_tw1')->nullable();
-            $table->text('ket_tw2')->nullable();
-            $table->text('ket_tw3')->nullable();
-            $table->text('ket_tw4')->nullable();
 
             $table->enum('konf_progja', ['belum', 'sedang', 'diterima', 'ditolak'])->nullable();
             $table->enum('konf_sarmut', ['belum', 'sedang', 'diterima', 'ditolak'])->nullable();
 
-            $table->enum('konf_tw1', ['belum', 'sedang', 'diterima', 'ditolak'])->nullable();
-            $table->enum('konf_tw2', ['belum', 'sedang', 'diterima', 'ditolak'])->nullable();
-            $table->enum('konf_tw3', ['belum', 'sedang', 'diterima', 'ditolak'])->nullable();
-            $table->enum('konf_tw4', ['belum', 'sedang', 'diterima', 'ditolak'])->nullable();
+            $table->dateTime('tgl_upload_progja')->nullable();
+            $table->dateTime('tgl_konf_progja')->nullable();
+
+            $table->dateTime('tgl_upload_sarmut')->nullable();
+            $table->dateTime('tgl_konf_sarmut')->nullable();
 
             $table->timestamps();
         });

@@ -24,9 +24,23 @@ class AdminSeeder extends Seeder
                     'level'  => 'admin',
                 ],
                 [
-                    'username'  => 'programmer',
-                    'name'  => 'Lutfi Afandi',
-                    'email' => 'lutfi@gmail.com',
+                    'username'  => 'lpm',
+                    'name'  => 'LPM Teknokrat',
+                    'email' => 'lpm@gmail.com',
+                    'password'  => bcrypt('rahasia'),
+                    'level'  => 'lpm',
+                ],
+                [
+                    'username'  => 'test',
+                    'name'  => 'Test Divisi Teknokrat',
+                    'email' => 'test@gmail.com',
+                    'password'  => bcrypt('rahasia'),
+                    'level'  => 'divisi',
+                ],
+                [
+                    'username'  => 'coba',
+                    'name'  => 'Percobaan Divisi Teknokrat',
+                    'email' => 'coba@gmail.com',
                     'password'  => bcrypt('rahasia'),
                     'level'  => 'divisi',
                 ],
@@ -34,16 +48,19 @@ class AdminSeeder extends Seeder
         );
         DB::table('kategoris')->insert(
             [
-                [
-                    'nama_kategori'  => 'Standar Pendidikan',
-                ],
-                [
-                    'nama_kategori'  => 'Standar Penelitian',
-                ],
-                [
-                    'nama_kategori'  => 'Standar Pengabdian Masyarakat',
-                ],
+                ['nama_kategori'  => 'Standar Pendidikan'],
+                ['nama_kategori'  => 'Standar Penelitian'],
+                ['nama_kategori'  => 'Standar Pengabdian Masyarakat'],
             ]
         );
+
+        DB::table('periodes')->insert([
+            ['tahun' => 2019, 'status' => 0],
+            ['tahun' => 2020, 'status' => 0],
+            ['tahun' => 2021, 'status' => 0],
+            ['tahun' => 2022, 'status' => 0],
+            ['tahun' => 2023, 'status' => 0],
+            ['tahun' => 2024, 'status' => 1],
+        ]);
     }
 }

@@ -21,7 +21,7 @@ class Helper
         $icon = '';
         switch ($konfirmasi) {
             case 'belum':
-                $icon = '<i class="fas fa-exclamation-triangle"></i> Belum Diperiksa';
+                $icon = '<i class="fas fa-exclamation-triangle fa-beat"></i> Belum Diperiksa';
                 break;
             case 'diterima':
                 $icon = '<i class="fas fa-check-circle"></i> Diterima';

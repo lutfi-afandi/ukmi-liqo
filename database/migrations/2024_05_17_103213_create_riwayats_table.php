@@ -13,25 +13,15 @@ class CreateRiwayatsTable extends Migration
      */
     public function up()
     {
-        Schema::create('riwayats', function (Blueprint $table) {
-            $table->bigIncrements('id'); // Primary key as bigInt
+        Schema::create('riwayat_progjas', function (Blueprint $table) {
+            $table->bigIncrements('id');
             $table->foreignId('laporan_id')->constrained('laporans'); // Assuming laporans table exists
-
             $table->string('progja')->nullable();
-            $table->string('sarmut')->nullable();
 
-            $table->string('tw1')->nullable();
-            $table->string('tw2')->nullable();
-            $table->string('tw3')->nullable();
-            $table->string('tw4')->nullable();
+            $table->text('ket')->nullable();
 
-            $table->text('ket_progja')->nullable();
-            $table->text('ket_sarmut')->nullable();
-
-            $table->text('ket_tw1')->nullable();
-            $table->text('ket_tw2')->nullable();
-            $table->text('ket_tw3')->nullable();
-            $table->text('ket_tw4')->nullable();
+            $table->dateTime('tgl_upload')->nullable();
+            $table->dateTime('tgl_konf')->nullable();
 
             $table->timestamps();
         });
@@ -44,6 +34,6 @@ class CreateRiwayatsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('riwayats');
+        Schema::dropIfExists('riwayat_progjas');
     }
 }

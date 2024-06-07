@@ -12,7 +12,7 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('template_lte/plugins/fontawesome-free/css/all.min.css') }}">
     <!-- icheck bootstrap -->
-    <link rel="stylesheet" href="{{ asset('template_lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('template_lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}"> --}}
     <!-- Theme style -->
     <link rel="stylesheet" href="{{ asset('template_lte/dist/css/adminlte.min.css') }}">
 </head>
