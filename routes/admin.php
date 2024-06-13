@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\BerkasController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\LaporanController;
 use Illuminate\Support\Facades\Route;
@@ -8,6 +9,9 @@ use App\Http\Controllers\Admin\PeriodeController;
 use App\Http\Controllers\Admin\ProgjaController as AdminProgjaController;
 use App\Http\Controllers\Admin\SarmutController as AdminSarmutController;
 use App\Http\Controllers\Admin\Triwulan1Controller as AdminTriwulan1Controller;
+use App\Http\Controllers\Admin\Triwulan2Controller as AdminTriwulan2Controller;
+use App\Http\Controllers\Admin\Triwulan3Controller as AdminTriwulan3Controller;
+use App\Http\Controllers\Admin\Triwulan4Controller as AdminTriwulan4Controller;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Divisi\DashboardController;
 use App\Http\Controllers\Divisi\LaporanController as DivisiLaporanController;
@@ -39,6 +43,11 @@ Route::middleware(['is_auditor'])->group(function () {
     Route::resource('/progja', AdminProgjaController::class)->names('admin.progja');
     Route::resource('/sarmut', AdminSarmutController::class)->names('admin.sarmut');
     Route::resource('/triwulan1', AdminTriwulan1Controller::class)->names('admin.triwulan1');
+    Route::resource('/triwulan2', AdminTriwulan2Controller::class)->names('admin.triwulan2');
+    Route::resource('/triwulan3', AdminTriwulan3Controller::class)->names('admin.triwulan3');
+    Route::resource('/triwulan4', AdminTriwulan4Controller::class)->names('admin.triwulan4');
+
+    Route::resource('/berkas', BerkasController::class)->names('admin.berkas');
 });
 
 // divisi

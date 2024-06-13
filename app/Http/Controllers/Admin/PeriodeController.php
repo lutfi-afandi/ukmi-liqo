@@ -116,6 +116,8 @@ class PeriodeController extends Controller
      */
     public function destroy($id)
     {
-        //
+
+        Periode::where("id", $id)->delete();
+        return back()->with(['msg' => 'Berhasil Menghapus periode!', 'class' => 'alert-success']);
     }
 }

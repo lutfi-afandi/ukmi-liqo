@@ -47,15 +47,16 @@
                                             @endif
                                         </td>
                                         <td class="text-center">
-                                            {{-- <a type="button" class="btn btn-info btn-sm"
-                                                onclick="edit('{{ $periode->id }}')"><i class="far fa-edit"></i></a> --}}
-                                            <form action="{{ route('admin.periode.destroy', $periode->id) }}" method="POST"
-                                                class="d-inline">
-                                                @csrf
-                                                @method('delete')
-                                                <button type="submit" class="btn btn-danger btn-sm"><i
-                                                        class="fas fa-trash-alt"></i></button>
-                                            </form>
+                                            @if ($periode->status != 1)
+                                                <form action="{{ route('admin.periode.destroy', $periode->id) }}"
+                                                    method="POST" class="d-inline">
+                                                    @csrf
+                                                    @method('delete')
+                                                    <button type="submit" class="btn btn-danger btn-sm"><i
+                                                            class="fas fa-trash-alt"></i></button>
+                                                </form>
+                                            @endif
+
                                         </td>
                                     </tr>
                                 @endforeach

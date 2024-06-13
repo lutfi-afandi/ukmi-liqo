@@ -16,10 +16,20 @@
                 </div>
 
                 <div class="card-body">
-                    <div class="select-tahun">
+                    <div class="select-tahun text-center form-group">
+                        <label>Periode:</label>
+                        <select id="periode_id">
+                            <option value="">-Pilih Tahun-</option>
+                            @foreach ($periode as $p)
+                                <option value="{{ $p->id }}">{{ $p->tahun }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+
+                    {{-- <div class="select-tahun text-center">
                         <div class="form-group row">
                             <label class="col-md-1 col-form-label">Periode:</label>
-                            <select class="form-control col-md-2" id="periode_id">
+                            <select class="col-md-2" id="periode_id">
                                 <option value="">-Pilih Tahun-</option>
                                 @foreach ($periode as $p)
                                     <option value="{{ $p->id }}">{{ $p->tahun }}</option>
@@ -27,7 +37,8 @@
                             </select>
 
                         </div>
-                    </div>
+                    </div> --}}
+
                     <div id="alert">
                         @if (session()->has('msg'))
                             <div class="alert {{ session('class') }}">

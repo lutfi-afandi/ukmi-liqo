@@ -60,7 +60,7 @@
                             </div>
                         @endif
                     </div>
-                    @if ($laporan->triwulan2 == null)
+                    @if ($triwulan2 == null)
                         <div class="callout callout-danger">
                             <h5>Belum ada laporan</h5>
                             <p class="font-italic">{{ $laporan->user->name }} belum mengunggah dokumen Laporan Triwulan 2

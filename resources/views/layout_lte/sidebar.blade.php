@@ -52,6 +52,14 @@
             </ul>
         </li>
 
+        <li class="nav-header">BARKAS</li>
+        <li class="nav-item">
+            <a href="/berkas" class="nav-link">
+                <i class="nav-icon fas fa-folder-open"></i>
+                <p>Berkas LPM</p>
+            </a>
+        </li>
+
         <li class="nav-header">SETTING</li>
         <li class="nav-item">
             <a href="{{ route('admin.periode.index') }}" class="nav-link">
