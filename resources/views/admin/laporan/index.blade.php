@@ -24,6 +24,9 @@
                                 <option value="{{ $p->id }}">{{ $p->tahun }}</option>
                             @endforeach
                         </select>
+                        <button onclick="reset_periode()" class="bg-info border-0 rounded-sm"><i
+                                class="fas fa-sync-alt"></i>
+                            reset</button>
                     </div>
 
                     {{-- <div class="select-tahun text-center">
@@ -100,5 +103,33 @@
             });
 
         });
+
+        function reset_periode() {
+            var periode_id = $('#periode_id').val();
+            var url = "{{ route('admin.laporan.tampil') }}";
+            if (periode_id != '') {
+                $.ajax({
+                    type: "post",
+                    url: url,
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        periode_id: periode_id
+                    },
+                    dataType: "json",
+                    beforeSend: function() {
+                        $('#tabel-laporan').html(
+                            '<center><i class="fa fa-spinner fa-spin"></i> Memuat...</center>');
+                    },
+                    success: function(response) {
+                        // console.log('ok');
+                        $('.judul').html(response.periode);
+                        $('#tabel-laporan').html(response.html);
+                    }
+                });
+            } else {
+
+            }
+
+        }
     </script>
 @endsection

@@ -40,6 +40,9 @@ class LaporanController extends Controller
         $periode = Periode::where('id', $periode_aktif)->first();
 
         $laporans = Laporan::all();
+        // dd($laporans->where('user_id', 4)
+        //     ->where('periode_id', $periode_aktif)
+        //     ->first()->triwulan1->first());
 
         $view =  view('admin.laporan.table', compact(
             'title',

@@ -32,7 +32,7 @@ class DashboardController extends Controller
         //     ->select('users.*', 'laporans.*')
         //     ->where('users.id', $user->id)
         //     ->first();
-        // dd($laporan);
+        // dd($laporan->sarmut);
         return view('divisi.home.index', compact(
             'title',
             'user',

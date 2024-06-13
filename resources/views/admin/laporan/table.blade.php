@@ -34,14 +34,15 @@
                                     ->first() ?? '';
                             // dd($laporan->id);
 
-                            $id_laporan = $laporan->id ?? '';
-                            $konf_progja = $laporan->konf_progja ?? '';
-                            $konf_sarmut = $laporan->konf_sarmut ?? '';
+                            $id_laporan = $laporan->id;
+                            $konf_progja = $laporan->konf_progja;
+                            $konf_sarmut = $laporan->konf_sarmut;
 
-                            $triwulan1 = $laporan->first()->triwulan1->first() ?? '';
-                            $triwulan2 = $laporan->first()->triwulan2->first() ?? '';
-                            $triwulan3 = $laporan->first()->triwulan3->first() ?? '';
-                            $triwulan4 = $laporan->first()->triwulan4->first() ?? '';
+                            $triwulan1 = $laporan->first()->triwulan1->where('laporan_id', $id_laporan)->first();
+                            // dd($triwulan1);
+                            $triwulan2 = $laporan->first()->triwulan2->where('laporan_id', $id_laporan)->first();
+                            $triwulan3 = $laporan->first()->triwulan3->where('laporan_id', $id_laporan)->first();
+                            $triwulan4 = $laporan->first()->triwulan4->where('laporan_id', $id_laporan)->first();
 
                             $id_tw1 = $triwulan1->id ?? '#';
                             $id_tw2 = $triwulan2->id ?? '#';
