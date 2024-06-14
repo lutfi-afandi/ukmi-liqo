@@ -9,6 +9,7 @@
         </a>
     </li>
     @if (auth()->user()->level == 'lpm')
+        {{-- SPMI --}}
         <li class="nav-item">
             <a href="#" class="nav-link d-none">
                 <i class="nav-icon fas fa-recycle"></i>
@@ -78,6 +79,13 @@
         </li>
     @endif
     @if (auth()->user()->level == 'divisi')
+        <li class="nav-header">BARKAS</li>
+        <li class="nav-item">
+            <a href="{{ route('divisi.berkas.index') }}" class="nav-link">
+                <i class="nav-icon fas fa-folder-open"></i>
+                <p>Berkas LPM</p>
+            </a>
+        </li>
     @endif
 
     @if (auth()->user()->level == 'admin')
@@ -104,6 +112,7 @@
     @endif
 
 
+    <li class="nav-header">SETTINGS</li>
     <li class="nav-item">
         <a href="/perbarui-password" class="nav-link">
             <i class="nav-icon fas fa-users-cog"></i>

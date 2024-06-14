@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\Triwulan2Controller as AdminTriwulan2Controller;
 use App\Http\Controllers\Admin\Triwulan3Controller as AdminTriwulan3Controller;
 use App\Http\Controllers\Admin\Triwulan4Controller as AdminTriwulan4Controller;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Divisi\BerkasController as DivisiBerkasController;
 use App\Http\Controllers\Divisi\DashboardController;
 use App\Http\Controllers\Divisi\LaporanController as DivisiLaporanController;
 use App\Http\Controllers\Divisi\PenetapanController as DivisiPenetapanController;
@@ -80,4 +81,6 @@ Route::middleware(['is_auditee'])->group(function () {
     Route::resource('/divisi/triwulan4', Triwulan4Controller::class)->names('divisi.triwulan4');
     Route::get('/divisi/triwulan4/riwayat/{id}', [Triwulan4Controller::class, 'riwayat'])->name('divisi.triwulan4.riwayat');
     Route::put('/divisi/triwulan4/reupload/{triwulan4}', [Triwulan4Controller::class, 'reupload'])->name('divisi.triwulan4.reupload');
+
+    Route::resource('/divisi/berkas', DivisiBerkasController::class)->names('divisi.berkas');
 });

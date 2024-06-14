@@ -1,8 +1,7 @@
 @extends('layout_lte/main')
-@section('subjudul', 'Halaman Perbarui password')
 @section('content')
     <div class="row justify-content-center">
-        <div class="col-md-6 col-md-offset-3">
+        <div class="col-md-6 ">
             <div class="card">
                 <div class="card-header">Perbarui Password</div>
 
@@ -78,5 +77,4 @@
             </div>
         </div>
     </div>
-
 @endsection

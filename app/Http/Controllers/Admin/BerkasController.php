@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Storage;
 
 class BerkasController extends Controller
 {
-
-
     public function index()
     {
         $berkaslpm = BerkasLpm::with('kategori', 'periode')->get();
@@ -21,8 +19,6 @@ class BerkasController extends Controller
             'berkaslpm',
         ));
     }
-
-
 
     public function create()
     {

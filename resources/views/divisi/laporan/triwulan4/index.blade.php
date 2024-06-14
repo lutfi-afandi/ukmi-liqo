@@ -12,8 +12,8 @@
 @endphp
 @section('content')
     <div class="row">
-        <div class="col-md-12">
-            <div class="info-box p-4">
+        <div class="col-md-10">
+            <div class="info-box p-2">
                 <svg width="72px" height="72px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink">
                     <title>Stockholm-icons / Communication / Clipboard-check</title>
@@ -37,9 +37,9 @@
                     <h4 class="info-box-number mb-0">Detail Laporan Triwulan 4</h4>
                     <h5 class="info-box-text font-weight-light">{{ $user->name }}</h5>
                 </div>
-                <div class="info-box-button">
-                    <a href="{{ route('divisi.dashboard.index') }}" class="btn btn-info btn-lg"><i
-                            class="fas fa-chevron-left"></i> Kembali</a>
+                <div class="info-box-button  pr-3 pt-2">
+                    <a href="{{ route('divisi.dashboard.index') }}" class="btn btn-info"><i class="fas fa-chevron-left"></i>
+                        Kembali</a>
                 </div>
             </div>
         </div>
