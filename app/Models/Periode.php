@@ -14,4 +14,8 @@ class Periode extends Model
     {
         return $this->hasMany(Laporan::class, 'periode_id');
     }
+    public function berkaslpm()
+    {
+        return $this->hasMany(BerkasLpm::class, 'periode_id');
+    }
 }

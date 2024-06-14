@@ -5,8 +5,13 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-header bg-primary">
-                    <div class="card-title">
+                    <h3 class="card-title">
                         Form Tambah Berkas
+                    </h3>
+                    <div class="card-tools">
+                        <a href="{{ route('admin.berkas.index') }}" class="btn btn-secondary"><i
+                                class="fas fa-chevron-circle-left"></i> Kembali
+                        </a>
                     </div>
                 </div>
                 <form action="{{ route('admin.berkas.store') }}" method="POST" enctype="multipart/form-data">
@@ -41,7 +46,7 @@
                                 class="form-control @error('periode_id') is-invalid @enderror">
                                 <option value="">-Pilih-</option>
                                 @foreach ($periode as $p)
-                                    <option value="{{ $p->periode_id }}" {{ $p->tahun == $tahun_ini ? 'selected' : '' }}>
+                                    <option value="{{ $p->id }}" {{ $p->tahun == $tahun_ini ? 'selected' : '' }}>
                                         {{ $p->tahun }}</option>
                                 @endforeach
                             </select>

@@ -16,4 +16,9 @@ class Kategori extends Model
     {
         return $this->hasMany(Penetapan::class);
     }
+
+    public function berkaslpm()
+    {
+        return $this->hasMany(BerkasLpm::class);
+    }
 }

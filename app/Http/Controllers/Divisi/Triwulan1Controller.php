@@ -130,7 +130,7 @@ class Triwulan1Controller extends Controller
         }
 
         // Simpan file baru
-        $newFileName = "Laporan Triwulan 1_usr_" . $data->user_id . "_prd_" . $data->periode_id . "-" . date('His') . "." . $file_tw1->getClientOriginalExtension();
+        $newFileName = "Laporan Triwulan 1 revised_usr_" . $data->user_id . "_prd_" . $data->periode_id . "-" . date('His') . "." . $file_tw1->getClientOriginalExtension();
         $newFilePath = $file_tw1->storeAs('public/uploads/file_tw1', $newFileName);
 
         // Update data
