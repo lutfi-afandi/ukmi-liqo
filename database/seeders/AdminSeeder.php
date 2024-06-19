@@ -48,9 +48,11 @@ class AdminSeeder extends Seeder
         );
         DB::table('kategoris')->insert(
             [
+                ['nama_kategori'  => 'Standar Tata Kelola'],
                 ['nama_kategori'  => 'Standar Pendidikan'],
                 ['nama_kategori'  => 'Standar Penelitian'],
                 ['nama_kategori'  => 'Standar Pengabdian Masyarakat'],
+                ['nama_kategori'  => 'Standar Kerjasama'],
             ]
         );
 

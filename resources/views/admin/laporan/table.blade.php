@@ -21,7 +21,7 @@
                     {{-- jika samasekali belum ada laporan --}}
                     @if ($laporans->where('user_id', $u->id)->where('periode_id', $periode_aktif)->first() == null)
                         @for ($i = 0; $i < 6; $i++)
-                            <td class="text-center "><i class="fas fa-ban  text-danger"></i> kosong
+                            <td class="text-center "><i class="far fa-folder-open text-danger"></i> null
                             </td>
                         @endfor
                         {{-- end belum ada laporan --}}
@@ -39,7 +39,6 @@
                             $konf_sarmut = $laporan->konf_sarmut;
 
                             $triwulan1 = $laporan->first()->triwulan1->where('laporan_id', $id_laporan)->first();
-                            // dd($triwulan1);
                             $triwulan2 = $laporan->first()->triwulan2->where('laporan_id', $id_laporan)->first();
                             $triwulan3 = $laporan->first()->triwulan3->where('laporan_id', $id_laporan)->first();
                             $triwulan4 = $laporan->first()->triwulan4->where('laporan_id', $id_laporan)->first();

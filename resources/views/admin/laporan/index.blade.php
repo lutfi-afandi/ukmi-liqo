@@ -26,21 +26,8 @@
                         </select>
                         <button onclick="reset_periode()" class="bg-info border-0 rounded-sm"><i
                                 class="fas fa-sync-alt"></i>
-                            reset</button>
+                            reload</button>
                     </div>
-
-                    {{-- <div class="select-tahun text-center">
-                        <div class="form-group row">
-                            <label class="col-md-1 col-form-label">Periode:</label>
-                            <select class="col-md-2" id="periode_id">
-                                <option value="">-Pilih Tahun-</option>
-                                @foreach ($periode as $p)
-                                    <option value="{{ $p->id }}">{{ $p->tahun }}</option>
-                                @endforeach
-                            </select>
-
-                        </div>
-                    </div> --}}
 
                     <div id="alert">
                         @if (session()->has('msg'))
