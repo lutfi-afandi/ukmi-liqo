@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Divisi;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Laporan;
 use App\Models\Periode;
@@ -14,13 +15,14 @@ use Illuminate\Support\Facades\Validator;
 
 class SarmutController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
+        $syarat = (new Helper())->syarat();
+        if (empty($syarat['progja'])) {
+            return redirect()->route('divisi.dashboard.index');
+        }
+
         $title = "Sasaran Mutu";
         $user = User::find(Auth::user()->id);
         $periode = Periode::where('status', 1)->first();

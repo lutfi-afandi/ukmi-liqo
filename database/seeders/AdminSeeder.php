@@ -278,7 +278,6 @@ class AdminSeeder extends Seeder
         );
 
         DB::table('periodes')->insert([
-            ['tahun' => 2019, 'status' => 0],
             ['tahun' => 2020, 'status' => 0],
             ['tahun' => 2021, 'status' => 0],
             ['tahun' => 2022, 'status' => 0],

@@ -1,6 +1,7 @@
 @extends('layout_lte/main')
 @php
     $helper = new \App\Helpers\Helper();
+    $syarat = $helper->syarat();
 @endphp
 @section('content')
     <div class="card">
@@ -85,17 +86,19 @@
                 </div>
             @else
                 <div class="row">
+
                     <div class="col-md-3">
                         <div class="small-box bg-white">
-                            <a href="{{ route('divisi.triwulan1.index') }}" class="small-box bg-{!! $helper->bg($laporan->triwulan1->first()->konf ?? '') !!}">
+                            <a href="{{ $syarat['url_tw1'] }}" class="small-box bg-{!! $helper->bg($laporan->triwulan1->first()->konf ?? '') !!} ">
                                 <div class="inner">
+
                                     <h3>Triwulan 1</h3>
                                     <p class="badge bg-white ">{!! $helper->icon($laporan->triwulan1->first()->konf ?? '') !!}</p>
                                 </div>
                                 <div class="icon">
                                     <i class="fas fa-dice-one"></i>
                                 </div>
-                                <span class="small-box-footer">lihat
+                                <span class="small-box-footer">{{ $syarat['text_info1'] }}
                                     <i class="fas fa-arrow-circle-right"></i>
                                 </span>
                             </a>
@@ -103,7 +106,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="small-box bg-white">
-                            <a href="{{ route('divisi.triwulan2.index') }}" class="small-box bg-{!! $helper->bg($laporan->triwulan2->first()->konf ?? '') !!}">
+                            <a href="{{ $syarat['url2'] }}" class="small-box bg-{!! $helper->bg($laporan->triwulan2->first()->konf ?? '') !!}">
                                 <div class="inner">
                                     <h3>Triwulan 2</h3>
                                     <p class="badge bg-white ">{!! $helper->icon($laporan->triwulan2->first()->konf ?? '') !!}</p>
@@ -111,7 +114,7 @@
                                 <div class="icon">
                                     <i class="fas fa-dice-two"></i>
                                 </div>
-                                <span class="small-box-footer">lihat
+                                <span class="small-box-footer">{{ $syarat['text_info2'] }}
                                     <i class="fas fa-arrow-circle-right"></i>
                                 </span>
                             </a>
@@ -119,7 +122,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="small-box bg-white">
-                            <a href="{{ route('divisi.triwulan3.index') }}" class="small-box bg-{!! $helper->bg($laporan->triwulan3->first()->konf ?? '') !!}">
+                            <a href="{{ $syarat['url3'] }}" class="small-box bg-{!! $helper->bg($laporan->triwulan3->first()->konf ?? '') !!}">
                                 <div class="inner">
                                     <h3>Triwulan 3</h3>
                                     <p class="badge bg-white ">{!! $helper->icon($laporan->triwulan3->first()->konf ?? '') !!}</p>
@@ -127,7 +130,7 @@
                                 <div class="icon">
                                     <i class="fas fa-dice-three"></i>
                                 </div>
-                                <span class="small-box-footer">lihat
+                                <span class="small-box-footer">{{ $syarat['text_info3'] }}
                                     <i class="fas fa-arrow-circle-right"></i>
                                 </span>
                             </a>
@@ -135,7 +138,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="small-box bg-white">
-                            <a href="{{ route('divisi.triwulan4.index') }}" class="small-box bg-{!! $helper->bg($laporan->triwulan4->first()->konf ?? '') !!}">
+                            <a href="{{ $syarat['url4'] }}" class="small-box bg-{!! $helper->bg($laporan->triwulan4->first()->konf ?? '') !!}">
                                 <div class="inner">
                                     <h3>Triwulan 4</h3>
                                     <p class="badge bg-white ">{!! $helper->icon($laporan->triwulan4->first()->konf ?? '') !!}</p>
@@ -143,7 +146,7 @@
                                 <div class="icon">
                                     <i class="fas fa-dice-four"></i>
                                 </div>
-                                <span class="small-box-footer">lihat
+                                <span class="small-box-footer">{{ $syarat['text_info4'] }}
                                     <i class="fas fa-arrow-circle-right"></i>
                                 </span>
                             </a>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Divisi;
 
+use App\Helpers\Helper;
 use App\Http\Controllers\Controller;
 use App\Models\Laporan;
 use App\Models\Periode;
@@ -22,6 +23,11 @@ class Triwulan2Controller extends Controller
      */
     public function index()
     {
+        $syarat = (new Helper())->syarat();
+        if (empty($syarat['tw1'])) {
+            return redirect()->route('divisi.dashboard.index');
+        }
+        
         $title = "Laporan Triwulan 2";
         $user = User::find(Auth::user()->id);
         $periode = Periode::where('status', 1)->first();
