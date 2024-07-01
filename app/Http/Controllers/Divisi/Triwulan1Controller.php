@@ -58,7 +58,7 @@ class Triwulan1Controller extends Controller
     public function riwayat($id)
     {
         $riwayats = RiwayatTriwulan1::where('triwulan1_id', $id)->orderBy('tgl_upload', 'desc')->get();
-
+        // dd($riwayats->count(), $id);
         $view =  view('divisi.laporan.triwulan1.riwayat', compact(
             'riwayats'
         ))->render();
@@ -67,10 +67,6 @@ class Triwulan1Controller extends Controller
             'success' => true,
             'html' => $view
         ]);
-    }
-
-    public function create()
-    {
     }
 
 
@@ -124,7 +120,7 @@ class Triwulan1Controller extends Controller
             'file_tw1'   => 'required'
         ];
 
-        $data = Triwulan1::findOrFail($id);
+        $data = Triwulan1::where('laporan_id', $id)->firstOrFail();
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return back()->withInput()->with(['msgs' => 'Gagal mengubah Laporan Triwulan 1', 'class' => 'alert-danger']);
@@ -148,21 +144,24 @@ class Triwulan1Controller extends Controller
             'file_tw1'   => 'required'
         ];
 
-        $dataTriwulan1 = Triwulan1::findOrFail($id);
+        $dataTriwulan1 = Triwulan1::where('laporan_id', $id)->firstOrFail();
         $dataRiwayat = new RiwayatTriwulan1();
 
         $validator = Validator::make($request->all(), $rules);
+        // dd($validator->fails());
+
         if ($validator->fails()) {
-            return back()->withInput()->with(['msgs' => 'Gagal mengubah Sasaran Mutu', 'class' => 'alert-danger']);
+            return back()->withInput()->with(['msgs' => 'Gagal mengubah laporan evaluasi', 'class' => 'alert-danger']);
         }
 
-        $dataRiwayat->triwulan1_id = $id;
+        $dataRiwayat->triwulan1_id = $dataTriwulan1->id;
         $dataRiwayat->file_tw1 = $dataTriwulan1->file_tw1;
         $dataRiwayat->ket = $dataTriwulan1->ket;
         $dataRiwayat->tgl_upload = $dataTriwulan1->tgl_upload;
         $dataRiwayat->save();
 
         // Simpan file baru
+        // dd($dataRiwayat);
         $newFileName = $this->gdriveConvertToPreviewUrl($request->file_tw1);
 
         $dataTriwulan1->file_tw1 = $newFileName;
@@ -170,7 +169,6 @@ class Triwulan1Controller extends Controller
         $dataTriwulan1->ket = null;
         $dataTriwulan1->tgl_upload = now();
         $dataTriwulan1->tgl_konf = null;
-
         $dataTriwulan1->save();
 
         return back()->with(['msgs' => 'Berhasil Mengubah Laporan Triwulan 1', 'class' => 'alert-success']);

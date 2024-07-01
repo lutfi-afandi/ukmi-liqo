@@ -9,6 +9,7 @@
         $rute_update = route('divisi.triwulan2.update', ['triwulan2' => $laporan->id]);
         $rute_reupload = route('divisi.triwulan2.reupload', ['triwulan2' => $laporan->id]);
     }
+    // dd($laporan->id);
 @endphp
 @section('content')
     <div class="row">
@@ -37,9 +38,9 @@
                     <h4 class="info-box-number mb-0">Detail Laporan Triwulan 2</h4>
                     <h5 class="info-box-text font-weight-light">{{ $user->name }}</h5>
                 </div>
-                <div class="info-box-button  pr-3 pt-2">
-                    <a href="{{ route('divisi.dashboard.index') }}" class="btn btn-info"><i class="fas fa-chevron-left"></i>
-                        Kembali</a>
+                <div class="info-box-button pr-3 pt-2">
+                    <a href="{{ route('divisi.dashboard.index') }}" class="btn btn-info "><i
+                            class="fas fa-chevron-left"></i> Kembali</a>
                 </div>
             </div>
         </div>
@@ -60,6 +61,7 @@
                             </div>
                         @endif
                     </div>
+
                     @if ($triwulan2 == null)
                         <div class="callout callout-danger">
                             <h5>Belum ada laporan</h5>
@@ -71,13 +73,12 @@
                                 @csrf
                                 @method('post')
                                 <div class="form-group row">
-                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Pilih File Laporan:</label>
+                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Link File Laporan:</label>
                                     <div class="col-sm-8">
                                         <input type="hidden" name="user_id" value="{{ $user->id }}">
                                         <input type="hidden" name="periode_id" value="{{ $periode->id }}">
                                         <input type="hidden" name="laporan_id" value="{{ $laporan->id }}">
-                                        <input type="file" class="form-control" id="file_tw2" name="file_tw2"
-                                            accept="application/pdf">
+                                        <input type="text" class="form-control" id="file_tw2" name="file_tw2">
                                     </div>
                                     <div class="col-sm-2">
                                         <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i>
@@ -88,7 +89,7 @@
                         </div>
                     @else
                         <dl class="row text-md">
-                            <dt class="col-sm-3">File Laporan</dt>
+                            <dt class="col-sm-3">Link File Laporan</dt>
                             <dd class="col-sm-8">:
                                 <a type="button" class="" onclick="lihat('{{ $triwulan2->file_tw2 }}')">
                                     {{ $triwulan2->file_tw2 }} <i class="fas fa-share-square"></i>
@@ -188,8 +189,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="file_tw2">File Triwulan 2</label>
-                            <input type="file" class="form-control" id="file_tw2" name="file_tw2"
-                                accept="application/pdf">
+                            <input type="text" class="form-control" id="file_tw2" name="file_tw2">
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -225,8 +225,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="file_tw2">File Triwulan 2</label>
-                            <input type="file" class="form-control" id="file_tw2" name="file_tw2"
-                                accept="application/pdf">
+                            <input type="text" class="form-control" id="file_tw2" name="file_tw2">
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -243,9 +242,7 @@
 @section('js')
     <script>
         function lihat(parameter_file) {
-            // console.log(parameter_file);
-            var storage = "{{ asset('storage/uploads/file_tw2/') }}/";
-            $('#file').attr('src', storage + parameter_file);
+            $('#file').attr('src', parameter_file);
             $('#modal-xl').modal('show')
         }
 

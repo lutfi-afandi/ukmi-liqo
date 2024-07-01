@@ -9,6 +9,7 @@
         $rute_update = route('divisi.triwulan1.update', ['triwulan1' => $laporan->id]);
         $rute_reupload = route('divisi.triwulan1.reupload', ['triwulan1' => $laporan->id]);
     }
+    // dd($laporan->id);
 @endphp
 @section('content')
     <div class="row">

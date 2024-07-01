@@ -30,20 +30,20 @@ class AdminSeeder extends Seeder
                     'password'  => bcrypt('rahasia'),
                     'level'  => 'lpm',
                 ],
-                [
-                    'username'  => 'test',
-                    'name'  => 'Test Divisi Teknokrat',
-                    'email' => 'test@gmail.com',
-                    'password'  => bcrypt('rahasia'),
-                    'level'  => 'divisi',
-                ],
-                [
-                    'username'  => 'coba',
-                    'name'  => 'Percobaan Divisi Teknokrat',
-                    'email' => 'coba@gmail.com',
-                    'password'  => bcrypt('rahasia'),
-                    'level'  => 'divisi',
-                ],
+                // [
+                //     'username'  => 'test',
+                //     'name'  => 'Test Divisi Teknokrat',
+                //     'email' => 'test@gmail.com',
+                //     'password'  => bcrypt('rahasia'),
+                //     'level'  => 'divisi',
+                // ],
+                // [
+                //     'username'  => 'coba',
+                //     'name'  => 'Percobaan Divisi Teknokrat',
+                //     'email' => 'coba@gmail.com',
+                //     'password'  => bcrypt('rahasia'),
+                //     'level'  => 'divisi',
+                // ],
             ]
         );
 

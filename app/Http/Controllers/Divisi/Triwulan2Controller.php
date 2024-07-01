@@ -31,7 +31,8 @@ class Triwulan2Controller extends Controller
     public function index()
     {
         $syarat = (new Helper())->syarat();
-        if ($syarat['tw1'] == '') {
+        // dd($syarat);
+        if ($syarat['sarmut'] == null) {
             return redirect()->route('divisi.dashboard.index');
         }
 
@@ -57,7 +58,7 @@ class Triwulan2Controller extends Controller
     public function riwayat($id)
     {
         $riwayats = RiwayatTriwulan2::where('triwulan2_id', $id)->orderBy('tgl_upload', 'desc')->get();
-
+        // dd($riwayats->count(), $id);
         $view =  view('divisi.laporan.triwulan2.riwayat', compact(
             'riwayats'
         ))->render();
@@ -68,15 +69,9 @@ class Triwulan2Controller extends Controller
         ]);
     }
 
-    public function create()
-    {
-    }
-
 
     public function store(Request $request)
     {
-        $file_tw2 = $request->file('file_tw2');
-
         $rules = [
             'file_tw2'   => 'required'
         ];
@@ -96,31 +91,14 @@ class Triwulan2Controller extends Controller
         return back()->with(['msgs' => 'Berhasil Mengunggah Laporan Triwulan 2', 'class' => 'alert-success']);
     }
 
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     public function update(Request $request, $id)
     {
-        $file_tw2 = $request->file('file_tw2');
-
         $rules = [
             'file_tw2'   => 'required'
         ];
 
-        $data = Triwulan2::findOrFail($id);
+        $data = Triwulan2::where('laporan_id', $id)->firstOrFail();
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return back()->withInput()->with(['msgs' => 'Gagal mengubah Laporan Triwulan 2', 'class' => 'alert-danger']);
@@ -144,29 +122,31 @@ class Triwulan2Controller extends Controller
             'file_tw2'   => 'required'
         ];
 
-        $dataTriwulan2 = Triwulan2::findOrFail($id);
+        $dataTriwulan2 = Triwulan2::where('laporan_id', $id)->firstOrFail();
         $dataRiwayat = new RiwayatTriwulan2();
 
         $validator = Validator::make($request->all(), $rules);
+        // dd($validator->fails());
+
         if ($validator->fails()) {
-            return back()->withInput()->with(['msgs' => 'Gagal mengubah Sasaran Mutu', 'class' => 'alert-danger']);
+            return back()->withInput()->with(['msgs' => 'Gagal mengubah laporan evaluasi', 'class' => 'alert-danger']);
         }
 
-        $dataRiwayat->triwulan2_id = $id;
+        $dataRiwayat->triwulan2_id = $dataTriwulan2->id;
         $dataRiwayat->file_tw2 = $dataTriwulan2->file_tw2;
         $dataRiwayat->ket = $dataTriwulan2->ket;
         $dataRiwayat->tgl_upload = $dataTriwulan2->tgl_upload;
         $dataRiwayat->save();
 
         // Simpan file baru
-        $newFileName =  $this->gdriveConvertToPreviewUrl($request->file_tw2);
+        // dd($dataRiwayat);
+        $newFileName = $this->gdriveConvertToPreviewUrl($request->file_tw2);
 
         $dataTriwulan2->file_tw2 = $newFileName;
         $dataTriwulan2->konf = 'belum';
         $dataTriwulan2->ket = null;
         $dataTriwulan2->tgl_upload = now();
         $dataTriwulan2->tgl_konf = null;
-
         $dataTriwulan2->save();
 
         return back()->with(['msgs' => 'Berhasil Mengubah Laporan Triwulan 2', 'class' => 'alert-success']);

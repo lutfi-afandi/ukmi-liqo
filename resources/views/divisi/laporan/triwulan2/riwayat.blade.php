@@ -30,8 +30,7 @@
 
                                     </td>
                                     <td>
-                                        <a href="{{ asset('storage/uploads/triwulan2/' . $riwayat->file_tw2) }}"
-                                            target="_blank" class="btn btn-sm btn-info">
+                                        <a href="{{ $riwayat->file_tw2 }}" target="_blank" class="btn btn-sm btn-info">
                                             <i class="far fa-eye"></i>
                                         </a>
                                     </td>
