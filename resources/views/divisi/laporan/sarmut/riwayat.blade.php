@@ -30,8 +30,7 @@
 
                                     </td>
                                     <td>
-                                        <a href="{{ asset('storage/uploads/sarmut/' . $riwayat->sarmut) }}"
-                                            target="_blank" class="btn btn-sm btn-info">
+                                        <a href="{{ $riwayat->sarmut }}" target="_blank" class="btn btn-sm btn-info">
                                             <i class="far fa-eye"></i>
                                         </a>
                                     </td>

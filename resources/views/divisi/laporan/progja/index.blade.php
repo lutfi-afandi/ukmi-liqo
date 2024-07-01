@@ -68,12 +68,15 @@
                                 @csrf
                                 @method('post')
                                 <div class="form-group row">
-                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Pilih File Progja:</label>
+                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Link File Progja:</label>
                                     <div class="col-sm-8">
                                         <input type="hidden" name="user_id" value="{{ $user->id }}">
                                         <input type="hidden" name="periode_id" value="{{ $periode->id }}">
-                                        <input type="file" class="form-control" id="progja" name="progja"
-                                            accept="application/pdf">
+
+                                        <input type="text" class="form-control" id="progja" name="progja" required>
+
+                                        <a type="button" class="text-small font-italic text-info text-decoration-none"
+                                            onclick="petunjuk()">Petunjuk <i class="far fa-question-circle"></i> </a>
                                     </div>
                                     <div class="col-sm-2">
                                         <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i>
@@ -152,7 +155,7 @@
 
     </div>
 
-    {{-- modal file --}}
+    {{-- modal lihat file --}}
     <div class="modal fade" id="modal-xl">
         <div class="modal-dialog modal-xl">
             <div class="modal-content bg-secondary">
@@ -170,7 +173,29 @@
         </div>
 
     </div>
-    {{-- end modal file --}}
+    {{-- end modal lihat file --}}
+
+    {{-- modal petunjuk --}}
+    <div class="modal fade" id="modal-petunjuk">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary">
+                    Petunjuk penginputan Link Laporan
+                </div>
+                <div class="modal-body">
+                    <p>1. Upload file kedalam Google Drive</p>
+                    <p>2. Bagikan dengan akses <span><i>"Siapa saja (Everyone)"</i></span> </p>
+                    <img src="{{ asset('petunjuk.png') }}" alt="" class="img ml-3">
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+    {{-- end modal petunjuk --}}
 
     {{-- modal edit --}}
     <div class="modal fade" id="modal-edit">
@@ -188,12 +213,12 @@
                     @method('put')
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="progja">File Progja</label>
+                            <label for="progja">Link File Progja</label>
                             <input type="hidden" name="laporan_id" id="laporan_id_ubah">
-                            <input type="file" class="form-control" id="progja" name="progja"
-                                accept="application/pdf">
+                            <input type="text" class="form-control" id="progja" name="progja" required>
                         </div>
                     </div>
+
                     <div class="modal-footer justify-content-between">
                         <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-upload"></i>
                             Update</button>
@@ -223,9 +248,8 @@
                     @method('put')
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="progja">File Progja</label>
-                            <input type="file" class="form-control" id="progja" name="progja"
-                                accept="application/pdf">
+                            <label for="progja"> Link File Progja</label>
+                            <input type="text" class="form-control" id="progja" name="progja" required>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -244,10 +268,15 @@
 @endsection
 @section('js')
     <script>
+        function petunjuk() {
+            // console.log(parameter_file);
+
+            $('#modal-petunjuk').modal('show')
+        }
+
         function lihat(parameter_file) {
             // console.log(parameter_file);
-            var storage = "{{ asset('storage/uploads/progja/') }}/";
-            $('#file').attr('src', storage + parameter_file);
+            $('#file').attr('src', parameter_file);
             $('#modal-xl').modal('show')
         }
 

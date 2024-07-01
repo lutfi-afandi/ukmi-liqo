@@ -21,7 +21,7 @@ class LaporanController extends Controller
         $user = User::where('level', 'divisi')->get();
         $periode = Periode::all();
         // $periode_aktif = $periode->id;
-        $laporans = Laporan::all();
+        $laporans = Laporan::withAll();
         // dd($periode);
         return view('admin.laporan.index', compact(
             'title',

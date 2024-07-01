@@ -36,12 +36,14 @@
 
                             $id_laporan = $laporan->id;
                             $konf_progja = $laporan->konf_progja;
+
+                            $sarmut = $laporan->sarmut;
                             $konf_sarmut = $laporan->konf_sarmut;
 
-                            $triwulan1 = $laporan->first()->triwulan1->where('laporan_id', $id_laporan)->first();
-                            $triwulan2 = $laporan->first()->triwulan2->where('laporan_id', $id_laporan)->first();
-                            $triwulan3 = $laporan->first()->triwulan3->where('laporan_id', $id_laporan)->first();
-                            $triwulan4 = $laporan->first()->triwulan4->where('laporan_id', $id_laporan)->first();
+                            $triwulan1 = $laporan->triwulan1->where('laporan_id', $id_laporan)->first();
+                            $triwulan2 = $laporan->triwulan2->where('laporan_id', $id_laporan)->first();
+                            $triwulan3 = $laporan->triwulan3->where('laporan_id', $id_laporan)->first();
+                            $triwulan4 = $laporan->triwulan4->where('laporan_id', $id_laporan)->first();
 
                             $id_tw1 = $triwulan1->id ?? '#';
                             $id_tw2 = $triwulan2->id ?? '#';
@@ -58,7 +60,7 @@
                         </td>
 
                         <td class="text-center bg-{{ $helper->bg($konf_sarmut) }}">
-                            <a href="/sarmut/{{ $id_laporan }}">{!! $helper->icon($konf_sarmut) !!}</a>
+                            <a href="{{ $sarmut != null ? '/sarmut/' . $id_laporan : '#' }}">{!! $helper->icon($konf_sarmut) !!}</a>
                         </td>
                         <td class="text-center bg-{{ $helper->bg($konf_tw1) }}">
                             <a href="{{ $id_tw1 != '#' ? '/triwulan1/' . $id_tw1 : '#' }}">{!! $helper->icon($konf_tw1) !!}</a>
@@ -72,9 +74,6 @@
                         <td class="text-center bg-{{ $helper->bg($konf_tw4) }}">
                             <a href="{{ $id_tw4 != '#' ? '/triwulan4/' . $id_tw4 : '#' }}">{!! $helper->icon($konf_tw4) !!}</a>
                         </td>
-
-
-                        {{--  --}}
                     @endif
                 </tr>
             @endforeach

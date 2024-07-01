@@ -46,6 +46,12 @@ class Laporan extends Model
             ->first();
     }
 
+    public static function withAll()
+    {
+        return self::with(['user', 'triwulan1', 'triwulan2', 'triwulan3', 'triwulan4', 'periode'])
+            ->first();
+    }
+
     public static function getAll($user_id, $periode_id)
     {
         return self::with(['user', 'triwulan1', 'triwulan2', 'triwulan3', 'triwulan4', 'periode'])

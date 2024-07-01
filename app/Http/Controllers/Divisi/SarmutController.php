@@ -16,6 +16,17 @@ use Illuminate\Support\Facades\Validator;
 class SarmutController extends Controller
 {
 
+    private function gdriveConvertToPreviewUrl($url)
+    {
+        // Cek apakah URL adalah URL Google Drive yang valid
+        if (preg_match('/https:\/\/drive\.google\.com\/file\/d\/([^\/]+)\/view/', $url, $matches)) {
+            $fileId = $matches[1];
+            return "https://drive.google.com/file/d/{$fileId}/preview";
+        }
+
+        // Kembalikan URL asli jika tidak cocok
+        return $url;
+    }
     public function index()
     {
         $syarat = (new Helper())->syarat();
@@ -63,7 +74,6 @@ class SarmutController extends Controller
 
     public function update(Request $request, $id)
     {
-        $sarmut = $request->file('sarmut');
 
         $rules = [
             'sarmut'   => 'required'
@@ -77,9 +87,7 @@ class SarmutController extends Controller
 
         $data->konf_sarmut = 'belum';
         $data->tgl_upload_sarmut = date('Y-m-d H:i:s');
-        $data->sarmut = "Sasaran Mutu_usr_" . $data->user_id . "_prd_" . $data->periode_id . "-" . date('His') . "." . $sarmut->getClientOriginalExtension();
-        $request->file('sarmut')->storeAs('public/uploads/sarmut', $data->sarmut);
-
+        $data->sarmut = $this->gdriveConvertToPreviewUrl($request->sarmut);
 
         $data->save();
         return back()->with(['msgs' => 'Berhasil Mengunnggah Sasaran Mutu', 'class' => 'alert-success']);
@@ -99,22 +107,10 @@ class SarmutController extends Controller
             return back()->withInput()->with(['msgs' => 'Gagal mengubah Sasaran mutu', 'class' => 'alert-danger']);
         }
 
-        // Path file lama
-        $oldFilePath = 'public/uploads/sarmut/' . $data->sarmut;
-
-        // Hapus file lama jika ada
-        if (Storage::exists($oldFilePath)) {
-            Storage::delete($oldFilePath);
-        }
-
-        // Simpan file baru
-        $newFileName = "Sasaran mutu_usr_" . $data->user_id . "_prd_" . $data->periode_id . "-" . date('His') . "." . $sarmut->getClientOriginalExtension();
-        $newFilePath = $sarmut->storeAs('public/uploads/sarmut', $newFileName);
-
         // Update data
         $data->konf_sarmut = 'belum';
         $data->tgl_upload_sarmut = now(); // Menggunakan helper now() untuk mendapatkan tanggal dan waktu saat ini
-        $data->sarmut = $newFileName;
+        $data->sarmut = $this->gdriveConvertToPreviewUrl($request->sarmut);
 
         $data->save();
         return back()->with(['msgs' => 'Berhasil Mengubah Sasaran mutu', 'class' => 'alert-success']);
@@ -122,10 +118,6 @@ class SarmutController extends Controller
 
     public function reupload(Request $request, $id)
     {
-        // dd();
-
-        $sarmut = $request->file('sarmut');
-
         $rules = [
             'sarmut'   => 'required'
         ];
@@ -144,11 +136,8 @@ class SarmutController extends Controller
         $dataRiwayat->tgl_upload = $dataSarmut->tgl_upload_sarmut;
         $dataRiwayat->save();
 
-        // Simpan file baru
-        $newFileName = "Sarmut_usr_" . $dataSarmut->user_id . "_prd_" . $dataSarmut->periode_id . "-" . date('His') . "." . $sarmut->getClientOriginalExtension();
-        $newFilePath = $sarmut->storeAs('public/uploads/sarmut', $newFileName);
 
-        $dataSarmut->sarmut = $newFileName;
+        $dataSarmut->sarmut = $this->gdriveConvertToPreviewUrl($request->sarmut);
         $dataSarmut->konf_sarmut = 'belum';
         $dataSarmut->ket_sarmut = null;
         $dataSarmut->tgl_upload_sarmut = now();

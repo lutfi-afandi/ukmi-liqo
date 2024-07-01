@@ -30,10 +30,10 @@
 
                                     </td>
                                     <td>
-                                        <a href="{{ asset('storage/uploads/progja/' . $riwayat->progja) }}"
-                                            target="_blank" class="btn btn-sm btn-info">
+                                        <a href="{{ $riwayat->progja }}" target="_blank" class="btn btn-sm btn-info">
                                             <i class="far fa-eye"></i>
                                         </a>
+
                                     </td>
                                 </tr>
                             @endforeach

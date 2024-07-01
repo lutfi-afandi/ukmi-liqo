@@ -16,15 +16,23 @@ use Illuminate\Support\Facades\Validator;
 
 class Triwulan1Controller extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    private function gdriveConvertToPreviewUrl($url)
+    {
+        // Cek apakah URL adalah URL Google Drive yang valid
+        if (preg_match('/https:\/\/drive\.google\.com\/file\/d\/([^\/]+)\/view/', $url, $matches)) {
+            $fileId = $matches[1];
+            return "https://drive.google.com/file/d/{$fileId}/preview";
+        }
+
+        // Kembalikan URL asli jika tidak cocok
+        return $url;
+    }
+
     public function index()
     {
         $syarat = (new Helper())->syarat();
-        if (empty($syarat['sarmut'])) {
+        // dd($syarat);
+        if ($syarat['sarmut'] == null) {
             return redirect()->route('divisi.dashboard.index');
         }
 
@@ -68,8 +76,6 @@ class Triwulan1Controller extends Controller
 
     public function store(Request $request)
     {
-        $file_tw1 = $request->file('file_tw1');
-
         $rules = [
             'file_tw1'   => 'required'
         ];
@@ -82,8 +88,7 @@ class Triwulan1Controller extends Controller
         $data->laporan_id = $request->laporan_id;
         $data->konf = 'belum';
         $data->tgl_upload = date('Y-m-d H:i:s');
-        $data->file_tw1 = "TW1_usr_" . $data->user_id . "_prd_" . $data->periode_id . "-" . date('His') . "." . $file_tw1->getClientOriginalExtension();
-        $request->file('file_tw1')->storeAs('public/uploads/file_tw1', $data->file_tw1);
+        $data->file_tw1 = $this->gdriveConvertToPreviewUrl($request->file_tw1);
 
 
         $data->save();
@@ -115,8 +120,6 @@ class Triwulan1Controller extends Controller
      */
     public function update(Request $request, $id)
     {
-        $file_tw1 = $request->file('file_tw1');
-
         $rules = [
             'file_tw1'   => 'required'
         ];
@@ -127,18 +130,9 @@ class Triwulan1Controller extends Controller
             return back()->withInput()->with(['msgs' => 'Gagal mengubah Laporan Triwulan 1', 'class' => 'alert-danger']);
         }
 
-        // Path file lama
-        $oldFilePath = 'public/uploads/file_tw1/' . $data->file_tw1;
-
-        // Hapus file lama jika ada
-        if (Storage::exists($oldFilePath)) {
-            Storage::delete($oldFilePath);
-        }
 
         // Simpan file baru
-        $newFileName = "Laporan Triwulan 1 revised_usr_" . $data->user_id . "_prd_" . $data->periode_id . "-" . date('His') . "." . $file_tw1->getClientOriginalExtension();
-        $newFilePath = $file_tw1->storeAs('public/uploads/file_tw1', $newFileName);
-
+        $newFileName = $this->gdriveConvertToPreviewUrl($request->file_tw1);
         // Update data
         $data->konf = 'belum';
         $data->tgl_upload = now(); // Menggunakan helper now() untuk mendapatkan tanggal dan waktu saat ini
@@ -150,10 +144,6 @@ class Triwulan1Controller extends Controller
 
     public function reupload(Request $request, $id)
     {
-        // dd();
-
-        $file_tw1 = $request->file('file_tw1');
-
         $rules = [
             'file_tw1'   => 'required'
         ];
@@ -173,8 +163,7 @@ class Triwulan1Controller extends Controller
         $dataRiwayat->save();
 
         // Simpan file baru
-        $newFileName = "Triwulan1 revisi_usr_" . $dataTriwulan1->user_id . "_prd_" . $dataTriwulan1->periode_id . "-" . date('His') . "." . $file_tw1->getClientOriginalExtension();
-        $newFilePath = $file_tw1->storeAs('public/uploads/file_tw1', $newFileName);
+        $newFileName = $this->gdriveConvertToPreviewUrl($request->file_tw1);
 
         $dataTriwulan1->file_tw1 = $newFileName;
         $dataTriwulan1->konf = 'belum';

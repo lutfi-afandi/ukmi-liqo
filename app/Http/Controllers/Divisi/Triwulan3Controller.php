@@ -16,11 +16,19 @@ use Illuminate\Support\Facades\Validator;
 
 class Triwulan3Controller extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    private function gdriveConvertToPreviewUrl($url)
+    {
+        // Cek apakah URL adalah URL Google Drive yang valid
+        if (preg_match('/https:\/\/drive\.google\.com\/file\/d\/([^\/]+)\/view/', $url, $matches)) {
+            $fileId = $matches[1];
+            return "https://drive.google.com/file/d/{$fileId}/preview";
+        }
+
+        // Kembalikan URL asli jika tidak cocok
+        return $url;
+    }
+
     public function index()
     {
         $syarat = (new Helper())->syarat();
@@ -67,8 +75,6 @@ class Triwulan3Controller extends Controller
 
     public function store(Request $request)
     {
-        $file_tw3 = $request->file('file_tw3');
-
         $rules = [
             'file_tw3'   => 'required'
         ];
@@ -81,41 +87,15 @@ class Triwulan3Controller extends Controller
         $data->laporan_id = $request->laporan_id;
         $data->konf = 'belum';
         $data->tgl_upload = date('Y-m-d H:i:s');
-        $data->file_tw3 = "Laporan Triwulan 3_usr_" . $data->user_id . "_prd_" . $data->periode_id . "-" . date('His') . "." . $file_tw3->getClientOriginalExtension();
-        $request->file('file_tw3')->storeAs('public/uploads/file_tw3', $data->file_tw3);
+        $data->file_tw3 =  $this->gdriveConvertToPreviewUrl($request->file_tw3);
 
 
         $data->save();
         return back()->with(['msgs' => 'Berhasil Mengunggah Laporan Triwulan 3', 'class' => 'alert-success']);
     }
 
-    public function show($id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
-        $file_tw3 = $request->file('file_tw3');
-
         $rules = [
             'file_tw3'   => 'required'
         ];
@@ -126,18 +106,8 @@ class Triwulan3Controller extends Controller
             return back()->withInput()->with(['msgs' => 'Gagal mengubah Laporan Triwulan 3', 'class' => 'alert-danger']);
         }
 
-        // Path file lama
-        $oldFilePath = 'public/uploads/file_tw3/' . $data->file_tw3;
-
-        // Hapus file lama jika ada
-        if (Storage::exists($oldFilePath)) {
-            Storage::delete($oldFilePath);
-        }
-
         // Simpan file baru
-        $newFileName = "Laporan Triwulan 3_usr_" . $data->user_id . "_prd_" . $data->periode_id . "-" . date('His') . "." . $file_tw3->getClientOriginalExtension();
-        $newFilePath = $file_tw3->storeAs('public/uploads/file_tw3', $newFileName);
-
+        $newFileName =  $this->gdriveConvertToPreviewUrl($request->file_tw3);
         // Update data
         $data->konf = 'belum';
         $data->tgl_upload = now(); // Menggunakan helper now() untuk mendapatkan tanggal dan waktu saat ini
@@ -149,10 +119,6 @@ class Triwulan3Controller extends Controller
 
     public function reupload(Request $request, $id)
     {
-        // dd();
-
-        $file_tw3 = $request->file('file_tw3');
-
         $rules = [
             'file_tw3'   => 'required'
         ];
@@ -172,8 +138,7 @@ class Triwulan3Controller extends Controller
         $dataRiwayat->save();
 
         // Simpan file baru
-        $newFileName = "Triwulan3 revisi_usr_" . $dataTriwulan3->user_id . "_prd_" . $dataTriwulan3->periode_id . "-" . date('His') . "." . $file_tw3->getClientOriginalExtension();
-        $newFilePath = $file_tw3->storeAs('public/uploads/file_tw3', $newFileName);
+        $newFileName =  $this->gdriveConvertToPreviewUrl($request->file_tw3);
 
         $dataTriwulan3->file_tw3 = $newFileName;
         $dataTriwulan3->konf = 'belum';

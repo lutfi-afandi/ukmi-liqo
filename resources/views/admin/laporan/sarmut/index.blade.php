@@ -29,7 +29,7 @@
                     </g>
                 </svg>
                 <div class="info-box-content">
-                    <h4 class="info-box-number mb-0">Detail Program Kerja</h4>
+                    <h4 class="info-box-number mb-0">Detail Sasaran Mutu</h4>
                     <h5 class="info-box-text font-weight-light">{{ $sarmut->user->name }}</h4>
                 </div>
                 <div class="info-box-button">
@@ -44,8 +44,7 @@
             <div class="card card-primary ">
 
                 <div class="card-body">
-                    <iframe src="{{ asset('storage/uploads/sarmut/' . $sarmut->sarmut) }}" width="100%" height="840px"
-                        frameborder="0"></iframe>
+                    <iframe src="{{ $sarmut->sarmut }}" width="100%" height="840px" frameborder="0"></iframe>
                 </div>
             </div>
         </div>

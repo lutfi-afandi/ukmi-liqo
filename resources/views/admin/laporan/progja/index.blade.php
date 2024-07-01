@@ -44,8 +44,7 @@
             <div class="card card-primary ">
 
                 <div class="card-body">
-                    <iframe src="{{ asset('storage/uploads/progja/' . $progja->progja) }}" width="100%" height="840px"
-                        frameborder="0"></iframe>
+                    <iframe src="{{ $progja->progja }}" width="100%" height="840px" frameborder="0"></iframe>
                 </div>
             </div>
         </div>

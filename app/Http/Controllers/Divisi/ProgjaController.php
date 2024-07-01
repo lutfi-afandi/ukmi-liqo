@@ -81,7 +81,7 @@ class ProgjaController extends Controller
     {
         // dd($request);
         $name = Auth::user()->name;
-        $progja = $request->file('progja');
+        // $progja = $request->file('progja');
 
         $rules = [
             'progja'   => 'required'
@@ -96,8 +96,9 @@ class ProgjaController extends Controller
         $data->periode_id = $request->periode_id;
         $data->konf_progja = 'belum';
         $data->tgl_upload_progja = date('Y-m-d H:i:s');
-        $data->progja = "Progja_usr_" . $data->user_id . "_prd_" . $data->periode_id . "-" . date('His') . "." . $progja->getClientOriginalExtension();
-        $request->file('progja')->storeAs('public/uploads/progja', $data->progja);
+        $data->progja = $this->gdriveConvertToPreviewUrl($request->progja);
+        // $data->progja = "Progja_usr_" . $data->user_id . "_prd_" . $data->periode_id . "-" . date('His') . "." . $progja->getClientOriginalExtension();
+        // $request->file('progja')->storeAs('public/uploads/progja', $data->progja);
 
 
         $data->save();
@@ -119,8 +120,6 @@ class ProgjaController extends Controller
 
     public function update(Request $request, $id)
     {
-        $progja = $request->file('progja');
-
         $rules = [
             'progja'   => 'required'
         ];
@@ -131,22 +130,10 @@ class ProgjaController extends Controller
             return back()->withInput()->with(['msgs' => 'Gagal mengubah Progja', 'class' => 'alert-danger']);
         }
 
-        // Path file lama
-        $oldFilePath = 'public/uploads/progja/' . $data->progja;
-
-        // Hapus file lama jika ada
-        if (Storage::exists($oldFilePath)) {
-            Storage::delete($oldFilePath);
-        }
-
-        // Simpan file baru
-        $newFileName = "Progja_usr_" . $data->user_id . "_prd_" . $data->periode_id . "-" . date('His') . "." . $progja->getClientOriginalExtension();
-        $newFilePath = $progja->storeAs('public/uploads/progja', $newFileName);
-
         // Update data
         $data->konf_progja = 'belum';
         $data->tgl_upload_progja = now(); // Menggunakan helper now() untuk mendapatkan tanggal dan waktu saat ini
-        $data->progja = $newFileName;
+        $data->progja = $this->gdriveConvertToPreviewUrl($request->progja);
 
         $data->save();
         return back()->with(['msgs' => 'Berhasil Mengubah Progja', 'class' => 'alert-success']);
@@ -154,9 +141,6 @@ class ProgjaController extends Controller
 
     public function reupload(Request $request, $id)
     {
-        // dd();
-
-        $progja = $request->file('progja');
 
         $rules = [
             'progja'   => 'required'
@@ -176,11 +160,7 @@ class ProgjaController extends Controller
         $dataRiwayat->tgl_upload = $dataProgja->tgl_upload_progja;
         $dataRiwayat->save();
 
-        // Simpan file baru
-        $newFileName = "Progja_usr_" . $dataProgja->user_id . "_prd_" . $dataProgja->periode_id . "-" . date('His') . "." . $progja->getClientOriginalExtension();
-        $newFilePath = $progja->storeAs('public/uploads/progja', $newFileName);
-
-        $dataProgja->progja = $newFileName;
+        $dataProgja->progja = $this->gdriveConvertToPreviewUrl($request->progja);;
         $dataProgja->konf_progja = 'belum';
         $dataProgja->ket_progja = null;
         $dataProgja->tgl_upload_progja = now();

@@ -88,35 +88,36 @@ class Helper
                 $text_info1 = 'isi sarmut terlebih dahulu!';
             } else {
                 $url_tw1 = route('divisi.triwulan1.index');
-                $text_info1 = 'isi sarmut terlebih dahulu!';
+                $text_info1 = 'lihat';
             }
 
             if ($tw1 == null) {
                 $url2 = '#';
                 $text_info2 = 'evaluasi Triwulan 1 belum diisi!';
             } else {
-                $url2 = route('divisi.triwulan1.index');
-                $text_info2 = 'evaluasi Triwulan 1 belum diisi!';
+                $url2 = route('divisi.triwulan2.index');
+                $text_info2 = 'lihat';
             }
 
             if ($tw2 == null) {
                 $url3 = '#';
                 $text_info3 = 'evaluasi Triwulan 2 belum diisi!';
             } else {
-                $url3 = route('divisi.triwulan2.index');
-                $text_info3 = 'evaluasi Triwulan 2 belum diisi!';
+                $url3 = route('divisi.triwulan3.index');
+                $text_info3 = 'lihat';
             }
 
             if ($tw3 == null) {
                 $url4 = '#';
                 $text_info4 = 'evaluasi Triwulan 3 belum diisi!';
             } else {
-                $url4 = route('divisi.triwulan3.index');
-                $text_info4 = 'evaluasi Triwulan 3 belum diisi!';
+                $url4 = route('divisi.triwulan4.index');
+                $text_info4 = 'lihat';
             }
 
             return [
                 'progja'   => $progja,
+                'sarmut'   => $sarmut,
 
                 'url_tw1' => $url_tw1,
                 'text_info1' => $text_info1,
@@ -129,6 +130,10 @@ class Helper
 
                 'url4' => $url4,
                 'text_info4' => $text_info4,
+                'tw1'   => $tw1,
+                'tw2'   => $tw2,
+                'tw3'   => $tw3,
+                'tw4'   => $tw4,
             ];
         }
     }

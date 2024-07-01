@@ -72,13 +72,12 @@
                                 @csrf
                                 @method('post')
                                 <div class="form-group row">
-                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Pilih File Laporan:</label>
+                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Link File Laporan:</label>
                                     <div class="col-sm-8">
                                         <input type="hidden" name="user_id" value="{{ $user->id }}">
                                         <input type="hidden" name="periode_id" value="{{ $periode->id }}">
                                         <input type="hidden" name="laporan_id" value="{{ $laporan->id }}">
-                                        <input type="file" class="form-control" id="file_tw1" name="file_tw1"
-                                            accept="application/pdf">
+                                        <input type="text" class="form-control" id="file_tw1" name="file_tw1">
                                     </div>
                                     <div class="col-sm-2">
                                         <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i>
@@ -89,7 +88,7 @@
                         </div>
                     @else
                         <dl class="row text-md">
-                            <dt class="col-sm-3">File Laporan</dt>
+                            <dt class="col-sm-3">Link File Laporan</dt>
                             <dd class="col-sm-8">:
                                 <a type="button" class="" onclick="lihat('{{ $triwulan1->file_tw1 }}')">
                                     {{ $triwulan1->file_tw1 }} <i class="fas fa-share-square"></i>
@@ -189,8 +188,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="file_tw1">File Triwulan 1</label>
-                            <input type="file" class="form-control" id="file_tw1" name="file_tw1"
-                                accept="application/pdf">
+                            <input type="text" class="form-control" id="file_tw1" name="file_tw1">
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -226,8 +224,7 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="file_tw1">File Triwulan 1</label>
-                            <input type="file" class="form-control" id="file_tw1" name="file_tw1"
-                                accept="application/pdf">
+                            <input type="text" class="form-control" id="file_tw1" name="file_tw1">
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -244,9 +241,7 @@
 @section('js')
     <script>
         function lihat(parameter_file) {
-            // console.log(parameter_file);
-            var storage = "{{ asset('storage/uploads/file_tw1/') }}/";
-            $('#file').attr('src', storage + parameter_file);
+            $('#file').attr('src', parameter_file);
             $('#modal-xl').modal('show')
         }
 

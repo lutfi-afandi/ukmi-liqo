@@ -70,12 +70,11 @@
                                 @csrf
                                 @method('put')
                                 <div class="form-group row">
-                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Pilih File Progja:</label>
+                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Link File Sarmut:</label>
                                     <div class="col-sm-8">
                                         <input type="hidden" name="user_id" value="{{ $user->id }}">
                                         <input type="hidden" name="periode_id" value="{{ $periode->id }}">
-                                        <input type="file" class="form-control" id="sarmut" name="sarmut"
-                                            accept="application/pdf">
+                                        <input type="text" class="form-control" id="sarmut" name="sarmut" required>
                                     </div>
                                     <div class="col-sm-2">
                                         <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i>
@@ -86,7 +85,7 @@
                         </div>
                     @else
                         <dl class="row text-md">
-                            <dt class="col-sm-3">File Sasaran Mutu</dt>
+                            <dt class="col-sm-3">Link File Sasaran Mutu</dt>
                             <dd class="col-sm-8">:
                                 <a type="button" class="" onclick="lihat('{{ $laporan->sarmut }}')">
                                     {{ $laporan->sarmut }} <i class="fas fa-share-square"></i>
@@ -137,8 +136,7 @@
                                         <i class="fas fa-retweet"></i> reupload
                                     </button>
                                 @endif
-                                <button type="button" class="btn bg-navy btn-sm"
-                                    onclick="riwayat('{{ $laporan->id }}')">
+                                <button type="button" class="btn bg-navy btn-sm" onclick="riwayat('{{ $laporan->id }}')">
                                     <i class="fas fa-history"></i> Riwayat
                                 </button>
 
@@ -187,9 +185,8 @@
                     @method('put')
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="sarmut">File Sasaran Mutu</label>
-                            <input type="file" class="form-control" id="sarmut" name="sarmut"
-                                accept="application/pdf">
+                            <label for="sarmut">Link File Sasaran Mutu</label>
+                            <input type="text" class="form-control" id="sarmut" name="sarmut" required>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -224,9 +221,8 @@
                     @method('put')
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="sarmut">File Sarmut</label>
-                            <input type="file" class="form-control" id="sarmut" name="sarmut"
-                                accept="application/pdf">
+                            <label for="sarmut">Link File Sarmut</label>
+                            <input type="text" class="form-control" id="sarmut" name="sarmut" required>
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -242,9 +238,8 @@
 @section('js')
     <script>
         function lihat(parameter_file) {
-            // console.log(parameter_file);
-            var storage = "{{ asset('storage/uploads/sarmut/') }}/";
-            $('#file').attr('src', storage + parameter_file);
+
+            $('#file').attr('src', parameter_file);
             $('#modal-xl').modal('show')
         }
 
