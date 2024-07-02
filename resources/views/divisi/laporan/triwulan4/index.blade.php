@@ -3,16 +3,17 @@
     $helper = new \App\Helpers\Helper();
 
     if ($laporan == null) {
-        $rute = '#';
-        $rute_re = '#';
+        $rute_update = '#';
+        $rute_reupload = '#';
     } else {
-        $rute = route('divisi.progja.update', ['progja' => $laporan->id]);
-        $rute_re = route('divisi.progja.reupload', ['progja' => $laporan->id]);
+        $rute_update = route('divisi.triwulan4.update', ['triwulan4' => $laporan->id]);
+        $rute_reupload = route('divisi.triwulan4.reupload', ['triwulan4' => $laporan->id]);
     }
+    // dd($laporan->id);
 @endphp
 @section('content')
-    <div class="row ">
-        <div class="col-md-12">
+    <div class="row">
+        <div class="col-md-10">
             <div class="info-box p-2">
                 <svg width="72px" height="72px" viewBox="0 0 24 24" version="1.1" xmlns="http://www.w3.org/2000/svg"
                     xmlns:xlink="http://www.w3.org/1999/xlink">
@@ -34,21 +35,22 @@
                     </g>
                 </svg>
                 <div class="info-box-content">
-                    <h4 class="info-box-number mb-0">Detail Program Kerja</h4>
+                    <h4 class="info-box-number mb-0">Detail Laporan Triwulan 4</h4>
                     <h5 class="info-box-text font-weight-light">{{ $user->name }}</h5>
                 </div>
                 <div class="info-box-button pr-3 pt-2">
-                    <a href="{{ route('divisi.dashboard.index') }}" class="btn btn-info"><i class="fas fa-chevron-left"></i>
-                        Kembali</a>
+                    <a href="{{ route('divisi.dashboard.index') }}" class="btn btn-info "><i
+                            class="fas fa-chevron-left"></i> Kembali</a>
                 </div>
             </div>
         </div>
     </div>
-    <div class="row ">
-        <div class="col-lg-12">
+
+    <div class="row">
+        <div class="col-lg-10">
             <div class="card card-primary card-outline">
                 <div class="card-header">
-                    <h3 class="card-title text-lg font-weight-bold">Program Kerja Tahun : {{ $periode->tahun }}</h3>
+                    <h3 class="card-title text-lg font-weight-bold">Laporan Triwulan 4 : {{ $periode->tahun }}</h3>
                 </div>
                 <div class="card-body">
                     <div id="alert">
@@ -59,25 +61,25 @@
                             </div>
                         @endif
                     </div>
-                    @if ($laporan == null)
+
+                    @if ($triwulan4 == null)
                         <div class="callout callout-danger">
                             <h5>Belum ada laporan</h5>
-                            <p class="font-italic">{{ $user->name }} belum mengunggah dokumen Program kerja Periode
+                            <p class="font-italic">{{ $laporan->user->name }} belum mengunggah dokumen Laporan Triwulan 4
+                                Periode
                                 {{ $periode->tahun }}!</p>
-                            <form action="{{ route('divisi.progja.store') }}" method="post" enctype="multipart/form-data">
+                            <form action="{{ route('divisi.triwulan4.store') }}" method="post"
+                                enctype="multipart/form-data">
                                 @csrf
                                 @method('post')
                                 <div class="form-group row">
-                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Link File Progja:</label>
+                                    <label for="inputEmail3" class="col-sm-2 col-form-label">Link File Laporan:</label>
                                     <div class="col-sm-8">
                                         <input type="hidden" name="user_id" value="{{ $user->id }}">
                                         <input type="hidden" name="periode_id" value="{{ $periode->id }}">
-
-                                        <input type="text" class="form-control" id="progja" name="progja" required
+                                        <input type="hidden" name="laporan_id" value="{{ $laporan->id }}">
+                                        <input type="text" class="form-control" id="file_tw4" name="file_tw4"
                                             autocomplete="off">
-
-                                        <a type="button" class="text-small font-italic text-info text-decoration-none"
-                                            onclick="petunjuk()">Petunjuk <i class="far fa-question-circle"></i> </a>
                                     </div>
                                     <div class="col-sm-2">
                                         <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i>
@@ -88,64 +90,64 @@
                         </div>
                     @else
                         <dl class="row text-md">
-                            <dt class="col-sm-3">File Progja</dt>
+                            <dt class="col-sm-3">Link File Laporan</dt>
                             <dd class="col-sm-8">:
-                                <a type="button" class="" onclick="lihat('{{ $laporan->progja }}')">
-                                    {{ $laporan->progja }} <i class="fas fa-share-square"></i>
+                                <a type="button" class="" onclick="lihat('{{ $triwulan4->file_tw4 }}')">
+                                    {{ $triwulan4->file_tw4 }} <i class="fas fa-share-square"></i>
                                 </a>
                             </dd>
-
                             <dt class="col-sm-3">Status</dt>
                             <dd class="col-sm-8">:
-                                <a type="button" class="text-{!! $helper->bg($laporan->konf_progja) !!}">
-                                    {!! $helper->icon($laporan->konf_progja) !!}
+                                <a type="button" class="text-{!! $helper->bg($triwulan4->konf) !!}">
+                                    {!! $helper->icon($triwulan4->konf) !!}
                                 </a>
                             </dd>
 
                             <dt class="col-sm-3">Tanggal Upload</dt>
                             <dd class="col-sm-8">:
                                 <a type="button">
-                                    {{ date('d/m/Y', strtotime($laporan->tgl_upload_progja)) }}
+                                    {{ date('d/m/Y', strtotime($triwulan4->tgl_upload)) }}
                                 </a>
                             </dd>
 
                             <dt class="col-sm-3">Tanggal Konfirmasi</dt>
                             <dd class="col-sm-8">:
                                 <a type="button">
-                                    {{ $laporan->konf_progja == 'diterima' ? date('d/m/Y', strtotime($laporan->tgl_konf_progja)) : '' }}
+                                    {{ $triwulan4->konf == 'diterima' ? date('d/m/Y', strtotime($triwulan4->tgl_konf)) : '' }}
                                 </a>
                             </dd>
 
-                            <dt class="col-sm-3">Catatan Auditor</dt>
+                            <dt class="col-sm-3 ">Catatan Auditor</dt>
                             <dd class="col-sm-8 d-inline-flex">:
                                 <div class="callout callout-danger w-100">
-                                    {!! $laporan->ket_progja ?? '<i>belum ada catatan</i>' !!}
+                                    {!! $triwulan4->ket ?? '<i>belum ada catatan</i>' !!}
                                 </div>
                             </dd>
 
                             <dt class="col-sm-3">Aksi</dt>
                             <dd class="col-sm-8">:
-                                @if ($laporan->konf_progja == 'diterima')
+                                @if ($triwulan4->konf == 'diterima')
                                     <i class="fas fa-check-circle"></i> selesai
-                                @elseif($laporan->konf_progja == 'sedang')
+                                @elseif($triwulan4->konf == 'sedang')
                                     <i class="fas fa-info-circle fa-beat text-info"></i> Menunggu pemeriksaan dari LPM
-                                @elseif($laporan->konf_progja == 'belum')
+                                @elseif($triwulan4->konf == 'belum')
                                     <button type="button" class="btn btn-info btn-sm"
-                                        onclick="ubah('{{ $laporan->id }}')">
+                                        onclick="ubah('{{ $triwulan4->id }}')">
                                         <i class="far fa-edit"></i> ubah
                                     </button>
                                 @else
                                     <button type="button" class="btn btn-info btn-sm"
-                                        onclick="reupload('{{ $laporan->id }}')">
+                                        onclick="reupload('{{ $triwulan4->id }}')">
                                         <i class="fas fa-retweet"></i> reupload
                                     </button>
                                 @endif
                                 <button type="button" class="btn bg-navy btn-sm"
-                                    onclick="riwayat('{{ $laporan->id }}')">
+                                    onclick="riwayat('{{ $triwulan4->id }}')">
                                     <i class="fas fa-history"></i> Riwayat
                                 </button>
 
                             </dd>
+
 
                         </dl>
                     @endif
@@ -153,16 +155,12 @@
             </div>
         </div>
 
-
     </div>
 
-    {{-- modal lihat file --}}
+    {{-- modal file --}}
     <div class="modal fade" id="modal-xl">
         <div class="modal-dialog modal-xl">
             <div class="modal-content bg-secondary">
-                <div class="modal-header">
-
-                </div>
                 <div class="modal-body">
                     <iframe src="" id="file" frameborder="0" width="100%" height="640px"></iframe>
                 </div>
@@ -174,56 +172,30 @@
         </div>
 
     </div>
-    {{-- end modal lihat file --}}
-
-    {{-- modal petunjuk --}}
-    <div class="modal fade" id="modal-petunjuk">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header bg-primary">
-                    Petunjuk penginputan Link Laporan
-                </div>
-                <div class="modal-body">
-                    <p>1. Upload file kedalam Google Drive</p>
-                    <p>2. Bagikan dengan akses <span><i>"Siapa saja (Everyone)"</i></span> </p>
-                    <img src="{{ asset('petunjuk.png') }}" alt="" class="img ml-3">
-                </div>
-                <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-
-        </div>
-
-    </div>
-    {{-- end modal petunjuk --}}
+    {{-- end modal file --}}
 
     {{-- modal edit --}}
     <div class="modal fade" id="modal-edit">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-gradient-primary">
-                    <h4 class="modal-title">Update Program Kerja - {{ $user->name }}</h4>
+                    <h4 class="modal-title">Update Laporan Triwulan 4 - {{ $user->name }}</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-
-                <form action="{{ $rute }}" method="post" enctype="multipart/form-data">
+                <form action="{{ $rute_update }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="progja">Link File Progja</label>
-                            <input type="hidden" name="laporan_id" id="laporan_id_ubah">
-                            <input type="text" class="form-control" id="progja" name="progja" required
+                            <label for="file_tw4">File Triwulan 4</label>
+                            <input type="text" class="form-control" id="file_tw4" name="file_tw4"
                                 autocomplete="off">
                         </div>
                     </div>
-
                     <div class="modal-footer justify-content-between">
-                        <button type="submit" class="btn btn-primary btn-block"><i class="fas fa-upload"></i>
-                            Update</button>
+                        <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i> Update</button>
                     </div>
                 </form>
 
@@ -234,24 +206,28 @@
     </div>
     {{-- end modal edit --}}
 
+    {{-- modal riwayat --}}
+    <div id="list-riwayat"></div>
+    {{-- end modal riwayat --}}
+
     {{-- modal reupload --}}
     <div class="modal fade" id="modal-reupload">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-gradient-navy">
-                    <h4 class="modal-title">Reupload Program Kerja - {{ $user->name }}</h4>
+                    <h4 class="modal-title">Reupload Laporan Triwulan 4 - {{ $user->name }}</h4>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
 
-                <form action="{{ $rute_re }}" method="post" enctype="multipart/form-data">
+                <form action="{{ $rute_reupload }}" method="post" enctype="multipart/form-data">
                     @csrf
                     @method('put')
                     <div class="modal-body">
                         <div class="form-group">
-                            <label for="progja"> Link File Progja</label>
-                            <input type="text" class="form-control" id="progja" name="progja" required
+                            <label for="file_tw4">File Triwulan 4</label>
+                            <input type="text" class="form-control" id="file_tw4" name="file_tw4"
                                 autocomplete="off">
                         </div>
                     </div>
@@ -265,20 +241,10 @@
     </div>
     {{-- end modal reupload --}}
 
-    {{-- modal riwayat --}}
-    <div id="list-riwayat"></div>
-    {{-- end modal riwayat --}}
 @endsection
 @section('js')
     <script>
-        function petunjuk() {
-            // console.log(parameter_file);
-
-            $('#modal-petunjuk').modal('show')
-        }
-
         function lihat(parameter_file) {
-            // console.log(parameter_file);
             $('#file').attr('src', parameter_file);
             $('#modal-xl').modal('show')
         }
@@ -294,7 +260,7 @@
         }
 
         function riwayat(param_id) {
-            var url = "{{ route('divisi.progja.riwayat', ':id') }}";
+            var url = "{{ route('divisi.triwulan4.riwayat', ':id') }}";
             url = url.replace(":id", param_id);
 
             $.ajax({

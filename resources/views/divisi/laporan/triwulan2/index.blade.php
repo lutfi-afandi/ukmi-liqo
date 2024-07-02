@@ -78,7 +78,8 @@
                                         <input type="hidden" name="user_id" value="{{ $user->id }}">
                                         <input type="hidden" name="periode_id" value="{{ $periode->id }}">
                                         <input type="hidden" name="laporan_id" value="{{ $laporan->id }}">
-                                        <input type="text" class="form-control" id="file_tw2" name="file_tw2">
+                                        <input type="text" class="form-control" id="file_tw2" name="file_tw2"
+                                            autocomplete="off">
                                     </div>
                                     <div class="col-sm-2">
                                         <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i>
@@ -189,7 +190,8 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="file_tw2">File Triwulan 2</label>
-                            <input type="text" class="form-control" id="file_tw2" name="file_tw2">
+                            <input type="text" class="form-control" id="file_tw2" name="file_tw2"
+                                autocomplete="off">
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -225,7 +227,8 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="file_tw2">File Triwulan 2</label>
-                            <input type="text" class="form-control" id="file_tw2" name="file_tw2">
+                            <input type="text" class="form-control" id="file_tw2" name="file_tw2"
+                                autocomplete="off">
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">

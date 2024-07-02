@@ -53,11 +53,17 @@
             </ul>
         </li>
 
-        <li class="nav-header">BARKAS</li>
+        <li class="nav-header">BERKAS</li>
         <li class="nav-item">
             <a href="/berkas" class="nav-link">
                 <i class="nav-icon fas fa-folder-open"></i>
                 <p>Berkas LPM</p>
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/upload" class="nav-link">
+                <i class="nav-icon fas fa-cloud-upload-alt"></i>
+                <p>Unggah Laporan</p>
             </a>
         </li>
 

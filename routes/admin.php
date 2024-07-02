@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\Triwulan1Controller as AdminTriwulan1Controller;
 use App\Http\Controllers\Admin\Triwulan2Controller as AdminTriwulan2Controller;
 use App\Http\Controllers\Admin\Triwulan3Controller as AdminTriwulan3Controller;
 use App\Http\Controllers\Admin\Triwulan4Controller as AdminTriwulan4Controller;
+use App\Http\Controllers\Admin\UploadController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Divisi\BerkasController as DivisiBerkasController;
 use App\Http\Controllers\Divisi\DashboardController;
@@ -49,6 +50,8 @@ Route::middleware(['is_auditor'])->group(function () {
     Route::resource('/triwulan4', AdminTriwulan4Controller::class)->names('admin.triwulan4');
 
     Route::resource('/berkas', BerkasController::class)->names('admin.berkas');
+    Route::resource('/upload', UploadController::class)->names('admin.upload');
+    Route::post('/upload/search', [UploadController::class, 'search'])->name('admin.upload.search');
 });
 
 // divisi

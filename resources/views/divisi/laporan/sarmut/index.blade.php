@@ -74,7 +74,8 @@
                                     <div class="col-sm-8">
                                         <input type="hidden" name="user_id" value="{{ $user->id }}">
                                         <input type="hidden" name="periode_id" value="{{ $periode->id }}">
-                                        <input type="text" class="form-control" id="sarmut" name="sarmut" required>
+                                        <input type="text" class="form-control" id="sarmut" name="sarmut" required
+                                            autocomplete="off">
                                     </div>
                                     <div class="col-sm-2">
                                         <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i>
@@ -136,7 +137,8 @@
                                         <i class="fas fa-retweet"></i> reupload
                                     </button>
                                 @endif
-                                <button type="button" class="btn bg-navy btn-sm" onclick="riwayat('{{ $laporan->id }}')">
+                                <button type="button" class="btn bg-navy btn-sm"
+                                    onclick="riwayat('{{ $laporan->id }}')">
                                     <i class="fas fa-history"></i> Riwayat
                                 </button>
 
@@ -186,7 +188,8 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="sarmut">Link File Sasaran Mutu</label>
-                            <input type="text" class="form-control" id="sarmut" name="sarmut" required>
+                            <input type="text" class="form-control" id="sarmut" name="sarmut" required
+                                autocomplete="off">
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
@@ -222,7 +225,8 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="sarmut">Link File Sarmut</label>
-                            <input type="text" class="form-control" id="sarmut" name="sarmut" required>
+                            <input type="text" class="form-control" id="sarmut" name="sarmut" required
+                                autocomplete="off">
                         </div>
                     </div>
                     <div class="modal-footer justify-content-between">
