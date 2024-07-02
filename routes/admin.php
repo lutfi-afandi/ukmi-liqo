@@ -51,7 +51,7 @@ Route::middleware(['is_auditor'])->group(function () {
 
     Route::resource('/berkas', BerkasController::class)->names('admin.berkas');
     Route::resource('/upload', UploadController::class)->names('admin.upload');
-    Route::post('/upload/search', [UploadController::class, 'search'])->name('admin.upload.search');
+    Route::get('/upload/search', [UploadController::class, 'search'])->name('admin.upload.search');
 });
 
 // divisi
