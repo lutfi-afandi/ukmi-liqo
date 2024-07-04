@@ -19,7 +19,7 @@ class LaporanController extends Controller
     {
         $title = "Laporan";
         $user = User::where('level', 'divisi')->get();
-        $periode = Periode::all();
+        $periode = Periode::orderBy('tahun', 'desc')->get();
         // $periode_aktif = $periode->id;
         $laporans = Laporan::withAll();
         // dd($periode);

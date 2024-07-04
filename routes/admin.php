@@ -50,8 +50,25 @@ Route::middleware(['is_auditor'])->group(function () {
     Route::resource('/triwulan4', AdminTriwulan4Controller::class)->names('admin.triwulan4');
 
     Route::resource('/berkas', BerkasController::class)->names('admin.berkas');
+
     Route::resource('/upload', UploadController::class)->names('admin.upload');
-    Route::get('/upload/search', [UploadController::class, 'search'])->name('admin.upload.search');
+    Route::post('admin/upload/progja', [UploadController::class, 'uploadProgja'])->name('admin.upload.progja');
+    Route::post('admin/upload/saveprogja', [UploadController::class, 'saveProgja'])->name('admin.upload.saveprogja');
+    // sarmut
+    Route::post('admin/upload/sarmut', [UploadController::class, 'uploadSarmut'])->name('admin.upload.sarmut');
+    Route::post('admin/upload/simpansarmut', [UploadController::class, 'simpanSarmut'])->name('admin.upload.simpansarmut');
+    // triwulan1
+    Route::post('admin/upload/triwulan1', [UploadController::class, 'uploadTw1'])->name('admin.upload.triwulan1');
+    Route::post('admin/upload/simpantriwulan1', [UploadController::class, 'simpanTw1'])->name('admin.upload.simpantriwulan1');
+    // triwulan2
+    Route::post('admin/upload/triwulan2', [UploadController::class, 'uploadTw2'])->name('admin.upload.triwulan2');
+    Route::post('admin/upload/simpantriwulan2', [UploadController::class, 'simpanTw2'])->name('admin.upload.simpantriwulan2');
+    // triwulan3
+    Route::post('admin/upload/triwulan3', [UploadController::class, 'uploadTw3'])->name('admin.upload.triwulan3');
+    Route::post('admin/upload/simpantriwulan3', [UploadController::class, 'simpanTw3'])->name('admin.upload.simpantriwulan3');
+    // triwulan4
+    Route::post('admin/upload/triwulan4', [UploadController::class, 'uploadTw4'])->name('admin.upload.triwulan4');
+    Route::post('admin/upload/simpantriwulan4', [UploadController::class, 'simpanTw4'])->name('admin.upload.simpantriwulan4');
 });
 
 // divisi

@@ -10,6 +10,7 @@
         <div class="col-md-12">
             <div class="info-box p-2 pl-3">
 
+                <i class="fa fa-upload fa-4x text-info"></i>
                 <div class="info-box-content m">
                     <h4 class="info-box-number mb-0">Unggah Laporan</h4>
                     <h5 class="info-box-text font-weight-light">Lembaga Penjamin Mutu</h5>
@@ -84,11 +85,11 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <div class="small-box ">
-                                    <a href="{{ route('divisi.progja.index') }}"
+                                    <a type="button" onclick="progja('{{ $user_id }}','{{ $periode_id }}')"
                                         class="small-box bg-{!! $helper->bg($laporan->konf_progja ?? '') !!}">
                                         <div class="inner">
                                             <h3>Program Kerja</h3>
-                                            <p class="badge bg-warning ">{!! $helper->icon($laporan->konf_progja ?? '') !!}</p>
+
                                         </div>
                                         <div class="icon">
                                             <i class="fas fa-clipboard-list"></i>
@@ -119,11 +120,11 @@
                                     </div>
                                 @else
                                     <div class="small-box ">
-                                        <a href="{{ route('divisi.sarmut.index') }}"
+                                        <a type="button" onclick="sarmut('{{ $laporan->id }}')"
                                             class="small-box bg-{!! $helper->bg($laporan->konf_sarmut ?? '') !!}">
                                             <div class="inner">
                                                 <h3>Sasaran Mutu</h3>
-                                                <p class="badge bg-warning">{!! $helper->icon($laporan->konf_sarmut ?? '') !!}</p>
+
                                             </div>
                                             <div class="icon">
                                                 <i class="fas fa-crosshairs"></i>
@@ -150,11 +151,10 @@
 
                                 <div class="col-md-3">
                                     <div class="small-box bg-white">
-                                        <a href="{{ $syarat['url_tw1'] }}" class="small-box bg-{!! $helper->bg($laporan->triwulan1->first()->konf ?? '') !!} ">
+                                        <a type="button" onclick="triwulan1('{{ $laporan->id }}')"
+                                            class="small-box bg-{!! $helper->bg($laporan->triwulan1->first()->konf ?? '') !!} ">
                                             <div class="inner">
-
-                                                <h3>Triwulan 1</h3>
-                                                <p class="badge bg-white ">{!! $helper->icon($laporan->triwulan1->first()->konf ?? '') !!}</p>
+                                                <h3 class="text-white text-center">Triwulan 1</h3>
                                             </div>
                                             <div class="icon">
                                                 <i class="fas fa-dice-one"></i>
@@ -167,10 +167,10 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="small-box bg-white">
-                                        <a href="{{ $syarat['url2'] }}" class="small-box bg-{!! $helper->bg($laporan->triwulan2->first()->konf ?? '') !!}">
+                                        <a type="button" onclick="triwulan2('{{ $laporan->id }}')"
+                                            class="small-box bg-{!! $helper->bg($laporan->triwulan2->first()->konf ?? '') !!}">
                                             <div class="inner">
-                                                <h3>Triwulan 2</h3>
-                                                <p class="badge bg-white ">{!! $helper->icon($laporan->triwulan2->first()->konf ?? '') !!}</p>
+                                                <h3 class="text-white text-center">Triwulan 2</h3>
                                             </div>
                                             <div class="icon">
                                                 <i class="fas fa-dice-two"></i>
@@ -183,10 +183,10 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="small-box bg-white">
-                                        <a href="{{ $syarat['url3'] }}" class="small-box bg-{!! $helper->bg($laporan->triwulan3->first()->konf ?? '') !!}">
+                                        <a type="button" onclick="triwulan3('{{ $laporan->id }}')"
+                                            class="small-box bg-{!! $helper->bg($laporan->triwulan3->first()->konf ?? '') !!}">
                                             <div class="inner">
-                                                <h3>Triwulan 3</h3>
-                                                <p class="badge bg-white ">{!! $helper->icon($laporan->triwulan3->first()->konf ?? '') !!}</p>
+                                                <h3 class="text-white text-center">Triwulan 3</h3>
                                             </div>
                                             <div class="icon">
                                                 <i class="fas fa-dice-three"></i>
@@ -199,10 +199,11 @@
                                 </div>
                                 <div class="col-md-3">
                                     <div class="small-box bg-white">
-                                        <a href="{{ $syarat['url4'] }}" class="small-box bg-{!! $helper->bg($laporan->triwulan4->first()->konf ?? '') !!}">
+                                        <a type="button" onclick="triwulan4('{{ $laporan->id }}')"
+                                            class="small-box bg-{!! $helper->bg($laporan->triwulan4->first()->konf ?? '') !!}">
                                             <div class="inner">
-                                                <h3>Triwulan 4</h3>
-                                                <p class="badge bg-white ">{!! $helper->icon($laporan->triwulan4->first()->konf ?? '') !!}</p>
+                                                <h3 class="text-white text-center">Triwulan 4</h3>
+
                                             </div>
                                             <div class="icon">
                                                 <i class="fas fa-dice-four"></i>
@@ -257,11 +258,6 @@
 
         }
 
-        // $('#form-search').submit(function(e) {
-        //     e.preventDefault();
-
-        // });
-
         $(function() {
             $.ajaxSetup({
                 headers: {
@@ -269,5 +265,138 @@
                 }
             });
         });
+
+        function progja(user_id, periode_id) {
+            var url = "{{ route('admin.upload.progja') }}";
+            var token = "{{ csrf_token() }}";
+            console.log(user_id);
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    _token: token,
+                    user_id: user_id,
+                    periode_id: periode_id
+                },
+                success: function(response) {
+                    $('#tempat-modal').html(response.html);
+                    $('#modal-progja').modal('show')
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+
+        function sarmut(laporan_id) {
+            var url = "{{ route('admin.upload.sarmut') }}";
+            var token = "{{ csrf_token() }}";
+            // console.log(user_id);
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    _token: token,
+                    laporan_id: laporan_id,
+                },
+                success: function(response) {
+                    $('#tempat-modal').html(response.html);
+                    $('#modal-sarmut').modal('show')
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+
+        function triwulan1(laporan_id) {
+            var url = "{{ route('admin.upload.triwulan1') }}";
+            var token = "{{ csrf_token() }}";
+            // console.log(user_id);
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    _token: token,
+                    laporan_id: laporan_id,
+                },
+                success: function(response) {
+                    $('#tempat-modal').html(response.html);
+                    $('#modal-triwulan1').modal('show')
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+
+        function triwulan2(laporan_id) {
+            var url = "{{ route('admin.upload.triwulan2') }}";
+            var token = "{{ csrf_token() }}";
+            // console.log(user_id);
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    _token: token,
+                    laporan_id: laporan_id,
+                },
+                success: function(response) {
+                    $('#tempat-modal').html(response.html);
+                    $('#modal-triwulan2').modal('show')
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+
+        function triwulan3(laporan_id) {
+            var url = "{{ route('admin.upload.triwulan3') }}";
+            var token = "{{ csrf_token() }}";
+            // console.log(user_id);
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    _token: token,
+                    laporan_id: laporan_id,
+                },
+                success: function(response) {
+                    $('#tempat-modal').html(response.html);
+                    $('#modal-triwulan3').modal('show')
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
+
+        function triwulan4(laporan_id) {
+            var url = "{{ route('admin.upload.triwulan4') }}";
+            var token = "{{ csrf_token() }}";
+            // console.log(user_id);
+
+            $.ajax({
+                url: url,
+                type: 'POST',
+                data: {
+                    _token: token,
+                    laporan_id: laporan_id,
+                },
+                success: function(response) {
+                    $('#tempat-modal').html(response.html);
+                    $('#modal-triwulan4').modal('show')
+                },
+                error: function(xhr) {
+                    console.log(xhr.responseText);
+                }
+            });
+        }
     </script>
 @endsection
