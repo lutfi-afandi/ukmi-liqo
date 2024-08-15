@@ -8,13 +8,15 @@
                 <i class="fas fa-folder-open fa-4x text-info"></i>
 
                 <div class="info-box-content m">
-                    <h4 class="info-box-number mb-0">Data Berkas</h4>
+                    <h4 class="info-box-number mb-0">Data {{ $title }}</h4>
                     <h5 class="info-box-text font-weight-light">Lembaga Penjamin Mutu</h5>
                 </div>
                 <div class="info-box-button pt-2 pr-3">
-                    <a href="{{ route('admin.berkas.create') }}" class="btn btn-info"><i class="fas fa-plus"></i>
-                        Tambah Berkas</a>
+                    <a href="javascript:;" class="btn btn-info" data-toggle="modal" data-target="#modal-default"><i
+                            class="fas fa-plus"></i>
+                        Tambah {{ $title }}</a>
                 </div>
+
             </div>
         </div>
     </div>
@@ -35,27 +37,27 @@
                         <table class="table table-striped table-bordered" id="datatableku" width="100%">
                             <thead class="bg-primary">
                                 <tr>
-                                    <th>#</th>
-                                    <th>Nama </th>
-                                    <th>Kategori</th>
-                                    <th>File</th>
-                                    <th>upload</th>
-                                    <th>Aksi</th>
+                                    <th class="text-center">#</th>
+                                    <th>Nama</th>
+                                    <th>Sub Dokumen</th>
+                                    <th class="text-center">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($berkaslpm as $item)
+                                @foreach ($dokumens as $item)
                                     <tr>
-                                        <td>{{ $loop->iteration }}</td>
-                                        <td>{{ $item->nama_berkas }}</td>
-                                        <td>{{ $item->kategori->nama_kategori }}</td>
+                                        <td class="text-center">{{ $loop->iteration }}</td>
+                                        <td>{{ $item->nama_dokumen }}</td>
                                         <td>
-                                            <button onclick="lihat_berkas('{{ $item->file }}')"
-                                                class="btn btn-sm btn-warning">
-                                                {{ $item->nama_berkas }} <i class="fas fa-share-square"></i></button>
+                                            <a href="{{ route('admin.dokumen.show', encrypt($item->id)) }}"
+                                                class="btn btn-success btn-sm">
+                                                {{ $item->sub_dokumen->count() }} Sub Dokumen
+                                            </a>
                                         </td>
-                                        <td>{{ date('d/m/Y H:i', strtotime($item->created_at)) }}</td>
-                                        <td>
+                                        <td class="text-center">
+                                            <button onclick="ubah('{{ $item->id }}')" class="btn btn-sm btn-info"><i
+                                                    class="fas fa-pen"></i>
+                                            </button>
                                             <button onclick="hapus('{{ $item->id }}')" class="btn btn-sm btn-danger"><i
                                                     class="fas fa-trash"></i>
                                             </button>
@@ -74,16 +76,42 @@
     <div class="modal fade" id="modal-file">
         <div class="modal-dialog modal-xl modal-dialog-centered">
             <div class="modal-content bg-black">
-
                 <div class="modal-body">
                     <iframe id="frame-file" src="#" frameborder="0" width="100%" height="820px"></iframe>
                 </div>
-
             </div>
 
         </div>
     </div>
     <div id="tempat-modal"></div>
+    <div class="modal fade" id="modal-default">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Form Tambah {{ $title }}</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="{{ route('admin.dokumen.store') }}" method="post">
+                    @csrf
+                    <div class="modal-body">
+                        <div class="form-group">
+                            <label for="nama">Nama Dokumen</label>
+                            <input type="text" class="form-control" name="nama_dokumen" id="nama_dokumen">
+                        </div>
+                    </div>
+                    <div class="modal-footer justify-content-between">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
+                    </div>
+                </form>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /.modal -->
 @endsection
 
 @section('js')
@@ -105,16 +133,24 @@
 
         });
 
-        function lihat_berkas(nama_file) {
-            // console.log(nama_file);
-            var dir = "{{ asset('storage/uploads/file_berkas') }}";
-            $('#modal-file').modal('show');
-            $('#modal-title').html(nama_file);
-            $('#frame-file').attr('src', nama_file);
+
+        function ubah(id) {
+            var url = "{{ route('admin.dokumen.ubah', ':id') }}";
+            url = url.replace(":id", id);
+            $.ajax({
+                type: "get",
+                url: url,
+                dataType: "json",
+                success: function(response) {
+                    $('#tempat-modal').html(response.html);
+                    $('#modal-ubah').modal('show');
+                }
+            });
+
         }
 
         function hapus(id) {
-            var url = "{{ route('admin.berkas.show', ':id') }}";
+            var url = "{{ route('admin.dokumen.edit', ':id') }}";
             url = url.replace(":id", id);
             $.ajax({
                 type: "get",

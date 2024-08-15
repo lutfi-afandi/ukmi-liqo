@@ -2,6 +2,7 @@
 
 namespace App\Helpers;
 
+use App\Models\Dokumen;
 use App\Models\Laporan;
 use App\Models\Periode;
 use App\Models\User;
@@ -42,6 +43,7 @@ class Helper
 
         return $icon;
     }
+
     public function bg($konfirmasi)
     {
         $bg = '';
@@ -204,5 +206,14 @@ class Helper
                 'tw4'   => $tw4,
             ];
         }
+    }
+
+    public function menu()
+    {
+        $dokumens = Dokumen::with('sub_dokumen')->get();
+
+        return [
+            'dokumens' => $dokumens,
+        ];
     }
 }

@@ -44,7 +44,7 @@ class BerkasController extends Controller
             'nama_berkas' => 'required|string|max:255',
             'kategori_id' => 'required|integer',
             'periode_id' => 'required|integer',
-            'file' => 'required|mimes:pdf', // file harus PDF dan maksimal 2MB
+            'file' => 'required', // file harus PDF dan maksimal 2MB
         ]);
 
         // Logika penyimpanan berkas
@@ -52,9 +52,10 @@ class BerkasController extends Controller
         $data->nama_berkas = $request->nama_berkas;
         $data->kategori_id = $request->kategori_id;
         $data->periode_id = $request->periode_id;
-        $data->file = $data->nama_berkas . date('H-i-s') . "." . $file->getClientOriginalExtension();
+        // $data->file = $data->nama_berkas . date('H-i-s') . "." . $file->getClientOriginalExtension();
 
-        $request->file('file')->storeAs($dir, $data->file);
+        // $request->file('file')->storeAs($dir, $data->file);
+        $data->file = $this->convertToPreviewUrl($request->file);
         $data->save();
         // Redirect ke halaman yang sesuai setelah penyimpanan
         return redirect()->route('admin.berkas.index')->with(['msgs' => 'Berkas berhasil diupload!', 'class' => 'success']);
@@ -100,13 +101,13 @@ class BerkasController extends Controller
     public function destroy($id)
     {
         $berkas = BerkasLpm::findOrFail($id);
-        $dir = 'public/uploads/file_berkas/';
-        $file_berkas = $dir . $berkas->file;
+        // $dir = 'public/uploads/file_berkas/';
+        // $file_berkas = $dir . $berkas->file;
 
         // Hapus file lama jika ada
-        if (Storage::exists($file_berkas)) {
-            Storage::delete($file_berkas);
-        }
+        // if (Storage::exists($file_berkas)) {
+        //     Storage::delete($file_berkas);
+        // }
 
         $berkas->delete();
         return redirect()->route('admin.berkas.index')->with(['msgs' => 'Berkas berhasil dihapus!', 'class' => 'info']);

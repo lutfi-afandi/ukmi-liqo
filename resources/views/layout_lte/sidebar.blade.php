@@ -10,48 +10,6 @@
     </li>
     @if (auth()->user()->level == 'lpm')
         {{-- SPMI --}}
-        <li class="nav-item">
-            <a href="#" class="nav-link d-none">
-                <i class="nav-icon fas fa-recycle"></i>
-                <p>
-                    Siklus SPMI
-                    <i class="right fas fa-angle-left"></i>
-                </p>
-            </a>
-            <ul class="nav nav-treeview">
-                <li class="nav-item">
-                    <a href="{{ route('admin.penetapan.index') }}"
-                        class="nav-link {{ request()->is('penetapan/*') ? 'active' : '' }}">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Penetapan</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="../../index2.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Pelaksanaan</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="../../index3.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Evaluasi</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="../../index3.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Pengendalian</p>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="../../index3.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Pengendalian</p>
-                    </a>
-                </li>
-            </ul>
-        </li>
 
         <li class="nav-header">BERKAS</li>
         <li class="nav-item">
@@ -66,6 +24,15 @@
                 <p>Unggah Laporan</p>
             </a>
         </li>
+
+        <li class="nav-header">DOKUMEN</li>
+        <li class="nav-item">
+            <a href="/dokumen" class="nav-link">
+                <i class="nav-icon fas fa-folder-plus "></i>
+                <p>Dokumen</p>
+            </a>
+        </li>
+
 
         <li class="nav-header">SETTING</li>
         <li class="nav-item">
@@ -85,12 +52,57 @@
         </li>
     @endif
     @if (auth()->user()->level == 'divisi')
+        @php
+            $helper = new \App\Helpers\Helper();
+            $menu = $helper->menu();
+        @endphp
         <li class="nav-header">BARKAS</li>
         <li class="nav-item">
             <a href="{{ route('divisi.berkas.index') }}" class="nav-link">
                 <i class="nav-icon fas fa-folder-open"></i>
                 <p>Berkas LPM</p>
             </a>
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-folder-plus"></i>
+                <p>
+                    Dokumen
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            @if ($menu['dokumens']->count() == 0)
+            @else
+                @foreach ($menu['dokumens'] as $dokumen)
+                    <ul class="nav nav-treeview">
+                        {{-- menu --}}
+                        <li class="nav-item">
+                            <a href="#" class="nav-link text-success">
+                                <i class="far fa-folder-open nav-icon"></i>
+                                <p>
+                                    {{ $dokumen->nama_dokumen }}
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            {{-- Sub menu --}}
+                            @foreach ($dokumen->sub_dokumen as $subdok)
+                                <ul class="nav nav-treeview" style="display: none;">
+                                    <li class="nav-item">
+                                        <a href="#" class="nav-link text-warning">
+                                            <i class="far nav-icon"></i>
+                                            <p>{{ $subdok->nama_subdok }}</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            @endforeach
+
+                        </li>
+
+                    </ul>
+                @endforeach
+
+            @endif
+
         </li>
     @endif
 

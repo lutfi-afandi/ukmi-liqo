@@ -56,8 +56,8 @@
                         </div>
                         <div class="form-group">
                             <label for="file">File Berkas:</label>
-                            <input type="file" class="form-control @error('file') is-invalid @enderror" name="file"
-                                id="file" accept="application/pdf">
+                            <input type="text" class="form-control @error('file') is-invalid @enderror" name="file"
+                                id="file">
                             @error('file')
                                 <div class="invalid-feedback">{{ $message }}</div>
                             @enderror

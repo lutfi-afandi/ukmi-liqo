@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BerkasController;
+use App\Http\Controllers\Admin\DokumenController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Admin\LaporanController;
 use Illuminate\Support\Facades\Route;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Admin\PenetapanController;
 use App\Http\Controllers\Admin\PeriodeController;
 use App\Http\Controllers\Admin\ProgjaController as AdminProgjaController;
 use App\Http\Controllers\Admin\SarmutController as AdminSarmutController;
+use App\Http\Controllers\Admin\SubDokumenController;
 use App\Http\Controllers\Admin\Triwulan1Controller as AdminTriwulan1Controller;
 use App\Http\Controllers\Admin\Triwulan2Controller as AdminTriwulan2Controller;
 use App\Http\Controllers\Admin\Triwulan3Controller as AdminTriwulan3Controller;
@@ -50,6 +52,10 @@ Route::middleware(['is_auditor'])->group(function () {
     Route::resource('/triwulan4', AdminTriwulan4Controller::class)->names('admin.triwulan4');
 
     Route::resource('/berkas', BerkasController::class)->names('admin.berkas');
+
+    Route::resource('/dokumen', DokumenController::class)->names('admin.dokumen');
+    Route::get('/dokumen/ubah/{id}', [DokumenController::class, 'ubah'])->name('admin.dokumen.ubah');
+    Route::resource('/sub_dokumen', SubDokumenController::class)->names('admin.sub_dokumen');
 
     Route::resource('/upload', UploadController::class)->names('admin.upload');
     Route::post('admin/upload/progja', [UploadController::class, 'uploadProgja'])->name('admin.upload.progja');

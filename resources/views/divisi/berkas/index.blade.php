@@ -50,7 +50,7 @@
                                         <td>
                                             <button onclick="lihat_berkas('{{ $item->file }}')"
                                                 class="btn btn-sm btn-warning"><i class="fas fa-eye"></i>
-                                                {{ $item->file }}</button>
+                                                {{ $item->nama_berkas }} <i class="fas fa-share-square"></i></button>
                                         </td>
                                         <td>{{ date('d/m/Y H:i', strtotime($item->created_at)) }}</td>
 
@@ -104,7 +104,7 @@
             var dir = "{{ asset('storage/uploads/file_berkas') }}";
             $('#modal-file').modal('show');
             $('#modal-title').html(nama_file);
-            $('#frame-file').attr('src', dir + "/" + nama_file);
+            $('#frame-file').attr('src', nama_file);
         }
 
         function hapus(id) {
