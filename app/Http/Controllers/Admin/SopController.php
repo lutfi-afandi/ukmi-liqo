@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Dokumen;
-use App\Models\SubDokumen;
+use App\Models\Sop;
+use App\Models\SubSop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-class DokumenController extends Controller
+class SopController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,12 +18,12 @@ class DokumenController extends Controller
      */
     public function index()
     {
-        $title = 'Dokumen';
-        $dokumens = Dokumen::with('sub_dokumen')->get();
+        $title = 'SOP';
+        $sops = Sop::with('sub_sop')->get();
 
-        return view('admin.dokumen.index', compact(
+        return view('admin.sop.index', compact(
             'title',
-            'dokumens'
+            'sops'
         ));
     }
 
@@ -45,9 +45,8 @@ class DokumenController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi input
         $validator = Validator::make($request->all(), [
-            'nama_dokumen' => 'required|string|max:255',
+            'nama_sop' => 'required|string|max:255',
         ]);
 
         // Jika validasi gagal
@@ -60,20 +59,20 @@ class DokumenController extends Controller
         // Proses penyimpanan dengan transaksi
         try {
             DB::transaction(function () use ($request) {
-                $dokumen = new Dokumen();
-                $dokumen->nama_dokumen = $request->input('nama_dokumen');
-                $dokumen->save();
+                $sop = new Sop();
+                $sop->nama_sop = $request->input('nama_sop');
+                $sop->save();
             });
 
             // Jika penyimpanan berhasil
             return redirect()->back()->with([
-                'msgs' => 'Dokumen berhasil disimpan.',
+                'msgs' => 'Sop berhasil disimpan.',
                 'class' => 'success'
             ]);
         } catch (\Exception $e) {
             // Jika terjadi kesalahan selama transaksi
             return redirect()->back()->with([
-                'msgs' => 'Terjadi kesalahan saat menyimpan dokumen.',
+                'msgs' => 'Terjadi kesalahan saat menyimpan sop.',
                 'class' => 'danger'
             ]);
         }
@@ -87,18 +86,29 @@ class DokumenController extends Controller
      */
     public function show($id)
     {
-        // $dokumen = Dokumen::find(decrypt($id));
-        $dokumen = Dokumen::with('sub_dokumen')->where('id', decrypt($id))->first();
-        // dd($dokumen->sub_dokumen->isEmpty());
+        // $sop = Sop::find(decrypt($id));
+        $sop = Sop::with('sub_sop')->where('id', decrypt($id))->first();
+        // dd($sop->sub_sop->isEmpty());
 
-        $sub_dokumens = SubDokumen::with('dokumen')->where('dokumen_id', decrypt($id))->get();
-        // dd($sub_dokumens->isEmpty());
-        $title = 'Sub Dokumen : ' . $dokumen->nama_dokumen;
-        return view('admin.subdokumen.index', compact(
+        $subsops = SubSop::with('sop')->where('sop_id', decrypt($id))->get();
+        // dd($sub_sops->isEmpty());
+        $title = '' . $sop->nama_sop;
+        return view('admin.subsop.index', compact(
             'title',
-            'dokumen',
-            'sub_dokumens'
+            'sop',
+            'subsops'
         ));
+    }
+
+    public function ubah($id)
+    {
+        $sop = Sop::findOrFail($id);
+        $view = view('admin.sop.edit', compact('sop'))->render();
+
+        return response()->json([
+            'success' => true,
+            'html' => $view
+        ]);
     }
 
     /**
@@ -109,19 +119,8 @@ class DokumenController extends Controller
      */
     public function edit($id)
     {
-        $dokumen = Dokumen::findOrFail($id);
-        $view = view('admin.dokumen.delete', compact('dokumen'))->render();
-
-        return response()->json([
-            'success' => true,
-            'html' => $view
-        ]);
-    }
-
-    public function ubah($id)
-    {
-        $dokumen = Dokumen::findOrFail($id);
-        $view = view('admin.dokumen.edit', compact('dokumen'))->render();
+        $sop = Sop::findOrFail($id);
+        $view = view('admin.sop.delete', compact('sop'))->render();
 
         return response()->json([
             'success' => true,
@@ -138,9 +137,8 @@ class DokumenController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Validasi input
         $validator = Validator::make($request->all(), [
-            'nama_dokumen' => 'required|string|max:255',
+            'nama_sop' => 'required|string|max:255',
         ]);
 
         // Jika validasi gagal
@@ -154,20 +152,20 @@ class DokumenController extends Controller
         // Proses penyimpanan dengan transaksi
         try {
             DB::transaction(function () use ($request, $id) {
-                $dokumen = Dokumen::findOrFail($id);
-                $dokumen->nama_dokumen = $request->input('nama_dokumen');
-                $dokumen->save();
+                $sop = Sop::findOrFail($id);
+                $sop->nama_sop = $request->input('nama_sop');
+                $sop->save();
             });
 
             // Jika penyimpanan berhasil
             return redirect()->back()->with([
-                'msgs' => 'Dokumen berhasil diubah.',
+                'msgs' => 'Sop berhasil diubah.',
                 'class' => 'success'
             ]);
         } catch (\Exception $e) {
             // Jika terjadi kesalahan selama transaksi
             return redirect()->back()->with([
-                'msgs' => 'Terjadi kesalahan saat menyimpan dokumen.',
+                'msgs' => 'Terjadi kesalahan saat menyimpan sop.',
                 'class' => 'danger'
             ]);
         }
@@ -181,9 +179,9 @@ class DokumenController extends Controller
      */
     public function destroy($id)
     {
-        $dokumen = Dokumen::findOrFail($id);
+        $sop = Sop::findOrFail($id);
 
-        $dokumen->delete();
-        return redirect()->route('admin.dokumen.index')->with(['msgs' => 'Dokumen berhasil dihapus!', 'class' => 'info']);
+        $sop->delete();
+        return redirect()->route('admin.sop.index')->with(['msgs' => 'Sop berhasil dihapus!', 'class' => 'info']);
     }
 }

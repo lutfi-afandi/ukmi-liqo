@@ -32,6 +32,12 @@
                 <p>Dokumen</p>
             </a>
         </li>
+        <li class="nav-item">
+            <a href="{{ route('admin.sop.index') }}" class="nav-link">
+                <i class="nav-icon fas fa-file-signature "></i>
+                <p>SOP</p>
+            </a>
+        </li>
 
 
         <li class="nav-header">SETTING</li>

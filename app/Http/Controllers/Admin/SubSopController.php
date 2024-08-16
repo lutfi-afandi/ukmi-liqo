@@ -3,28 +3,29 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Dokumen;
-use App\Models\SubDokumen;
+use App\Models\SubSop;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-class DokumenController extends Controller
+class SubSopController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    private function gdriveConvertToPreviewUrl($url)
+    {
+        // Cek apakah URL adalah URL Google Drive yang valid
+        if (preg_match('/https:\/\/drive\.google\.com\/file\/d\/([^\/]+)\/view/', $url, $matches)) {
+            $fileId = $matches[1];
+            return "https://drive.google.com/file/d/{$fileId}/preview";
+        }
+
+        // Kembalikan URL asli jika tidak cocok
+        return $url;
+    }
+
     public function index()
     {
-        $title = 'Dokumen';
-        $dokumens = Dokumen::with('sub_dokumen')->get();
-
-        return view('admin.dokumen.index', compact(
-            'title',
-            'dokumens'
-        ));
+        //
     }
 
     /**
@@ -45,35 +46,40 @@ class DokumenController extends Controller
      */
     public function store(Request $request)
     {
-        // Validasi input
         $validator = Validator::make($request->all(), [
-            'nama_dokumen' => 'required|string|max:255',
+            'nama_subsop' => 'required|string|max:255',
+            'file_subsop' => 'required|string|max:255',
         ]);
 
         // Jika validasi gagal
         if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
+            $errorMessages = $validator->errors()->all();
+            $msgs = implode(' ', $errorMessages);
+            return redirect()->back()->with([
+                'msgs' => 'Terjadi kesalahan saat menyimpan SOP. ' . $msgs,
+                'class' => 'danger'
+            ]);
         }
 
         // Proses penyimpanan dengan transaksi
         try {
             DB::transaction(function () use ($request) {
-                $dokumen = new Dokumen();
-                $dokumen->nama_dokumen = $request->input('nama_dokumen');
-                $dokumen->save();
+                $subsop = new SubSop();
+                $subsop->sop_id = $request->sop_id;
+                $subsop->nama_subsop = $request->input('nama_subsop');
+                $subsop->file_subsop = $this->gdriveConvertToPreviewUrl($request->input('file_subsop'));
+                $subsop->save();
             });
 
             // Jika penyimpanan berhasil
             return redirect()->back()->with([
-                'msgs' => 'Dokumen berhasil disimpan.',
+                'msgs' => 'SOP berhasil disimpan.',
                 'class' => 'success'
             ]);
         } catch (\Exception $e) {
             // Jika terjadi kesalahan selama transaksi
             return redirect()->back()->with([
-                'msgs' => 'Terjadi kesalahan saat menyimpan dokumen.',
+                'msgs' => 'Terjadi kesalahan saat menyimpan sop. ' . $e,
                 'class' => 'danger'
             ]);
         }
@@ -87,18 +93,14 @@ class DokumenController extends Controller
      */
     public function show($id)
     {
-        // $dokumen = Dokumen::find(decrypt($id));
-        $dokumen = Dokumen::with('sub_dokumen')->where('id', decrypt($id))->first();
-        // dd($dokumen->sub_dokumen->isEmpty());
+        $subsop = SubSop::findOrFail($id);
 
-        $sub_dokumens = SubDokumen::with('dokumen')->where('dokumen_id', decrypt($id))->get();
-        // dd($sub_dokumens->isEmpty());
-        $title = 'Sub Dokumen : ' . $dokumen->nama_dokumen;
-        return view('admin.subdokumen.index', compact(
-            'title',
-            'dokumen',
-            'sub_dokumens'
-        ));
+        $view = view('admin.subsop.delete', compact('subsop'))->render();
+
+        return response()->json([
+            'success' => true,
+            'html' => $view
+        ]);
     }
 
     /**
@@ -109,19 +111,9 @@ class DokumenController extends Controller
      */
     public function edit($id)
     {
-        $dokumen = Dokumen::findOrFail($id);
-        $view = view('admin.dokumen.delete', compact('dokumen'))->render();
+        $subsop = SubSop::findOrFail($id);
 
-        return response()->json([
-            'success' => true,
-            'html' => $view
-        ]);
-    }
-
-    public function ubah($id)
-    {
-        $dokumen = Dokumen::findOrFail($id);
-        $view = view('admin.dokumen.edit', compact('dokumen'))->render();
+        $view = view('admin.subsop.edit', compact('subsop'))->render();
 
         return response()->json([
             'success' => true,
@@ -138,36 +130,39 @@ class DokumenController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // Validasi input
         $validator = Validator::make($request->all(), [
-            'nama_dokumen' => 'required|string|max:255',
+            'nama_subsop' => 'required|string|max:255',
+            'file_subsop' => 'required|string|max:255',
         ]);
 
         // Jika validasi gagal
         if ($validator->fails()) {
-            return redirect()->back()
-                ->withErrors($validator)
-                ->withInput();
+            $errorMessages = $validator->errors()->all();
+            $msgs = implode(' ', $errorMessages);
+            return redirect()->back()->with([
+                'msgs' => 'Terjadi kesalahan saat menyimpan sop. ' . $msgs,
+                'class' => 'danger'
+            ]);
         }
 
-        // dd($request);
         // Proses penyimpanan dengan transaksi
         try {
             DB::transaction(function () use ($request, $id) {
-                $dokumen = Dokumen::findOrFail($id);
-                $dokumen->nama_dokumen = $request->input('nama_dokumen');
-                $dokumen->save();
+                $subsop = SubSop::findOrFail($id);
+                $subsop->nama_subsop = $request->input('nama_subsop');
+                $subsop->file_subsop = $this->gdriveConvertToPreviewUrl($request->input('file_subsop'));
+                $subsop->save();
             });
 
             // Jika penyimpanan berhasil
             return redirect()->back()->with([
-                'msgs' => 'Dokumen berhasil diubah.',
+                'msgs' => 'SOP berhasil dibuah.',
                 'class' => 'success'
             ]);
         } catch (\Exception $e) {
             // Jika terjadi kesalahan selama transaksi
             return redirect()->back()->with([
-                'msgs' => 'Terjadi kesalahan saat menyimpan dokumen.',
+                'msgs' => 'Terjadi kesalahan saat mengubah sop.',
                 'class' => 'danger'
             ]);
         }
@@ -181,9 +176,9 @@ class DokumenController extends Controller
      */
     public function destroy($id)
     {
-        $dokumen = Dokumen::findOrFail($id);
+        $sub_sop = SubSop::findOrFail($id);
 
-        $dokumen->delete();
-        return redirect()->route('admin.dokumen.index')->with(['msgs' => 'Dokumen berhasil dihapus!', 'class' => 'info']);
+        $sub_sop->delete();
+        return redirect()->back()->with(['msgs' => 'SOP berhasil dihapus!', 'class' => 'info']);
     }
 }

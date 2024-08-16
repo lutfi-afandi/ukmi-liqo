@@ -12,6 +12,6 @@ class Sop extends Model
 
     public function sub_sop()
     {
-        return $this->hasMany(SupSop::class);
+        return $this->hasMany(SubSop::class);
     }
 }
