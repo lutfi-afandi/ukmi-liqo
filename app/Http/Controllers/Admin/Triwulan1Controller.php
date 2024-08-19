@@ -53,7 +53,7 @@ class Triwulan1Controller extends Controller
             'konf'   => 'required'
         ];
 
-        $data = new Triwulan1();
+        // $data = new Triwulan1();
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return back()->withInput()->with(['msgs' => 'Gagal mengubah status Laporan Triwulan 1', 'class' => 'alert-danger']);

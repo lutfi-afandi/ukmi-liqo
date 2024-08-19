@@ -72,7 +72,8 @@
                     <div class="form-group">
                         <label>Tanggal Diterima Berkas : </label>
                         <input type="text" class="form-control form-control-border"
-                            value="{{ date('d/m/Y H:i', strtotime($progja->tgl_konf_progja) ?? '') }}" readonly>
+                            value="{{ $progja->tgl_konf_progja != null ? date('d/m/Y H:i', strtotime($progja->tgl_konf_progja)) : '' }} "
+                            readonly>
                     </div>
                     <div class="form-group">
                         <label>Status : </label>

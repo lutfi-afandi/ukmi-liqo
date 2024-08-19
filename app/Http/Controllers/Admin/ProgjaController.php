@@ -70,7 +70,7 @@ class ProgjaController extends Controller
             'konf_progja'   => 'required'
         ];
 
-        $data = new Laporan();
+        // $data = new Laporan();
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return back()->withInput()->with(['msgs' => 'Gagal mengubah status Progja', 'class' => 'alert-danger']);

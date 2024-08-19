@@ -82,7 +82,7 @@ class SarmutController extends Controller
             'konf_sarmut'   => 'required'
         ];
 
-        $data = new Laporan();
+        // $data = new Laporan();
         $validator = Validator::make($request->all(), $rules);
         if ($validator->fails()) {
             return back()->withInput()->with(['msgs' => 'Gagal mengubah status Sasaran Mutu', 'class' => 'alert-danger']);

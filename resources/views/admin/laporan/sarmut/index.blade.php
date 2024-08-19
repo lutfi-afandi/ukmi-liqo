@@ -72,7 +72,8 @@
                     <div class="form-group">
                         <label>Tanggal Diterima Berkas : </label>
                         <input type="text" class="form-control form-control-border"
-                            value="{{ date('d/m/Y H:i', strtotime($sarmut->tgl_konf_sarmut) ?? '') }}" readonly>
+                            value="{{ $sarmut->tgl_konf_sarmut != null ? date('d/m/Y H:i', strtotime($sarmut->tgl_konf_sarmut)) : '' }}"
+                            readonly>
                     </div>
                     <div class="form-group">
                         <label>Status : </label>
