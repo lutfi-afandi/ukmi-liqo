@@ -94,9 +94,10 @@
                             @foreach ($dokumen->sub_dokumen as $subdok)
                                 <ul class="nav nav-treeview" style="display: none;">
                                     <li class="nav-item">
-                                        <a href="#" class="nav-link text-warning">
+                                        <a href="{{ route('divisi.subdok.show', $subdok->id) }}"
+                                            class="nav-link text-warning">
                                             <i class="far nav-icon"></i>
-                                            <p>{{ $subdok->nama_subdok }}</p>
+                                            <p class="text-sm">{{ $subdok->nama_subdok }}</p>
                                         </a>
                                     </li>
                                 </ul>
@@ -108,7 +109,48 @@
                 @endforeach
 
             @endif
+        </li>
+        <li class="nav-item">
+            <a href="#" class="nav-link">
+                <i class="nav-icon fas fa-file-signature"></i>
+                <p>
+                    {{-- Standar Operational Procedure --}}
+                    SOP
+                    <i class="right fas fa-angle-left"></i>
+                </p>
+            </a>
+            @if ($menu['sops']->count() == 0)
+            @else
+                @foreach ($menu['sops'] as $sop)
+                    <ul class="nav nav-treeview">
+                        {{-- menu --}}
+                        <li class="nav-item">
+                            <a href="#" class="nav-link text-info">
+                                <i class="far fa-folder-open nav-icon"></i>
+                                <p>
+                                    {{ $sop->nama_sop }}
+                                    <i class="right fas fa-angle-left"></i>
+                                </p>
+                            </a>
+                            {{-- Sub menu --}}
+                            @foreach ($sop->sub_sop as $subsop)
+                                <ul class="nav nav-treeview" style="display: none;">
+                                    <li class="nav-item">
+                                        <a href="{{ route('divisi.subsop.show', $subsop->id) }}"
+                                            class="nav-link text-olive">
+                                            <i class="far nav-icon"></i>
+                                            <p class="text-sm">{{ $subsop->nama_subsop }}</p>
+                                        </a>
+                                    </li>
+                                </ul>
+                            @endforeach
 
+                        </li>
+
+                    </ul>
+                @endforeach
+
+            @endif
         </li>
     @endif
 

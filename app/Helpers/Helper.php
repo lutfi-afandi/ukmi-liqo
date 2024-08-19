@@ -5,6 +5,7 @@ namespace App\Helpers;
 use App\Models\Dokumen;
 use App\Models\Laporan;
 use App\Models\Periode;
+use App\Models\Sop;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 
@@ -211,9 +212,11 @@ class Helper
     public function menu()
     {
         $dokumens = Dokumen::with('sub_dokumen')->get();
+        $sops = Sop::with('sub_sop')->get();
 
         return [
             'dokumens' => $dokumens,
+            'sops' => $sops,
         ];
     }
 }

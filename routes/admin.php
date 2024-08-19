@@ -24,6 +24,8 @@ use App\Http\Controllers\Divisi\LaporanController as DivisiLaporanController;
 use App\Http\Controllers\Divisi\PenetapanController as DivisiPenetapanController;
 use App\Http\Controllers\Divisi\ProgjaController;
 use App\Http\Controllers\Divisi\SarmutController;
+use App\Http\Controllers\Divisi\SubDokumenController as DivisiSubDokumenController;
+use App\Http\Controllers\Divisi\SubSopController as DivisiSubSopController;
 use App\Http\Controllers\Divisi\Triwulan1Controller;
 use App\Http\Controllers\Divisi\Triwulan2Controller;
 use App\Http\Controllers\Divisi\Triwulan3Controller;
@@ -117,4 +119,7 @@ Route::middleware(['is_auditee'])->group(function () {
     Route::put('/divisi/triwulan4/reupload/{triwulan4}', [Triwulan4Controller::class, 'reupload'])->name('divisi.triwulan4.reupload');
 
     Route::resource('/divisi/berkas', DivisiBerkasController::class)->names('divisi.berkas');
+
+    Route::resource('/divisi/subdok', DivisiSubDokumenController::class)->names('divisi.subdok');
+    Route::resource('/divisi/subsop', DivisiSubSopController::class)->names('divisi.subsop');
 });
