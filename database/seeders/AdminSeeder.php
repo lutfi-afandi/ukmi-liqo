@@ -24,11 +24,18 @@ class AdminSeeder extends Seeder
                     'level'  => 'admin',
                 ],
                 [
-                    'username'  => 'lpm',
-                    'name'  => 'LPM Teknokrat',
-                    'email' => 'lpm@gmail.com',
+                    'username'  => 'tutor',
+                    'name'  => 'Tutor LIQO',
+                    'email' => 'tutor@gmail.com',
                     'password'  => bcrypt('rahasia'),
-                    'level'  => 'lpm',
+                    'level'  => 'tutor',
+                ],
+                [
+                    'username'  => 'anggota',
+                    'name'  => 'Anggota UKMI 1',
+                    'email' => 'anggota@gmail.com',
+                    'password'  => bcrypt('rahasia'),
+                    'level'  => 'anggota',
                 ],
             ]
         );

@@ -17,7 +17,7 @@ class isAuditee
     public function handle(Request $request, Closure $next)
     {
         if (
-            !auth()->check() || auth()->user()->level !== 'divisi'
+            !auth()->check() || auth()->user()->level !== 'anggota'
         ) {
             return redirect()->route('login');
         }

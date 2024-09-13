@@ -29,4 +29,4 @@
         document.getElementById('alert').innerHTML = '';
     }, 2500);
 </script>
-@yield('js')
+@stack('js')

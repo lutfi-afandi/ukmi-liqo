@@ -4,25 +4,20 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>E-SPMI | Log in</title>
+    <title>Manajemen Liqo | Log in</title>
 
     <!-- Google Font: Source Sans Pro -->
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="{{ asset('template_lte/plugins/fontawesome-free/css/all.min.css') }}">
-    <!-- icheck bootstrap -->
-    {{-- <link rel="stylesheet" href="{{ asset('template_lte/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}"> --}}
-    <!-- Theme style -->
+
     <link rel="stylesheet" href="{{ asset('template_lte/dist/css/adminlte.min.css') }}">
 </head>
 
-<body class="hold-transition login-page" style="background-color: rgb(13, 55, 97); min-height: 407.25px;">
+<body class="hold-transition login-page" style="background-color: rgb(65, 148, 216); min-height: 407.25px;">
     <div class="login-box">
-        {{-- <div class="login-logo">
-            <img src="{{ asset('logo_asean.png') }}" alt="">
-        </div> --}}
-        <!-- /.login-logo -->
+
         <div class="card card-outline card-navy p-2">
             <div class="d-flex justify-content-center align-items-center my-2">
                 <div class="text-center">
@@ -81,9 +76,7 @@
                 <span style="color: #fff;">All rights
                     reserved.
                 </span>
-                <span style="color: #fff;">Powered by
-                    <a data-toggle="modal" data-target="#puskom" style="color: #F00;">Pustik UTI<br></a>
-                </span>
+
             </div>
         </div>
     </div>

@@ -17,7 +17,7 @@ class IsAuditor
     public function handle(Request $request, Closure $next)
     {
         if (
-            !auth()->check() || auth()->user()->level !== 'lpm'
+            !auth()->check() || auth()->user()->level !== 'tutor'
         ) {
             return redirect()->route('login');
         }

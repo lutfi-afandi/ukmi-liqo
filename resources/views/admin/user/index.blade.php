@@ -12,12 +12,14 @@
                 </div>
 
                 <div class="card-body">
-                    @if (session()->has('msg'))
-                        <div class="alert {{ session('class') }}">
-                            <button type="button" class="close" data-dismiss="alert">×</button>
-                            {{ session('msg') }}
-                        </div>
-                    @endif
+                    <div class=""id="alert">
+                        @if (session()->has('msg'))
+                            <div class="alert {{ session('class') }}">
+                                <button type="button" class="close" data-dismiss="alert">×</button>
+                                {{ session('msg') }}
+                            </div>
+                        @endif
+                    </div>
                     <div class="table-responsive">
                         <table class="table table-sm table-bordered" id="tableuser" width="100%">
                             <thead class="bg-navy">
@@ -31,8 +33,8 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($dataUser as $user)
-                                    <tr class="{{ $user->level == 'lpm' ? 'bg-lime' : '' }}">
+                                @foreach ($users as $user)
+                                    <tr class="{{ $user->username == auth()->user()->username ? 'table-primary' : '' }}">
                                         <td>{{ $loop->iteration }}</td>
                                         <td>{{ $user->name }}</td>
                                         <td>{{ $user->username }}</td>
@@ -45,7 +47,7 @@
                                             <button onclick="edit('{{ $user->id }}')" class="btn btn-info btn-sm"><i
                                                     class="far fa-edit"></i></button>
                                             <form action="{{ route('admin.user.destroy', $user->id) }}" method="POST"
-                                                class="d-inline">
+                                                class="d-inline" onsubmit="return confirm('Yakin hapus data ini?')">
                                                 @csrf
                                                 @method('delete')
                                                 <button type="submit" class="btn btn-danger btn-sm"><i
@@ -63,7 +65,7 @@
     </div>
     <div class="tampil-modal"></div>
 @endsection
-@section('js')
+@push('js')
     <script>
         $(document).ready(function() {
             $(function() {
@@ -95,7 +97,7 @@
         }
 
         function edit(id) {
-            var url = "{{ route('admin.user.show', ':id_data') }}";
+            var url = "{{ route('admin.user.edit', ':id_data') }}";
             url = url.replace(":id_data", id);
             $.ajax({
                 type: "GET",
@@ -109,4 +111,4 @@
             });
         }
     </script>
-@endsection
+@endpush

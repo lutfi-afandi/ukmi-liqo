@@ -12,7 +12,7 @@
                         <h5>Yakin reset Password akun <br>
                             <b>{{ $user->name }}?</b>
                         </h5>
-                        <p>password baru adalah : <b>lpm_teknokrat123</b></p>
+                        <p>password baru adalah : <b>yuk_liqo123</b></p>
                     </div>
                     <button type="submit" class="btn btn-block btn-primary"><i class="fas fa-wrench"></i>
                         Reset Password</button>

@@ -1,20 +1,31 @@
 @extends('layout_lte/main')
 @section('subjudul')
-    {{ $title }}
 @endsection
 @section('content')
     <div class="row">
         <div class="col-lg-6">
             <div class="card">
                 <div class="card-header">
-                    <a href="{{ route('admin.user.index') }}" class="btn btn-success"><i class="fa fa-arrow-left"></i>
-                        kembali</a>
+                    {{ $title }}
+                    <div class="card-tools">
+                        <a href="{{ route('admin.user.index') }}" class="btn btn-success"><i class="fa fa-arrow-left"></i>
+                            kembali</a>
+                    </div>
                 </div>
 
                 <form action="{{ route('admin.user.store') }}" method="POST" enctype="multipart/form-data">
                     @method('post')
                     @csrf
                     <div class="card-body">
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
 
                         <div class="form-group">
                             <label for="name">Nama Lengkap</label>
@@ -35,6 +46,15 @@
                             @enderror
                         </div>
                         <div class="form-group">
+                            <label for="no_telepon">Nomor Telepon</label>
+                            <input type="text" name="no_telepon"
+                                class="form-control @error('no_telepon') is-invalid @enderror" id="no_telepon"
+                                placeholder="Masukan no_telepon" value="{{ old('no_telepon') }}">
+                            @error('no_telepon')
+                                <span class="error invalid-feedback"> {{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="form-group">
                             <label for="password">Password</label>
                             <input type="text" name="password"
                                 class="form-control @error('password') is-invalid @enderror" id="password"
@@ -43,18 +63,7 @@
                                 <span class="error invalid-feedback"> {{ $message }}</span>
                             @enderror
                         </div>
-                        <div class="form-group">
-                            <label for="level">Level</label>
-                            <select name="level" id="level" class="form-control @error('level') is-invalid @enderror">
-                                <option value="" hidden>-Pilih Level-</option>
-                                <option value="admin" {{ old('level') == 'admin' ? 'selected' : '' }}>admin</option>
-                                <option value="lpm" {{ old('level') == 'lpm' ? 'selected' : '' }}>lpm</option>
-                                <option value="divisi" {{ old('level') == 'divisi' ? 'selected' : '' }}>divisi</option>
-                            </select>
-                            @error('level')
-                                <span class="error invalid-feedback"> {{ $message }}</span>
-                            @enderror
-                        </div>
+
                     </div>
                     <div class="card-footer">
                         <button type="submit" class="btn btn-primary float-right"><i class="fas fa-save"></i>
@@ -65,10 +74,10 @@
         </div>
     </div>
 @endsection
-@section('js')
+@push('js')
     <script>
         $('.form-control').click(function(e) {
             $(this).removeClass('is-invalid');
         });
     </script>
-@endsection
+@endpush
