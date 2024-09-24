@@ -26,7 +26,8 @@
     })
 
     setTimeout(function() {
-        document.getElementById('alert').innerHTML = '';
+        $('#alert').html('');
+        // document.getElementById('alert').innerHTML = '';
     }, 2500);
 </script>
 @stack('js')

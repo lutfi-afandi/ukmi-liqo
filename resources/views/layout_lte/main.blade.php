@@ -23,7 +23,7 @@
         <aside class="main-sidebar sidebar-light-primary elevation-2">
             <a href="#" class="brand-link bg-primary text-primary">
                 <img src="{{ asset('logo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle ">
-                <span class="brand-text font-weight-bold">E-SPMI</span>
+                <span class="brand-text font-weight-bold">LiQo</span>
             </a>
 
             <div class="sidebar">

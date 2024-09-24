@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class UserController extends Controller
 {
@@ -55,6 +56,7 @@ class UserController extends Controller
         ]);
 
         try {
+            DB::beginTransaction();
             User::create([
                 'name' => $request->name,
                 'username' => $request->username,
@@ -62,7 +64,7 @@ class UserController extends Controller
                 'no_telepon' => $request->no_telepon,
                 'password' => bcrypt($request->password),
             ]);
-
+            DB::commit();
             return redirect()->route('admin.user.index')->with(['msg' => 'Berhasil Menambah Data', 'class' => 'alert-success']);
         } catch (\Exception $e) {
             return back()

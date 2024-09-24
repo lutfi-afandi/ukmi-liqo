@@ -5,13 +5,13 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Anggota extends Model
+class Kelompok extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
 
-    public function jurusan()
+    public function tutor()
     {
-        return $this->belongsTo(Jurusan::class);
+        return $this->belongsTo(Tutor::class);
     }
 }

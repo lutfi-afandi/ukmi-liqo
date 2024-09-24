@@ -2,12 +2,12 @@
 
 namespace Database\Seeders;
 
-use App\Models\Anggota;
+use App\Models\Tutor;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
 
-class AnggotaSeeder extends Seeder
+class TutorSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,26 +18,24 @@ class AnggotaSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
 
-        for ($i = 0; $i < 20; $i++) {
-            $anggota = Anggota::create([
-                'npm'   => $faker->unique()->numerify('21######'),
+        for ($i = 0; $i < 5; $i++) {
+            $tutor = Tutor::create([
+                'username'   => 'T' . $faker->unique()->numerify('00####'),
                 'nama' => $faker->firstName . ' ' . $faker->lastName,
-                'email' => $faker->email,
-                'jurusan_id' => rand(1, 10),
-                'tahun_masuk' => $faker->year($max = 'now'),
+
                 'no_telepon' => '628' . $faker->numerify('###########'),
                 'jenis_kelamin' => $faker->randomElement(['Laki-laki', 'Perempuan']),
-                'level' => 'anggota',
+                'level' => 'tutor',
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
 
             DB::table('users')->insert([
-                'username'  => $anggota->npm,
-                'name'  => $anggota->nama,
-                'email' => $anggota->email,
+                'username'  => $tutor->npm,
+                'name'  => $tutor->nama,
+                'email' => $tutor->email,
                 'password'  => bcrypt('rahasia'),
-                'level'  => 'anggota',
+                'level'  => 'tutor',
             ]);
         }
     }
