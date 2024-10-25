@@ -9,7 +9,7 @@
 
 <body class="hold-transition sidebar-mini">
     <div class="wrapper">
-        <nav class="main-header navbar navbar-expand bg-white navbar-light">
+        <nav class="main-header navbar navbar-expand bg-lightblue navbar-dark">
             <ul class="navbar-nav">
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
@@ -21,9 +21,9 @@
         </nav>
 
         <aside class="main-sidebar sidebar-light-primary elevation-2">
-            <a href="#" class="brand-link bg-primary text-primary">
+            <a href="#" class="brand-link  text-primary">
                 <img src="{{ asset('logo.png') }}" alt="AdminLTE Logo" class="brand-image img-circle ">
-                <span class="brand-text font-weight-bold">LiQo</span>
+                <span class="brand-text font-weight-bold font-liqo">LiQo</span>
             </a>
 
             <div class="sidebar">
@@ -62,7 +62,7 @@
             <div class="float-right d-none d-sm-block">
                 <b>Version</b> 1.1.0
             </div>
-            <strong>Copyright &copy; 2024 <a href="https://teknokrat.ac.id/">PutTIK Teknokrat</a>.</strong>
+            <strong>Copyright &copy; 2024 <a href="https://wa.me/6285765842510/">Kader UKMI</a>.</strong>
         </footer>
 
         <aside class="control-sidebar control-sidebar-dark">

@@ -51,7 +51,7 @@
                                             <button class="btn btn-sm bg-navy" onclick="reset('{{ $anggota->id }}')"><i
                                                     class="fa fa-key"></i> Reset</button>
                                         </td>
-                                        <td>
+                                        <td class="text-nowrap">
                                             <a href="{{ route('admin.anggota.edit', $anggota->id) }}"
                                                 class="btn btn-info btn-sm"><i class="far fa-edit"></i></a>
                                             <form action="{{ route('admin.anggota.destroy', $anggota->id) }}"

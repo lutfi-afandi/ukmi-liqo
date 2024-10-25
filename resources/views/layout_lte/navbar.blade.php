@@ -1,7 +1,7 @@
 @php
     $helper = new \App\Helpers\Helper();
 @endphp
-<ul class="navbar-nav ml-auto">
+<ul class="navbar-nav ml-auto ">
     {{-- <div class="btn-group btn-sm btn-group-toggle mb-2" data-toggle="buttons">
         <label class="btn bg-maroon active">
             <input type="radio" name="options" id="option_b1"><i class="far fa-calendar-alt"></i> Periode Sekarang

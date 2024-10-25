@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Tutor;
 
 use App\Http\Controllers\Controller;
+use App\Models\Kelompok;
+use App\Models\Pertemuan;
+use App\Models\Tutor;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -15,18 +18,31 @@ class DashboardController extends Controller
     public function index()
     {
         $title = "Dashboard Tutor";
-        $halaman = 'layout_lte.main';
-        return view($halaman, compact(
+        $user = auth()->user();
+
+        $tutor = Tutor::where('username', $user->username)->first();
+
+        $kelompoks = Kelompok::where('tutor_id', $tutor->id)->get();
+        $pertemuans = Pertemuan::with('pesertapertemuan.anggota')
+            ->whereHas('kelompok', function ($query) use ($tutor) {
+                $query->where('tutor_id', $tutor->id);
+            })->orderBy('tgl', 'desc')
+            ->get();
+
+
+        // foreach ($pertemuans as $p) {
+        //     echo $p . ", ";
+        // }
+        return view('tutor.dashboard.index', compact(
             'title',
+            'tutor',
+            'kelompoks',
+            'pertemuans',
             // 'user'
         ));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         //

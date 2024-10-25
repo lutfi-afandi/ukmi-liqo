@@ -18,6 +18,19 @@ class AnggotaSeeder extends Seeder
     {
         $faker = Faker::create('id_ID');
 
+        DB::table('anggotas')->insert([
+            'npm'   => 'anggota',
+            'nama' => 'Anggota UKMI',
+            'email' => 'email@email.com',
+            'jurusan_id' => rand(1, 10),
+            'tahun_masuk' => '2024',
+            'no_telepon' => '62811212313',
+            'jenis_kelamin' => 'Laki-laki',
+            'level' => 'anggota',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
         for ($i = 0; $i < 20; $i++) {
             $anggota = Anggota::create([
                 'npm'   => $faker->unique()->numerify('21######'),

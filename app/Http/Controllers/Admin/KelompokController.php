@@ -28,8 +28,8 @@ class KelompokController extends Controller
 
     public function data()
     {
-        $kelompoks = Kelompok::with('anggota')->get();
-        $view = view('admin.kelompok.tabel', compact('kelompoks'));
+        $kelompoks = Kelompok::with('tutor', 'rombel')->get();
+        $view = view('admin.kelompok.tabel', compact('kelompoks'))->render();
 
         return response()->json([
             'success' => true,
@@ -108,15 +108,10 @@ class KelompokController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+    // untuk menampilkan data anggota pada kelompok
     public function show($id)
     {
-        //
+        return redirect()->route('admin.anggota-kelompok.show', $id);
     }
 
     /**
@@ -150,6 +145,12 @@ class KelompokController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $kelompok = Kelompok::find($id);
+
+        $kelompok->delete();
+
+        return response()->json([
+            'success' => true
+        ]);
     }
 }

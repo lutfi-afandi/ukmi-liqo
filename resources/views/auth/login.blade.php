@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="{{ asset('template_lte/plugins/fontawesome-free/css/all.min.css') }}">
 
     <link rel="stylesheet" href="{{ asset('template_lte/dist/css/adminlte.min.css') }}">
+    <link rel="shortcut icon" href="{{ asset('logo.png') }}" type="image/x-icon">
 </head>
 
 <body class="hold-transition login-page" style="background-color: rgb(65, 148, 216); min-height: 407.25px;">

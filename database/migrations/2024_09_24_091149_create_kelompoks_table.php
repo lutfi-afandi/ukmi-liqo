@@ -20,6 +20,7 @@ class CreateKelompoksTable extends Migration
             $table->year('tahun_dibentuk')->nullable();
             $table->foreignId('tutor_id')->nullable();
             $table->foreign('tutor_id')->references('id')->on('tutors')->onDelete('set null');
+            $table->string('hari')->nullable();
 
             $table->timestamps();
         });

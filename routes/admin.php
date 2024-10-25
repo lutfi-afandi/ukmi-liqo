@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AnggotaController;
+use App\Http\Controllers\Admin\AnggotaKelompokController;
 use App\Http\Controllers\Admin\JurusanController;
 use App\Http\Controllers\Admin\KelompokController;
 use Illuminate\Support\Facades\Route;
@@ -8,6 +9,11 @@ use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\Anggota\DashboardController as AnggotaDashboardController;
 use App\Http\Controllers\Tutor\DashboardController;
 use App\Http\Controllers\Admin\TutorController;
+use App\Http\Controllers\anggota\PesertaPertemuan;
+use App\Http\Controllers\Anggota\PesertaPertemuanController;
+use App\Http\Controllers\tutor\AnggotaController as TutorAnggotaController;
+use App\Http\Controllers\Tutor\PertemuanController;
+use App\Models\AnggotaKelompok;
 
 Route::middleware(['is_admin'])->group(function () {
     Route::resource('/admin/user', UserController::class)->names('admin.user');
@@ -27,14 +33,23 @@ Route::middleware(['is_admin'])->group(function () {
     Route::get('/admin/kelompok/generate-kode/{jk}/{tahun}', [KelompokController::class, 'generateKodeKelompok'])->name('admin.kelompok.generate-kode');
     Route::get('/admin/kelompok/data', [KelompokController::class, 'data'])->name('admin.kelompok.data');
     Route::resource('/admin/kelompok', KelompokController::class)->names('admin.kelompok');
+
+    Route::post('/admin/anggota-kelompok/{id}/add_anggota', [AnggotaKelompokController::class, 'addAnggota'])->name('admin.anggota-kelompok.add_anggota');
+    Route::delete('/admin/anggota-kelompok/hapus', [AnggotaKelompokController::class, 'bulkDelete'])->name('admin.anggota-kelompok.hapus');
+    Route::resource('/admin/anggota-kelompok', AnggotaKelompokController::class)->names('admin.anggota-kelompok');
 });
 
 // lpm
 Route::middleware(['is_tutor'])->group(function () {
-    Route::resource('/tutor/dasboard', DashboardController::class)->names('tutor.dashboard');
+    Route::resource('/tutor/dashboard', DashboardController::class)->names('tutor.dashboard');
+
+    Route::resource('/tutor/pertemuan', PertemuanController::class)->names('tutor.pertemuan');
+    Route::get('/tutor/pertemuan/ubahstatus/{id}', [PertemuanController::class, 'ubahstatus'])->name('tutor.pertemuan.ubahstatus');
+    Route::resource('/tutor/anggota', TutorAnggotaController::class)->names('tutor.anggota');
 });
 
 // divisi
 Route::middleware(['is_anggota'])->group(function () {
-    Route::resource('/anggota/dasboard', AnggotaDashboardController::class)->names('anggota.dashboard');
+    Route::resource('/anggota/dashboard', AnggotaDashboardController::class)->names('anggota.dashboard');
+    Route::resource('/anggota/peserta-pertemuan', PesertaPertemuanController::class)->names('anggota.peserta-pertemuan');
 });

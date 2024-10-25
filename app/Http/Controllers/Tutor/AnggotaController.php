@@ -1,43 +1,33 @@
 <?php
 
-namespace App\Http\Controllers\Anggota;
+namespace App\Http\Controllers\tutor;
 
 use App\Http\Controllers\Controller;
 use App\Models\Anggota;
 use App\Models\AnggotaKelompok;
 use App\Models\Kelompok;
-use App\Models\Pertemuan;
-use App\Models\PesertaPertemuan;
-use App\Models\User;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class AnggotaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
+    public function show($id)
+    {
+        $title = "Data Kelompok";
+        $kelompok = Kelompok::find($id);
+        $anggotas = AnggotaKelompok::with('anggota')
+            ->where('kelompok_id', $id)
+            ->get();
+
+        return view('tutor.anggota.index', compact(
+            'title',
+            'kelompok',
+            'anggotas'
+        ));
+    }
     public function index()
     {
-        $user = User::findOrFail(auth()->user()->id);
-        $anggota = Anggota::where('npm', $user->username)->first();
-        $title = "Dashboard Anggota";
-        $peserta = AnggotaKelompok::where('anggota_id', $anggota->id)->first();
-        $pertemuan = Pertemuan::orderBy('tgl', 'desc')->first();
-        $pertemuans = PesertaPertemuan::where('anggota_id', $anggota->id)->get();
-        $kehadiran = $pertemuan->pesertapertemuan->where('anggota_id', $anggota->id);
-
-        // dd($pertemuan->pesertapertemuan->where('anggota_id', $anggota->id));
-        return view('anggota.dashboard.index', compact(
-            'title',
-            'anggota',
-            'peserta',
-            'pertemuan',
-            'pertemuans',
-            'kehadiran',
-            // 'user'
-        ));
+        //
     }
 
     /**
@@ -61,16 +51,7 @@ class DashboardController extends Controller
         //
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.

@@ -5,17 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Anggota extends Model
+class PesertaPertemuan extends Model
 {
     use HasFactory;
     protected $guarded = ['id'];
 
-    public function jurusan()
+    public function pertemuan()
     {
-        return $this->belongsTo(Jurusan::class);
+        return $this->belongsTo(Pertemuan::class);
     }
-    public function rombel()
+    public function anggota()
     {
-        return $this->hasMany(AnggotaKelompok::class);
+        return $this->belongsTo(Anggota::class);
     }
 }

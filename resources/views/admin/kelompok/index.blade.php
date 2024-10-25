@@ -25,9 +25,9 @@
                         </div>
 
                         <div class="form-group col-md-6">
-                            <label>Tahun Masuk</label>
+                            <label>Tahun Dibentuk</label>
                             <select name="tahun_dibentuk" class="form-control" id="tahun_dibentuk">
-                                <option value="" hidden>-Pilih Tahun Masuk-</option>
+                                <option value="" hidden>-Pilih Tahun Dibentuk-</option>
                                 @for ($tahun = date('Y'); $tahun >= 2015; $tahun--)
                                     <option value="{{ $tahun }}">{{ $tahun }}</option>
                                 @endfor
@@ -37,12 +37,19 @@
 
                 </div>
                 <div class="card-footer">
-                    <button type="submit" class="btn btn-primary btn-sm">Simpan</button>
+                    <button type="submit" class="btn btn-primary btn-sm"><i class="fa fa-save"></i> Simpan</button>
                     </form>
                 </div>
             </div>
         </div>
+    </div>
 
+    <div class="row">
+        <div class="col-md-12">
+            {{-- <button class="btn btn-success btn-sm mb-3" onclick="refresh()"><i class="fa fa-sync"></i> refresh</button> --}}
+            <div id="tampil-kelompok"></div>
+
+        </div>
     </div>
 @endsection
 
@@ -54,12 +61,11 @@
                 var url = "{{ route('admin.kelompok.generate-kode', ['jk' => ':jk', 'tahun' => ':tahun']) }}";
                 url = url.replace(':jk', jenisKelamin).replace(':tahun', tahunDibentuk);
 
-                // console.log(jenisKelamin, tahunDibentuk);
-
                 $.ajax({
                     type: "GET",
                     url: url,
                     dataType: "json",
+
                     success: function(response) {
                         // console.log(response.data);
                         $('#kode').val(response.data);
@@ -81,9 +87,59 @@
             var jenisKelamin = selectedOption.data('jk');
             generateKode(jenisKelamin, tahunDibentuk);
         });
+
+        function tampilKelompok() {
+            $.ajax({
+                type: "get",
+                url: "{{ route('admin.kelompok.data') }}",
+                dataType: "json",
+                before: function(response) {
+                    $('#tampil-kelomok').html('<i class="fa fa-spinner fa-spin"></i>');
+                },
+                success: function(response) {
+                    $('#tampil-kelompok').html(response.html);
+                }
+            });
+        }
+
+        // function refresh() {
+        //     tampilKelompok();
+        // }
+
+        function hapus(id_param) {
+            let url = "{{ route('admin.kelompok.destroy', ['kelompok' => ':id']) }}";
+            url = url.replace(':id', id_param);
+
+            // console.log(url);
+
+            if (confirm('Yakin hapus data ini dan isinya?')) {
+                $.ajax({
+                    type: "DELETE",
+                    url: url,
+                    data: {
+                        _token: "{{ csrf_token() }}",
+                        id: id_param
+                    },
+                    success: function(response) {
+                        if (response.success) {
+                            toastr.success('Data berhasil dihapus');
+                            tampilKelompok(); // Refresh data if necessary
+
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        // Optional: show an error message
+                        toastr.error('Terjadi kesalahan, data gagal dihapus');
+                        // console.error('Error:', error);
+                    }
+                });
+            }
+
+        }
     </script>
     <script>
         $(document).ready(function() {
+            tampilKelompok();
             $('#form-kelompok').on('submit', function(e) {
                 e.preventDefault();
 
@@ -110,6 +166,8 @@
 
                             // Optional: jika menggunakan select2, reset kembali select2
                             $('#tutor_id').val(null).trigger('change');
+                            tampilKelompok();
+
                         }
                     },
                     error: function(xhr) {

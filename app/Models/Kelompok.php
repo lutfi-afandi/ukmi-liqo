@@ -14,4 +14,14 @@ class Kelompok extends Model
     {
         return $this->belongsTo(Tutor::class);
     }
+
+    public function rombel()
+    {
+        return $this->hasMany(AnggotaKelompok::class);
+    }
+
+    public function pertemuan()
+    {
+        return $this->hasMany(Pertemuan::class);
+    }
 }

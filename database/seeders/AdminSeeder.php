@@ -39,5 +39,16 @@ class AdminSeeder extends Seeder
                 ],
             ]
         );
+
+        DB::table('tutors')->insert([
+            'username'   => 'tutor',
+            'nama' => 'Tutor LIQO',
+
+            'no_telepon' => '6285765842510',
+            'jenis_kelamin' => 'Laki-laki',
+            'level' => 'tutor',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
     }
 }
